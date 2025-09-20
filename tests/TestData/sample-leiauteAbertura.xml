@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<leiauteAbertura xmlns="http://www.portalfiscal.inf.br/efinanceira">
+  <ideEvento>
+    <indRetificacao>1</indRetificacao>
+    <tpAmb>2</tpAmb>
+  </ideEvento>
+  <ideDeclarante>
+    <cnpjDeclarante>12345678000190</cnpjDeclarante>
+  </ideDeclarante>
+</leiauteAbertura>

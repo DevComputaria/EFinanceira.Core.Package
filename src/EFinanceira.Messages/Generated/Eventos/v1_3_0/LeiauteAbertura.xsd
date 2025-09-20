@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.portalfiscal.inf.br/efinanceira"
+           xmlns:tns="http://www.portalfiscal.inf.br/efinanceira"
+           elementFormDefault="qualified">
+
+  <!-- Placeholder XSD for LeiauteAbertura v1.3.0 -->
+  <xs:element name="leiauteAbertura" type="tns:TleiauteAbertura"/>
+
+  <xs:complexType name="TleiauteAbertura">
+    <xs:sequence>
+      <xs:element name="ideEvento" type="tns:TideEvento"/>
+      <xs:element name="ideDeclarante" type="tns:TideDeclarante"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TideEvento">
+    <xs:sequence>
+      <xs:element name="indRetificacao" type="xs:int"/>
+      <xs:element name="tpAmb" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TideDeclarante">
+    <xs:sequence>
+      <xs:element name="cnpjDeclarante" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>EFinanceira.Tools.CodeGen</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>DevComputaria</Authors>
+    <Description>Code generation utility for e-Financeira XSD schemas</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../EFinanceira.Core/EFinanceira.Core.csproj" />
+  </ItemGroup>
+
+</Project>

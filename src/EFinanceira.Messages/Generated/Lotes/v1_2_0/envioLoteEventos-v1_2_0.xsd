@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.portalfiscal.inf.br/efinanceira"
+           xmlns:tns="http://www.portalfiscal.inf.br/efinanceira"
+           elementFormDefault="qualified">
+
+  <!-- Placeholder XSD for envioLoteEventos v1.2.0 -->
+  <xs:element name="envioLoteEventos" type="tns:TenvioLoteEventos"/>
+
+  <xs:complexType name="TenvioLoteEventos">
+    <xs:sequence>
+      <xs:element name="ideTransmissor" type="tns:TideTransmissor"/>
+      <xs:element name="evento" type="tns:Tevento" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TideTransmissor">
+    <xs:sequence>
+      <xs:element name="CNPJ" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Tevento">
+    <xs:sequence>
+      <xs:element name="ideEvento" type="tns:TideEvento"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TideEvento">
+    <xs:sequence>
+      <xs:element name="indRetificacao" type="xs:int"/>
+      <xs:element name="tpAmb" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

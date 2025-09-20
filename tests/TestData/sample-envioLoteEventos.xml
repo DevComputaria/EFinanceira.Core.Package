@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<envioLoteEventos xmlns="http://www.portalfiscal.inf.br/efinanceira">
+  <ideTransmissor>
+    <CNPJ>12345678000190</CNPJ>
+  </ideTransmissor>
+  <evento>
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>2</tpAmb>
+    </ideEvento>
+  </evento>
+</envioLoteEventos>
