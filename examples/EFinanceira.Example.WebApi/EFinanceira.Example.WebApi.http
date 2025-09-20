@@ -1,0 +1,6 @@
+@EFinanceira.Example.WebApi_HostAddress = http://localhost:5150
+
+GET {{EFinanceira.Example.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
