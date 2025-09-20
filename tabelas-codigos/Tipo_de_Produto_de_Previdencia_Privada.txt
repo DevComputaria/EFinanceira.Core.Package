@@ -1,0 +1,12 @@
+versão=3 COD_TIPO, NOM_TIPO, DT_INI, DT_FIM
+1|Previdência Tradicional|01012014|
+2|Previdência Tradicional FGB|01012014|
+3|PGBL|01012014|
+4|PAGP|01012014|
+5|PRGP|01012014|
+6|VI Tradicional|01012014|
+7|VGBL|01012014|
+8|VAGP|01012014|
+9|VRGP|01012014|
+99|Não Classificado (a ser utilizado por empresas de previdência fechada)|01012014|
+90|Contribuições Extraordinárias para o equacionamento de déficit,inclusive nos casos em que a sua dedutibilidade está sob questionamento na justiça.|01012014|

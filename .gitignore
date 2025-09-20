@@ -11,6 +11,9 @@
 *.sln.docstates
 *.env
 
+# Copilot configuration files
+.github/copilot-instructions.md
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

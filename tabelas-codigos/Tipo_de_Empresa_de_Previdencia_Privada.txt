@@ -1,0 +1,7 @@
+versão=1 COD_TIPO, NOM_TIPO, DT_INI, dt_FIM
+1|Aberta – autorizada pela SUSEP|01012019|
+2|Aberta – autorizada pela CVM|01012019|
+3|Aberta – autorizada pelo BACEN|01012019|
+4|Aberta – Fundo de Investimento sem necessidade de autorização|01012019|
+5|Fechada – Autorizada pela PREVIC|01012019|
+9|Pendente de Análise pela RFB|01012019|

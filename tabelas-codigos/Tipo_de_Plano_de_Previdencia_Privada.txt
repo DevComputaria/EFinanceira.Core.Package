@@ -1,0 +1,18 @@
+versão=1 COD_TIPO, NOM_TIPO, DT_INI, dt_FIM
+01|Pagamento único por sobrevivência|01012019|
+02|Pecúlio cobertura temporária|01012019|
+03|Pecúlio cobertura vitalícia|01012019|
+04|Renda certa|01012019|
+05|Renda de pensão por falecimento - cobertura temporária|01012019|
+06|Renda de pensão por falecimento - cobertura vitalícia|01012019|
+07|Renda imediata|01012019|
+08|Renda por invalidez|01012019|
+09|Renda por sobrevivência - benefício definido|01012019|
+10|Renda por sobrevivência - contribuição definida|01012019|
+11|Renda temporária|01012019|
+12|Dotal|01012019|
+13|Benefício Definido - Previdência Privada Fechada|01012019|
+14|Renda Financeira ou certa - Previdência Privada Fechada|01012019|
+90|Contribuições Extraordinárias para o equacionamento de déficit|01012019|
+99|Não tem a informação|01012019|
+

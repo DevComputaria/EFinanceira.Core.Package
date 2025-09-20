@@ -1,0 +1,4 @@
+versão=1 COD_TIPO, NOM_TIPO, DT_INI, DT_FIM
+FATCA607|Entidade Patrocinadora de uma IFE Patrocinada|01012018|
+FATCA608|Entidade Patrocinadora de uma Entidade Não Norte-Americana que não seja uma IFE (NFFE) Diretamente Informante|01012018|
+FATCA609|Fiduciário de um Fideicomisso ("Trust") Documentado pelo Fiduciário|01012018|

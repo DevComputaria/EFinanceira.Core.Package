@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <WarningsAsErrors />
+        <WarningsNotAsErrors>NU1701</WarningsNotAsErrors>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>EFinanceira.Core</PackageId>
+        <Title>EFinanceira Core Library</Title>
+        <Description>Biblioteca core para integração com e-Financeira - abstrações, assinatura digital, validação e serialização</Description>
+        <PackageTags>efinanceira;receita-federal;xml;xsd;assinatura-digital</PackageTags>
+        <RepositoryUrl>https://github.com/DevComputaria/EFinanceira.Core.Package</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Security.Cryptography.Xml" />
+        <PackageReference Include="System.Security.Cryptography.Pkcs" />
+    </ItemGroup>
+
+</Project>

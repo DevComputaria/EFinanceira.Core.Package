@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtRERCT/v1_2_0">
+  <evtRERCT id="ID000000000000000001">
+    <ideEvento>
+      <ideEventoRERCT>1</ideEventoRERCT>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>1</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>11111111111111</cnpjDeclarante>
+    </ideDeclarante>
+    <ideDeclarado>
+      <cpfCnpjDeclarado>
+        <tpInscr>1</tpInscr>
+        <nrInscr>12345678912</nrInscr>
+      </cpfCnpjDeclarado>
+    </ideDeclarado>
+    <RERCT>
+      <nomeBancoOrigem>BANCO ORIGEM com 100 caracteres bbla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</nomeBancoOrigem>
+      <paisOrigem>BR</paisOrigem>
+      <BICBancoOrigem>00000000123</BICBancoOrigem>
+      <infoContaExterior>
+        <titular>
+          <nomeTitular>NOME DO TITULAR DOS ATIVOS com 100 caracteres bla bla NOME DO TITULAR DOS ATIVOS com 100 caracteress</nomeTitular>
+          <cpfCnpjTitular>
+            <tpInscr>1</tpInscr>
+            <nrInscr>22222222222</nrInscr>
+          </cpfCnpjTitular>
+          <NIFTitular>1234567890123456789012345</NIFTitular>
+        </titular>
+        <beneficiarioFinal>
+          <nomeBeneficiarioFinal>NOME DOS BENEFICIARIOS FINAL DOS ATIVOS com 100 caracteres bla bla bla bla bla bla bla bla bla bla b</nomeBeneficiarioFinal>
+          <cpfBeneficiarioFinal>22222222222</cpfBeneficiarioFinal>
+          <NIFBeneficiarioFinal>1234567890123456789012345</NIFBeneficiarioFinal>
+        </beneficiarioFinal>
+        <tpContaExterior>1</tpContaExterior>
+        <numContaExterior>12345678901234567890123456789012345678901234567890</numContaExterior>
+        <vlrUltDia>12345678901234,12</vlrUltDia>
+        <moeda>USD</moeda>
+      </infoContaExterior>
+    </RERCT>
+  </evtRERCT>
+</eFinanceira>

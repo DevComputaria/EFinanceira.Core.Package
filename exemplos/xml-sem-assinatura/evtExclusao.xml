@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtExclusao/v1_2_0">
+  <evtExclusao id="ID000000000000000001">
+    <ideEvento>
+      <tpAmb>1</tpAmb>
+      <aplicEmi>2</aplicEmi>
+      <verAplic>00000000000000000001</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>11111111111111</cnpjDeclarante>
+    </ideDeclarante>
+    <infoExclusao>
+      <nrReciboEvento>${valor_nrRecibo_retorno2}</nrReciboEvento>
+    </infoExclusao>
+  </evtExclusao>
+</eFinanceira>

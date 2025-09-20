@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtCadIntermediario/v1_2_0">
+  <evtCadIntermediario id="ID000000000000000001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>1</tpAmb>
+      <aplicEmi>2</aplicEmi>
+      <verAplic>00000000000000000001</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>11111111111111</cnpjDeclarante>
+    </ideDeclarante>
+    <infoIntermediario>
+      <GIIN>999QQQ.00000.LE.999</GIIN>
+      <tpNI>1</tpNI>
+      <NIIntermediario>12345678901</NIIntermediario>
+      <nomeIntermediario>Nome do Intermediario 01Nome do Intermediario 01Nome do Intermediario 01Nome do Intermediario 01XXXX</nomeIntermediario>
+      <endereco>
+        <enderecoLivre>Endereço do Intermediario 01Endereço do Intermediario 01Endereço do Intermediario 01Endereço do Intermediario 01Endereço do Intermediario 01Endereço do Intermediario 01Endereço do Intermediario 01XXXX</enderecoLivre>
+        <municipio>Municipio  Empresa  Declarante 01       Endereço da Empresa Declarante 01       XXXXXXXXXXXXXXXXXXXX</municipio>
+        <pais>BR</pais>
+      </endereco>
+      <paisResidencia>BR</paisResidencia>
+    </infoIntermediario>
+  </evtCadIntermediario>
+</eFinanceira>

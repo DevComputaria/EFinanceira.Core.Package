@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_0">
+  <evtAberturaeFinanceira id="ID000000000000000001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>1</tpAmb>
+      <aplicEmi>2</aplicEmi>
+      <verAplic>00000000000000000001</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>11111111111111</cnpjDeclarante>
+    </ideDeclarante>
+    <infoAbertura>
+      <dtInicio>2018-01-01</dtInicio>
+      <dtFim>2018-06-30</dtFim>
+    </infoAbertura>
+    <AberturaMovOpFin>
+      <ResponsavelRMF>
+        <CPF>12345678912</CPF>
+        <Nome>NOME DE TESTE QUE DEVE TER 100 POSICOES XXXXXXXXXXNOME DE TESTE QUE DEVE TER 100 POSICOES XXXXXXXXXX</Nome>
+        <Setor>SETOR DE TESTE REPRESENTANTE LEGAL COMSETOR DE TESTE REPRESENTANTE LEGAL COMXXXXXXXXXXXXXX</Setor>
+        <Telefone>
+          <DDD>031</DDD>
+          <Numero>32257028  </Numero>
+        </Telefone>
+        <Endereco>
+          <Logradouro>Endereco da Empresa Declarante 01       Endereco da Empresa Declarante 01       XXXXXXXXXXXXXXXXXXXX</Logradouro>
+          <Numero>12345678901234567890</Numero>
+          <Bairro>Bairro da   Empresa Declarante 01       Endereco da Empresa Declarante 01       XXXXXXXXXXXXXXXXXXXX</Bairro>
+          <CEP>30330130</CEP>
+          <Municipio>Municipio  Empresa  Declarante 01       Endereço da Empresa Declarante 01       XXXXXXXXXXXXXXXXXXXX</Municipio>
+          <UF>MG</UF>
+        </Endereco>
+      </ResponsavelRMF>
+      <RespeFin>
+        <CPF>12345678912</CPF>
+        <Nome>NOME DE TESTE DO RESPONSAVEL FINANCEIRO DE TESTE QUE DEVE TER 100 POSICOES XXXXXXXXXXXXXXXXXXXXXXXXX</Nome>
+        <Setor>SETOR DE TESTE REPRESENTANTE FINANCEIRO COMSETOR DE TESTE REPRESENTANTE FINANCEIRO COM90XX</Setor>
+        <Telefone>
+          <DDD>031</DDD>
+          <Numero>32215286</Numero>
+        </Telefone>
+        <Endereco>
+          <Logradouro>Endereco do responsavel financeiro   Endereco do responsavel financeiro   XXXXXXXXXXXXXXXXXXXXXXXXXX</Logradouro>
+          <Numero>12345678901234567890</Numero>
+          <Bairro>Bairro da   Empresa Declarante 01       Endereco da Empresa Declarante 01       XXXXXXXXXXXXXXXXXXXX</Bairro>
+          <CEP>30330130</CEP>
+          <Municipio>Municipio do responsavel financeiro   Endereco do responsavel financeiro     XXXXXXXXXXXXXXXXXXXXXXX</Municipio>
+          <UF>MG</UF>
+        </Endereco>
+        <Email>emailprincipalasdfasdfasdfasdafdsfasdfasfssadfasdf@gmail.com</Email>
+      </RespeFin>
+      <RepresLegal>
+        <CPF>55549250659</CPF>
+        <Setor>SETOR DE TESTE REPRESENTANTE LEGAL QUE DEVE TER 90 POSICOES SETOR DE TESTE QUE DEVE TER y</Setor>
+        <Telefone>
+          <DDD>031</DDD>
+          <Numero>12345678</Numero>
+        </Telefone>
+      </RepresLegal>
+    </AberturaMovOpFin>
+  </evtAberturaeFinanceira>
+</eFinanceira>

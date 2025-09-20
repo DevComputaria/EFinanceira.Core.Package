@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtMovPP/v1_2_2">
+  <evtMovPP id="ID000000000000000001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>1</tpAmb>
+      <aplicEmi>2</aplicEmi>
+      <verAplic>00000000000000000001</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>11111111111111</cnpjDeclarante>
+    </ideDeclarante>
+    <ideDeclarado>
+      <tpNI>1</tpNI>
+      <NIDeclarado>12345678912</NIDeclarado>
+      <NomeDeclarado>Nome do Declarado com 90 caracteres com 90 caracteres com 90 caracteres com 90 caracteres9</NomeDeclarado>
+    </ideDeclarado>
+    <mesCaixa>
+      <anoMesCaixa>201801</anoMesCaixa>
+      <infoPrevPriv>
+        <numProposta>N.PROPOSTA</numProposta>
+        <numProcesso>Processo 20  tamanho</numProcesso>
+        <Produto>
+          <tpProduto>01</tpProduto>
+          <opcaoTributacao>1</opcaoTributacao>
+        </Produto>
+        <tpPlano>01</tpPlano>
+        <opPrevPriv>
+          <saldoInicial>
+            <vlrPrincipal>9999999999999999,99</vlrPrincipal>
+            <vlrRendimentos>9999999999999999,99</vlrRendimentos>
+          </saldoInicial>
+          <aplic>
+            <vlrContribuicao>20000,00</vlrContribuicao>
+            <vlrCarregamento>9999999999999999,99</vlrCarregamento>
+            <vlrPartPF>10000,00</vlrPartPF>
+            <vlrPartPJ>10000,00</vlrPartPJ>
+            <cnpj>22222222222222</cnpj>
+          </aplic>
+          <resg>
+            <vlrAliquotaIRRF>99999,99</vlrAliquotaIRRF>
+            <numAnosCarencia>99,99</numAnosCarencia>
+            <vlrResgatePrincipal>9999999999999999,99</vlrResgatePrincipal>
+            <vlrResgateRendimentos>9999999999999999,99</vlrResgateRendimentos>
+            <vlrIRRF>9999999999999999,99</vlrIRRF>
+          </resg>
+          <benef>
+            <tpNI>1</tpNI>
+            <NIParticipante>48470767100</NIParticipante>
+            <CodReceita>0473</CodReceita>
+            <PrazoVigencia>001</PrazoVigencia>
+            <vlrMensalInicial>9999999999999999,99</vlrMensalInicial>
+            <vlrBruto>200,00</vlrBruto>
+            <vlrLiquido>198,00</vlrLiquido>
+            <vlrIRRF>2,00</vlrIRRF>
+            <vlrAliquotaIRRF>1,00</vlrAliquotaIRRF>
+            <competenciaPgto>1</competenciaPgto>
+          </benef>
+          <saldoFinal>
+            <vlrPrincipal>9999999999999999,99</vlrPrincipal>
+            <vlrRendimentos>9999999999999999,99</vlrRendimentos>
+          </saldoFinal>
+        </opPrevPriv>
+      </infoPrevPriv>
+    </mesCaixa>
+  </evtMovPP>
+</eFinanceira>

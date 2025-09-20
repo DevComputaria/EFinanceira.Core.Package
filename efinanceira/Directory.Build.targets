@@ -1,0 +1,46 @@
+<Project>
+  
+  <PropertyGroup>
+    <!-- Suprimir warnings específicos que não são críticos para este projeto -->
+    <NoWarn>$(NoWarn);CA1848</NoWarn>  <!-- LoggerMessage delegates performance warning -->
+    <NoWarn>$(NoWarn);SA1633</NoWarn>  <!-- File header -->
+    <NoWarn>$(NoWarn);SA1028</NoWarn>  <!-- Trailing whitespace -->
+    <NoWarn>$(NoWarn);SA1629</NoWarn>  <!-- Documentation text end with period -->
+    <NoWarn>$(NoWarn);SA1623</NoWarn>  <!-- Property documentation format -->
+    <NoWarn>$(NoWarn);SA1309</NoWarn>  <!-- Field names underscore -->
+    <NoWarn>$(NoWarn);SA1101</NoWarn>  <!-- Prefix local calls with this -->
+    <NoWarn>$(NoWarn);SA1413</NoWarn>  <!-- Trailing comma -->
+    <NoWarn>$(NoWarn);SA1503</NoWarn>  <!-- Braces should not be omitted -->
+    <NoWarn>$(NoWarn);SA1127</NoWarn>  <!-- Generic constraints on own line -->
+    <NoWarn>$(NoWarn);SA1611</NoWarn>  <!-- Documentation for parameters -->
+    <NoWarn>$(NoWarn);SA1615</NoWarn>  <!-- Return value documentation -->
+    <NoWarn>$(NoWarn);SA1618</NoWarn>  <!-- Type parameter documentation -->
+    <NoWarn>$(NoWarn);SA1600</NoWarn>  <!-- Elements should be documented -->
+    <NoWarn>$(NoWarn);SA1502</NoWarn>  <!-- Element should not be on single line -->
+    <NoWarn>$(NoWarn);SA1516</NoWarn>  <!-- Elements separated by blank line -->
+    <NoWarn>$(NoWarn);SA1204</NoWarn>  <!-- Static members before non-static -->
+    <NoWarn>$(NoWarn);SA1122</NoWarn>  <!-- Use string.Empty -->
+    <NoWarn>$(NoWarn);SA1128</NoWarn>  <!-- Constructor initializers on own line -->
+    <NoWarn>$(NoWarn);SA1313</NoWarn>  <!-- Parameter name casing -->
+    <NoWarn>$(NoWarn);SA1501</NoWarn>  <!-- Statement should not be on single line -->
+    <NoWarn>$(NoWarn);SA1000</NoWarn>  <!-- Keywords should be followed by space -->
+    <NoWarn>$(NoWarn);SA1011</NoWarn>  <!-- Closing square bracket spacing -->
+    <NoWarn>$(NoWarn);SA1200</NoWarn>  <!-- Using directives should be within namespace -->
+    <NoWarn>$(NoWarn);SA1602</NoWarn>  <!-- Enumeration items should be documented -->
+    <NoWarn>$(NoWarn);SA1010</NoWarn>  <!-- Opening square brackets spacing -->
+    <NoWarn>$(NoWarn);SA1116</NoWarn>  <!-- Parameters should begin on line after declaration -->
+    <NoWarn>$(NoWarn);SA1117</NoWarn>  <!-- Parameters should be on same line or separate lines -->
+    <NoWarn>$(NoWarn);CS1574</NoWarn>  <!-- XML comment has cref that cannot be resolved -->
+    <NoWarn>$(NoWarn);SA1201</NoWarn>  <!-- Constructor should not follow property -->
+    <NoWarn>$(NoWarn);SA1513</NoWarn>  <!-- Closing brace should be followed by blank line -->
+    <NoWarn>$(NoWarn);SA1124</NoWarn>  <!-- Do not use regions -->
+    <NoWarn>$(NoWarn);CA1707</NoWarn>  <!-- Remove underscores from names (for test methods) -->
+    <NoWarn>$(NoWarn);CA1305</NoWarn>  <!-- DateTime.Parse locale warning -->
+    <NoWarn>$(NoWarn);CS8604</NoWarn>  <!-- Nullable reference type warnings -->
+    <NoWarn>$(NoWarn);CS1998</NoWarn>  <!-- Async method without await warning -->
+    
+    <!-- .NET Analyzer warnings -->
+    <_SkipUpgradeNetAnalyzersNuGetWarning>true</_SkipUpgradeNetAnalyzersNuGetWarning>
+  </PropertyGroup>
+
+</Project>

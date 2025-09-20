@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<eFinanceira xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.eFinanceira.gov.br/schemas/envioLoteEventos/v1_2_0">
+  <loteEventos>
+    <evento id="ID0">
+      <eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtCadPatrocinado/v1_2_0">
+        <evtCadPatrocinado id="ID000000000000000001">
+          <ideEvento>
+            <indRetificacao>1</indRetificacao>
+            <tpAmb>1</tpAmb>
+            <aplicEmi>2</aplicEmi>
+            <verAplic>00000000000000000001</verAplic>
+          </ideEvento>
+          <ideDeclarante>
+            <cnpjDeclarante>11111111111111</cnpjDeclarante>
+          </ideDeclarante>
+          <infoPatrocinado>
+            <GIIN>999QQQ.00000.LE.999</GIIN>
+            <CNPJ>22222222222222</CNPJ>
+            <nomePatrocinado>Nome do Patrocinado 01Nome do Patrocinado 01Nome do Patrocinado 01Nome do Patrocinado 01NOME COM 100</nomePatrocinado>
+            <endereco>
+              <enderecoLivre>ENDERECO COM 200 Endereço do Patrocinado 01Endereço do Patrocinado 01Endereço do Patrocinado 01Endereço do Patrocinado 01Endereço do Patrocinado 01Endereço do Patrocinado 01Endereço do Patrocinado7890</enderecoLivre>
+              <CEP>30575000</CEP>
+              <municipio>Municipio com 100 Municipio do endereco do patrocinado Municipio com 100 Municipio do e  patrocinado</municipio>
+              <pais>BR</pais>
+            </endereco>
+            <paisResid>
+              <Pais>BR</Pais>
+            </paisResid>
+          </infoPatrocinado>
+        </evtCadPatrocinado>
+        <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+          <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+            <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+            <Reference URI="#ID000000000000000001">
+              <Transforms>
+                <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+              </Transforms>
+              <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+              <DigestValue>KKmiYACkHjG+qu64MwasjwxrtX5IUxIwdGPAaF3fBxo=</DigestValue>
+            </Reference>
+          </SignedInfo>
+          <SignatureValue>FLvG34CjD8PnqHIwZtNFKjaxpBAvBR9zY/J5vRvyU27PpD63txI21maHpBKBROAADuyjgcWMlBDuv8KY1SaAlFSTnK6isQr80E/4l8WC825wPlCO+RMI3evbdK5VvxP4082Kx/XPRAR4uujcFccZi0zWlDqTNI9cBaheCGFPET3jZgNVP4auQJgVG8kN5Zt7DWV9LZnfZA4UDduKLTzuMVSO9+AWJmR4RrL51363nVYZUvH0daeNNaXmtfeCn6PvY1d+RCG5db5zcxusezBJ8bSjtSV1DaSpz/5QSs8X/hVy74tPoVte6Z1bo7LAH6rxALbwYDsyM6Z5Eh/Qm+npLA==</SignatureValue>
+          <KeyInfo>
+            <X509Data>
+              <X509Certificate>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</X509Certificate>
+            </X509Data>
+          </KeyInfo>
+        </Signature>
+      </eFinanceira>
+    </evento>
+  </loteEventos>
+</eFinanceira>

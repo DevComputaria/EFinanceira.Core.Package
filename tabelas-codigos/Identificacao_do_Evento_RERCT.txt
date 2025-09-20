@@ -1,0 +1,3 @@
+versão=1 COD_TIPO, NOM_TIPO, DT_INI, DT_FIM
+1|Instrução Normativa RFB nº 1627, de 11 de março de 2016, art. 17|01012017|
+2|Instrução Normativa RFB nº 1704, de 31 de março de 2017, art. 17|04042017|

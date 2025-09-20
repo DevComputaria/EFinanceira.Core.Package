@@ -1,0 +1,7 @@
+1|Titular|01012014|
+2|Procurador|01012014|
+3|Representante legal|01012014|
+4|Intermediado|01012014|
+5|Beneficiário Final|01012014|
+6|Doador - Empréstimo de TVM BTC|01012014|
+7|Tomador - Empréstimo de TVM BTC|01012014|

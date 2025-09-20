@@ -1,0 +1,80 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Configurações globais para todos os projetos -->
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12.0</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <WarningsNotAsErrors />
+    
+    <!-- Configurações de pacote NuGet -->
+    <Authors>EFinanceira Contributors</Authors>
+    <Company>EFinanceira</Company>
+    <Product>EFinanceira .NET Library</Product>
+    <Copyright>Copyright © 2024 EFinanceira Contributors</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/seuusuario/EFinanceira.Core.Package</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/seuusuario/EFinanceira.Core.Package</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>efinanceira;receita-federal;xml;digital-signature;brazil</PackageTags>
+    <Description>Biblioteca .NET para integração com a e-Financeira da Receita Federal do Brasil</Description>
+    
+    <!-- Versionamento -->
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix Condition="'$(Configuration)' == 'Debug'">preview</VersionSuffix>
+    
+    <!-- Configurações de build -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn> <!-- XML Documentation warnings -->
+    
+    <!-- Configurações de análise -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <!-- Configurações específicas para projetos de teste -->
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
+    <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- Configurações específicas para ferramentas -->
+  <PropertyGroup Condition="$(MSBuildProjectName.Contains('Tools'))">
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>efinanceira-codegen</ToolCommandName>
+    <PackageDescription>Ferramenta CLI para geração de código a partir de schemas XSD da e-Financeira</PackageDescription>
+  </PropertyGroup>
+
+  <!-- Itens globais -->
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.IO" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Threading.Tasks" />
+  </ItemGroup>
+
+  <!-- Analyzers para todos os projetos exceto testes -->
+  <ItemGroup Condition="'$(IsTestProject)' != 'true'">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

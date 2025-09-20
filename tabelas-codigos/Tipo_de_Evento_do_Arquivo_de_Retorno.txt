@@ -1,0 +1,12 @@
+versão=2 COD_TIPO, NOM_TIPO, DT_INI, DT_FIM
+001|Informações da Empresa Declarante|01012014|
+002|Abertura|01012014|
+003|Movimento de Operações Financeiras|01012014|
+004|Evento de Previdência Privada|01012019|
+005|Fechamento|01012014|
+006|Exclusão de Evento Enviado Indevidamente|01012014|
+007|Cadastro de Intermediário|01012014|
+008|Cadastro de Patrocinado|01012014|
+009|Exclusão e-Financeira|01012014|
+010|RERCT|01012017|
+011|Movimento de Operações Financeiras Anual|01012018|
