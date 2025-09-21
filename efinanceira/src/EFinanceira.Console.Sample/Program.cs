@@ -35,6 +35,7 @@ public class Program
             // Executar demonstrações
             await DemonstrarCriacaoEvento();
             await DemonstrarCriacaoLote();
+            await DemonstrarCriacaoConsulta();
             await DemonstrarValidacao();
             await DemonstrarAssinatura();
             await DemonstrarFluxoCompleto();
@@ -182,6 +183,69 @@ public class Program
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao criar lote");
+            throw;
+        }
+    }
+
+    private static async Task DemonstrarCriacaoConsulta()
+    {
+        _logger!.LogInformation("\n--- 3. Demonstração: Criação de Consulta ---");
+
+        try
+        {
+            // Criar consulta diretamente usando o builder
+            var consulta = new EFinanceira.Messages.Builders.Consultas.RetInfoCadastralBuilder("v1_2_0")
+                .WithId("CONSULTA_001")
+                .WithDataHoraProcessamento(DateTime.UtcNow)
+                .WithNumeroRecibo("REC123456789")
+                .WithStatus(status => status
+                    .WithCodigo("200")
+                    .WithDescricao("Consulta processada com sucesso"))
+                .WithEmpresaDeclarante(empresa => empresa
+                    .WithCnpj("12345678000199"))
+                .WithInformacoesCadastrais(info => info
+                    .WithCnpj("98765432000188")
+                    .WithNome("Instituição Financeira XYZ Ltda")
+                    .WithEndereco("Rua das Flores, 123, Centro")
+                    .WithMunicipio(3550308) // São Paulo
+                    .WithUf("SP")
+                    .WithGiin("ABC123.45678.LE.987"))
+                .Build();
+
+            _logger.LogInformation("✓ Consulta RetInfoCadastral criada com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", consulta.GetType().Name);
+            _logger.LogInformation("  - ID: {Id}", consulta.IdValue);
+            _logger.LogInformation("  - Versão: {Version}", consulta.Version);
+            _logger.LogInformation("  - Elemento Raiz: {Root}", consulta.RootElementName);
+
+            // Demonstrar serialização da consulta
+            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
+            var xml = serializer.Serialize(consulta.Payload); // Serializar o POCO gerado
+
+            _logger.LogInformation("✓ Consulta serializada para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
+
+            // Salvar exemplo da consulta
+            var consultaFile = Path.Combine(Directory.GetCurrentDirectory(), "consulta_exemplo.xml");
+            await File.WriteAllTextAsync(consultaFile, xml);
+            _logger.LogInformation("  - Salva em: {File}", consultaFile);
+
+            // Demonstrar uso do factory
+            _logger.LogInformation("\n--- Demonstrando Factory Pattern ---");
+            var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+
+            // Listar tipos registrados
+            var tiposRegistrados = factory.GetRegisteredTypes();
+            _logger.LogInformation("✓ Factory configurado com {Count} tipos de mensagem", tiposRegistrados.Count());
+
+            foreach (var (kind, version) in tiposRegistrados)
+            {
+                _logger.LogInformation("  - {Kind} v{Version}", kind, version);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao criar consulta");
             throw;
         }
     }

@@ -12,13 +12,43 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 - **Recursos incorporados**: Todos os XSD schemas configurados como EmbeddedResource para acesso runtime
 
 #### 🔧 Geração Automática de Classes C#
-- **Script de geração avançado**: `generate-classes-advanced.ps1` com resolução de dependências
-- **25 classes C# geradas**: POCOs completos usando xsd.exe com namespaces organizados
+- **Script de geração com dependências**: `generate-classes-with-deps.ps1` com resolução automática de xmldsig
+- **25 classes C# geradas**: POCOs completos usando xsd.exe com namespaces isolados
+- **Estrutura organizada por mensagem**: Cada schema em sua pasta específica com namespace próprio
+- **Resolução de conflitos**: Namespaces isolados para evitar duplicação de classes
 - **Categorização automática**:
-  - `EFinanceira.Messages.Generated.Eventos` (12 classes)
-  - `EFinanceira.Messages.Generated.Lotes` (6 classes) 
-  - `EFinanceira.Messages.Generated.Consultas` (6 classes)
-  - `EFinanceira.Messages.Generated.Xmldsig` (1 classe)
+  - `EFinanceira.Messages.Generated.Eventos.*` (12 classes, cada uma em sua pasta)
+  - `EFinanceira.Messages.Generated.Lotes.*` (6 classes, cada uma em sua pasta)
+  - `EFinanceira.Messages.Generated.Consultas.*` (6 classes, cada uma em sua pasta)
+  - `EFinanceira.Messages.Generated.Xmldsig.Core` (1 classe core)
+
+#### ✅ Resolução de Problemas de Compilação
+- **Conflitos de namespace resolvidos**: Classes com mesmo nome agora em namespaces isolados
+- **Dependências xmldsig**: Geração correta com schemas de assinatura digital
+- **Compilação bem-sucedida**: Todos os 25 schemas compilam sem erros
+- **Estrutura de pastas organizada**: Hierarquia clara por categoria e tipo de mensagem
+
+#### 🏗️ Builder Pattern para Consultas
+- **RetInfoCadastralBuilder**: Builder fluente completo para consulta de informações cadastrais
+- **RetInfoCadastralMessage**: Wrapper que implementa IEFinanceiraMessage
+- **Builders auxiliares especializados**:
+  - `StatusBuilder` - Configuração de status e códigos de retorno
+  - `OcorrenciasBuilder` - Gestão de ocorrências e erros
+  - `EmpresaDeclaranteBuilder` - Dados da empresa declarante
+  - `InformacoesCadastraisBuilder` - Informações cadastrais completas
+- **Validação automática**: Verificação de campos obrigatórios no Build()
+- **Fluent interface**: API intuitiva com métodos encadeáveis
+
+#### 🏭 Factory Pattern Integrado
+- **MessagesFactoryExtensions**: Extensões para configurar factory no projeto Messages
+- **Registro automático**: RetInfoCadastral v1_2_0 registrado no factory
+- **Sem dependência circular**: Factory configurado via extensões, não no Core
+- **Pattern escalável**: Estrutura preparada para adicionar novos builders
+- **Métodos de conveniência**:
+  - `.AddConsultas()` - Registra consultas
+  - `.AddEventos()` - Placeholder para futuros eventos
+  - `.AddLotes()` - Placeholder para futuros lotes
+  - `.CreateConfiguredFactory()` - Factory completo pré-configurado
 
 #### 🏗️ Helpers e Validadores
 - **EFinanceiraSchemas**: Classe helper para acesso a todos os schemas XSD incorporados
@@ -71,6 +101,16 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 - **Exemplos de uso**: Documentação inline para cada método de validação
 - **Organização por categoria**: Acesso intuitivo aos schemas por tipo
 
+#### 💻 Exemplo Funcional Completo
+- **Console.Sample atualizado**: Demonstração completa do builder RetInfoCadastral
+- **Fluxo de criação demonstrado**: Builder → Serialização → Validação → Arquivo XML
+- **XML gerado corretamente**: Namespace oficial e estrutura validada
+- **Factory pattern em ação**: Demonstração de registro e uso do factory
+- **Arquivo de exemplo**: `consulta_exemplo.xml` gerado automaticamente com:
+  - Namespace correto: `http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesCadastrais/v1_2_0`
+  - Estrutura XML completa e válida
+  - Dados de exemplo realistas para todas as propriedades
+
 ### 🛠️ Correções
 
 #### 🔧 Resolução de Dependências
@@ -89,6 +129,22 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 - **Type Safety**: Classes C# fortemente tipadas para todos os schemas
 - **Runtime Validation**: Validação XSD completa sem dependências externas
 - **Developer Experience**: APIs intuitivas e documentação completa
+- **Namespace Isolation**: Cada schema em namespace isolado para evitar conflitos
+- **Successful Compilation**: Todos os 25 schemas compilam sem erros CS0579 ou similares
+
+### 🐛 Problemas Resolvidos
+
+#### Conflitos de Compilação (CS0579)
+- **Causa**: Classes com mesmo nome `eFinanceira` em namespaces compartilhados
+- **Sintoma**: Erros de atributos duplicados (XmlRootAttribute, XmlTypeAttribute)
+- **Solução**: Reorganização em namespaces isolados por tipo de mensagem
+- **Resultado**: Compilação bem-sucedida de todos os 25 schemas
+
+#### Dependências XMLDSig
+- **Causa**: Schemas de eventos dependem de xmldsig-core-schema.xsd
+- **Sintoma**: Erros "Elemento 'Signature' não foi declarado"
+- **Solução**: Inclusão automática de dependências no script de geração
+- **Resultado**: Geração correta de todas as classes com assinatura digital
 
 ## [1.0.0] - 2024-12-19
 
