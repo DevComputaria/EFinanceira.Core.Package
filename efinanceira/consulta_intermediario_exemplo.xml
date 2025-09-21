@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesIntermediario/v1_2_0">
+  <retornoConsultaInformacoesIntermediario>
+    <dataHoraProcessamento>2025-09-21T06:41:34.3607828Z</dataHoraProcessamento>
+    <status>
+      <cdRetorno>200</cdRetorno>
+      <descRetorno>Consulta de intermediário processada com sucesso</descRetorno>
+    </status>
+    <identificacaoEmpresaDeclarante>
+      <cnpjEmpresaDeclarante>12345678000199</cnpjEmpresaDeclarante>
+    </identificacaoEmpresaDeclarante>
+    <identificacaoIntermediario>
+      <GIIN>ABC123.45678.LE.987</GIIN>
+      <tpNI>1</tpNI>
+      <NIIntermediario>12345678000188</NIIntermediario>
+      <numeroRecibo>REC987654321</numeroRecibo>
+      <id>INT_001</id>
+    </identificacaoIntermediario>
+    <identificacaoIntermediario>
+      <GIIN>DEF456.78901.LE.654</GIIN>
+      <tpNI>2</tpNI>
+      <NIIntermediario>98765432000177</NIIntermediario>
+      <numeroRecibo>REC123789456</numeroRecibo>
+      <id>INT_002</id>
+    </identificacaoIntermediario>
+  </retornoConsultaInformacoesIntermediario>
+</eFinanceira>

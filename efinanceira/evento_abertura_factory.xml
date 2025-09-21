@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceiraEvtAberturaeFinanceira id="FACTORY_ABERT_001">
+  <ideEvento xmlns="http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1">
+    <indRetificacao>1</indRetificacao>
+    <tpAmb>2</tpAmb>
+    <aplicEmi>1</aplicEmi>
+    <verAplic>1.0.0</verAplic>
+  </ideEvento>
+  <ideDeclarante xmlns="http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1">
+    <cnpjDeclarante>12345678000195</cnpjDeclarante>
+  </ideDeclarante>
+  <infoAbertura xmlns="http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1">
+    <dtInicio>2024-01-01</dtInicio>
+    <dtFim>2024-12-31</dtFim>
+  </infoAbertura>
+</eFinanceiraEvtAberturaeFinanceira>

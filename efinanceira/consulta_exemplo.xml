@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesCadastrais/v1_2_0">
+  <retornoConsultaInformacoesCadastrais>
+    <dataHoraProcessamento>2025-09-21T06:41:34.2342356Z</dataHoraProcessamento>
+    <status>
+      <cdRetorno>200</cdRetorno>
+      <descRetorno>Consulta processada com sucesso</descRetorno>
+    </status>
+    <identificacaoEmpresaDeclarante>
+      <cnpjEmpresaDeclarante>12345678000199</cnpjEmpresaDeclarante>
+    </identificacaoEmpresaDeclarante>
+    <informacoesCadastrais>
+      <cnpj>98765432000188</cnpj>
+      <giin>ABC123.45678.LE.987</giin>
+      <nome>Instituição Financeira XYZ Ltda</nome>
+      <endereco>Rua das Flores, 123, Centro</endereco>
+      <municipio>3550308</municipio>
+      <uf>SP</uf>
+    </informacoesCadastrais>
+    <numeroRecibo>REC123456789</numeroRecibo>
+    <id>CONSULTA_001</id>
+  </retornoConsultaInformacoesCadastrais>
+</eFinanceira>

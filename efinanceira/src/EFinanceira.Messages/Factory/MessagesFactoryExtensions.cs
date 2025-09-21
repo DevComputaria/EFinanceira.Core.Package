@@ -7,6 +7,7 @@ using EFinanceira.Messages.Builders.Consultas.RetInfoPatrocinado;
 using EFinanceira.Messages.Builders.Consultas.RetListaeFinanceira;
 using EFinanceira.Messages.Builders.Consultas.RetRERCT;
 using EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira;
+using EFinanceira.Messages.Builders.Xmldsig;
 
 namespace EFinanceira.Messages.Factory;
 
@@ -175,7 +176,35 @@ public static class MessagesFactoryExtensions
         return factory
             .AddConsultas()
             .AddEventos()
-            .AddLotes();
+            .AddLotes()
+            .AddXmldsigBuilder();
+    }
+
+    /// <summary>
+    /// Registra o builder de assinatura digital XMLDSig no factory
+    /// </summary>
+    /// <param name="factory">Factory do Core para configurar</param>
+    /// <returns>O mesmo factory para fluent interface</returns>
+    public static EFinanceiraMessageFactory AddXmldsigBuilder(this EFinanceiraMessageFactory factory)
+    {
+        // Registro do builder de assinatura digital XMLDSig como um tipo especial de evento
+        factory.RegisterFactory(
+            MessageKind.Evento("XmlDigitalSignature"),
+            "core",
+            (Action<object>? seed) =>
+            {
+                var builder = new XmldsigBuilder();
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<XmldsigBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
+        return factory;
     }
 
     /// <summary>

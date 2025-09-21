@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesMovimento/v1_2_0">
+  <retornoConsultaInformacoesMovimento>
+    <dataHoraProcessamento>2025-09-21T06:41:34.4005896Z</dataHoraProcessamento>
+    <status>
+      <cdRetorno>200</cdRetorno>
+      <descRetorno>Consulta de movimento processada com sucesso</descRetorno>
+    </status>
+    <identificacaoEmpresaDeclarante>
+      <cnpjEmpresaDeclarante>12345678000199</cnpjEmpresaDeclarante>
+    </identificacaoEmpresaDeclarante>
+    <informacoesMovimento>
+      <tipoMovimento>1</tipoMovimento>
+      <tipoNI>1</tipoNI>
+      <NI>12345678000188</NI>
+      <anoMesCaixa>202412</anoMesCaixa>
+      <anoCaixa>2024</anoCaixa>
+      <semestre>2</semestre>
+      <situacao>1</situacao>
+      <numeroRecibo>REC111222333</numeroRecibo>
+      <id>MOV_001</id>
+    </informacoesMovimento>
+    <informacoesMovimento>
+      <tipoMovimento>2</tipoMovimento>
+      <tipoNI>2</tipoNI>
+      <NI>98765432000177</NI>
+      <anoMesCaixa>202411</anoMesCaixa>
+      <anoCaixa>2024</anoCaixa>
+      <semestre>2</semestre>
+      <situacao>2</situacao>
+      <numeroRecibo>REC444555666</numeroRecibo>
+      <id>MOV_002</id>
+    </informacoesMovimento>
+  </retornoConsultaInformacoesMovimento>
+</eFinanceira>
