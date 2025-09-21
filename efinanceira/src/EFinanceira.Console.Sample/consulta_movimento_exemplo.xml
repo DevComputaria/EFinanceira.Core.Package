@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-16"?>
 <eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesMovimento/v1_2_0">
   <retornoConsultaInformacoesMovimento>
-    <dataHoraProcessamento>2025-09-21T05:18:41.4402981Z</dataHoraProcessamento>
+    <dataHoraProcessamento>2025-09-21T06:06:00.3186134Z</dataHoraProcessamento>
     <status>
       <cdRetorno>200</cdRetorno>
       <descRetorno>Consulta de movimento processada com sucesso</descRetorno>

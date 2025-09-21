@@ -38,47 +38,34 @@ dotnet tool install --global EFinanceira.Tools.CodeGen
 
 ### 📖 Uso Rápido
 
-#### 1. Criar Evento de Movimentação Financeira
+#### 1. Criar Evento de Abertura e-Financeira
 
 ```csharp
-using EFinanceira.Messages.Builders.Eventos;
+using EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira;
 
-var evento = new LeiauteMovimentacaoFinanceiraBuilder()
+var evento = new EvtAberturaeFinanceiraBuilder()
     .WithId("EVT20241219001")
-    .WithDeclarante("12345678000199")
-    .WithAmbiente(2) // Homologação
-    .WithDeclarado(declarado =>
-    {
-        declarado
-            .WithTipoNI(2) // CNPJ
-            .WithNumeroInscricao("98765432000188")
-            .WithNome("Cliente Exemplo S.A.")
-            .WithEndereco(endereco =>
-            {
-                endereco
-                    .WithPais("076") // Brasil
-                    .WithEndereco("Rua Exemplo, 123")
-                    .WithCidade("São Paulo");
-            });
-    })
-    .WithMovimentacao(mov =>
-    {
-        mov
-            .WithDataInicio(new DateTime(2024, 1, 1))
-            .WithDataFim(new DateTime(2024, 12, 31))
-            .AdicionarReportavel(rep =>
-            {
-                rep
-                    .WithTipoReportavel(1)
-                    .WithInformacoesConta(conta =>
-                    {
-                        conta
-                            .WithTipoConta(1)
-                            .WithSubTipoConta("001")
-                            .WithMoeda("986"); // Real
-                    });
-            });
-    })
+    .WithIdeDeclarante(decl => decl
+        .WithCnpjDeclarante("12345678000199"))
+    .WithInfoAbertura(info => info
+        .WithDataInicio(new DateTime(2024, 1, 1))
+        .WithDataFim(new DateTime(2024, 12, 31)))
+    .WithAberturaMovOpFin(mov => mov
+        .WithResponsavelRMF(rmf => rmf
+            .WithCnpj("12345678000199")
+            .WithNome("João da Silva")
+            .WithSetor("Financeiro")
+            .WithTelefone(tel => tel
+                .WithDDD("11")
+                .WithNumero("987654321")
+                .WithRamal("1001"))
+            .WithEndereco(end => end
+                .WithLogradouro("Rua das Flores")
+                .WithNumero("123")
+                .WithBairro("Centro")
+                .WithCEP("01310-100")
+                .WithMunicipio("São Paulo")
+                .WithUF("SP"))))
     .Build();
 ```
 
@@ -216,30 +203,26 @@ efinanceira/
 }
 ```
 
-#### Exemplo com Múltiplos Reportáveis
+#### Exemplo com Factory Pattern
 
 ```csharp
-var evento = new LeiauteMovimentacaoFinanceiraBuilder()
-    .WithId("EVT_MULTI_001")
-    .WithDeclarante("12345678000199")
-    .WithDeclarado(d => d.WithTipoNI(2).WithNumeroInscricao("98765432000188").WithNome("Cliente"))
-    .WithMovimentacao(m =>
+// Usar factory para criação padronizada
+var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+
+var evento = factory.Create(
+    EFinanceira.Core.Factory.MessageKind.Evento("EvtAberturaeFinanceira"),
+    "v1_2_1",
+    (Action<object>?)(builder =>
     {
-        m.WithDataInicio(DateTime.Today.AddDays(-365)).WithDataFim(DateTime.Today)
-         // Conta corrente
-         .AdicionarReportavel(r => 
-             r.WithTipoReportavel(1)
-              .WithInformacoesConta(c => c.WithTipoConta(1).WithMoeda("986")))
-         // Conta poupança
-         .AdicionarReportavel(r => 
-             r.WithTipoReportavel(1)
-              .WithInformacoesConta(c => c.WithTipoConta(2).WithMoeda("986")))
-         // Investimentos
-         .AdicionarReportavel(r => 
-             r.WithTipoReportavel(2)
-              .WithInformacoesConta(c => c.WithTipoConta(3).WithMoeda("986")));
-    })
-    .Build();
+        var typedBuilder = (EvtAberturaeFinanceiraBuilder)builder!;
+        typedBuilder
+            .WithId("FACTORY_ABERT_001")
+            .WithIdeDeclarante(decl => decl
+                .WithCnpjDeclarante("12345678000199"))
+            .WithInfoAbertura(info => info
+                .WithDataInicio(new DateTime(2024, 1, 1))
+                .WithDataFim(new DateTime(2024, 12, 31)));
+    }));
 ```
 
 ### 📚 Documentação

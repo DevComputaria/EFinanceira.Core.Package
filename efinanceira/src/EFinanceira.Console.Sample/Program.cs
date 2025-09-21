@@ -36,6 +36,7 @@ public class Program
             await DemonstrarCriacaoEvento();
             await DemonstrarCriacaoLote();
             await DemonstrarCriacaoConsulta();
+            await DemonstrarEvtAberturaeFinanceira();
             await DemonstrarValidacao();
             await DemonstrarAssinatura();
             await DemonstrarFluxoCompleto();
@@ -88,45 +89,30 @@ public class Program
         {
             var cnpjDeclarante = _configuration!["EFinanceira:Declarante:Cnpj"]!;
 
-            // Criar evento usando builder fluente
-            var eventoBuilder = new LeiauteMovimentacaoFinanceiraBuilder()
+            // Criar evento de abertura e-Financeira usando builder fluente
+            var eventoBuilder = new EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraBuilder()
                 .WithId("EVT20241219001")
-                .WithDeclarante(cnpjDeclarante)
-                .WithAmbiente(2) // Homologação
-                .WithRetificacao(1) // Original
-                .WithVersaoAplicacao("1.0.0")
-                .WithDeclarado(declarado =>
-                {
-                    declarado
-                        .WithTipoNI(2) // CNPJ
-                        .WithNumeroInscricao("98765432000188")
-                        .WithNome("Cliente Exemplo S.A.")
-                        .WithEndereco(endereco =>
-                        {
-                            endereco
-                                .WithPais("076") // Brasil
-                                .WithEndereco("Rua Exemplo, 123, Centro")
-                                .WithCidade("São Paulo");
-                        });
-                })
-                .WithMovimentacao(mov =>
-                {
-                    mov
-                        .WithDataInicio(new DateTime(2024, 1, 1))
-                        .WithDataFim(new DateTime(2024, 12, 31))
-                        .AdicionarReportavel(rep =>
-                        {
-                            rep
-                                .WithTipoReportavel(1)
-                                .WithInformacoesConta(conta =>
-                                {
-                                    conta
-                                        .WithTipoConta(1)
-                                        .WithSubTipoConta("001")
-                                        .WithMoeda("986"); // Real
-                                });
-                        });
-                });
+                .WithIdeDeclarante(decl => decl
+                    .WithCnpjDeclarante(cnpjDeclarante))
+                .WithInfoAbertura(info => info
+                    .WithDataInicio(new DateTime(2024, 1, 1))
+                    .WithDataFim(new DateTime(2024, 12, 31)))
+                .WithAberturaMovOpFin(mov => mov
+                    .WithResponsavelRMF(rmf => rmf
+                        .WithCnpj(cnpjDeclarante)
+                        .WithNome("João da Silva")
+                        .WithSetor("Financeiro")
+                        .WithTelefone(tel => tel
+                            .WithDDD("11")
+                            .WithNumero("987654321")
+                            .WithRamal("1001"))
+                        .WithEndereco(end => end
+                            .WithLogradouro("Rua das Flores")
+                            .WithNumero("123")
+                            .WithBairro("Centro")
+                            .WithCEP("01310-100")
+                            .WithMunicipio("São Paulo")
+                            .WithUF("SP"))));
 
             var evento = eventoBuilder.Build();
 
@@ -151,19 +137,21 @@ public class Program
             var cnpjTransmissor = _configuration!["EFinanceira:Declarante:Cnpj"]!;
             var nomeTransmissor = _configuration["EFinanceira:Declarante:Nome"]!;
 
-            // Criar múltiplos eventos
-            var evento1 = new LeiauteMovimentacaoFinanceiraBuilder()
+            // Criar múltiplos eventos de abertura e-Financeira
+            var evento1 = new EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraBuilder()
                 .WithId("EVT20241219001")
-                .WithDeclarante(cnpjTransmissor)
-                .WithDeclarado(d => d.WithTipoNI(2).WithNumeroInscricao("11111111000111").WithNome("Cliente 1"))
-                .WithMovimentacao(m => m.WithDataInicio(DateTime.Today.AddDays(-30)).WithDataFim(DateTime.Today))
+                .WithIdeDeclarante(decl => decl.WithCnpjDeclarante(cnpjTransmissor))
+                .WithInfoAbertura(info => info
+                    .WithDataInicio(new DateTime(2024, 1, 1))
+                    .WithDataFim(new DateTime(2024, 12, 31)))
                 .Build();
 
-            var evento2 = new LeiauteMovimentacaoFinanceiraBuilder()
+            var evento2 = new EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraBuilder()
                 .WithId("EVT20241219002")
-                .WithDeclarante(cnpjTransmissor)
-                .WithDeclarado(d => d.WithTipoNI(2).WithNumeroInscricao("22222222000222").WithNome("Cliente 2"))
-                .WithMovimentacao(m => m.WithDataInicio(DateTime.Today.AddDays(-30)).WithDataFim(DateTime.Today))
+                .WithIdeDeclarante(decl => decl.WithCnpjDeclarante(cnpjTransmissor))
+                .WithInfoAbertura(info => info
+                    .WithDataInicio(new DateTime(2024, 1, 1))
+                    .WithDataFim(new DateTime(2024, 12, 31)))
                 .Build();
 
             // Criar lote usando builder fluente
@@ -458,6 +446,158 @@ public class Program
         }
     }
 
+    private static async Task DemonstrarEvtAberturaeFinanceira()
+    {
+        _logger!.LogInformation("\n--- 4. Demonstração: Evento EvtAberturaeFinanceira ---");
+
+        try
+        {
+            var cnpjDeclarante = _configuration!["EFinanceira:Declarante:Cnpj"]!;
+
+            // Criar evento de abertura e-Financeira usando builder fluente
+            var eventoAbertura = new EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraBuilder("v1_2_1")
+                .WithId("ABERT_20241219001")
+                .WithIdeEvento(ide => ide
+                    .WithIndRetificacao(1) // Original
+                    .WithTipoAmbiente(2) // Homologação
+                    .WithAplicativoEmissor(1) // Aplicativo do contribuinte
+                    .WithVersaoAplicacao("1.0.0"))
+                .WithIdeDeclarante(decl => decl
+                    .WithCnpjDeclarante(cnpjDeclarante))
+                .WithInfoAbertura(info => info
+                    .WithDataInicio(new DateTime(2024, 1, 1))
+                    .WithDataFim(new DateTime(2024, 12, 31)))
+                .WithAberturaPP(pp => pp
+                    .AddTipoEmpresa(te => te
+                        .WithTipoPrevidenciaPrivada("1")))
+                .WithAberturaMovOpFin(mov => mov
+                    .WithResponsavelRMF(rmf => rmf
+                        .WithCnpj(cnpjDeclarante)
+                        .WithNome("João da Silva Responsável")
+                        .WithSetor("Financeiro")
+                        .WithTelefone(tel => tel
+                            .WithDDD("11")
+                            .WithNumero("987654321")
+                            .WithRamal("1001"))
+                        .WithEndereco(end => end
+                            .WithLogradouro("Rua das Flores")
+                            .WithNumero("123")
+                            .WithComplemento("Sala 1001")
+                            .WithBairro("Centro")
+                            .WithCEP("01310-100")
+                            .WithMunicipio("São Paulo")
+                            .WithUF("SP")))
+                    .WithResponsaveisFinanceiros(resps => resps
+                        .AddResponsavelFinanceiro(rf => rf
+                            .WithCpf("12345678909")
+                            .WithNome("Maria Santos Financeiro")
+                            .WithSetor("Compliance")
+                            .WithEmail("maria.santos@empresa.com")
+                            .WithTelefone(tel => tel
+                                .WithDDD("11")
+                                .WithNumero("876543210")
+                                .WithRamal("2002"))
+                            .WithEndereco(end => end
+                                .WithLogradouro("Av. Paulista")
+                                .WithNumero("1000")
+                                .WithBairro("Bela Vista")
+                                .WithCEP("01310-200")
+                                .WithMunicipio("São Paulo")
+                                .WithUF("SP")))
+                        .AddResponsavelFinanceiro(rf => rf
+                            .WithCpf("98765432100")
+                            .WithNome("Carlos Oliveira Junior")
+                            .WithSetor("Operações")
+                            .WithEmail("carlos.oliveira@empresa.com")
+                            .WithTelefone(tel => tel
+                                .WithDDD("11")
+                                .WithNumero("765432109")
+                                .WithRamal("3003"))
+                            .WithEndereco(end => end
+                                .WithLogradouro("Rua Augusta")
+                                .WithNumero("500")
+                                .WithComplemento("Andar 10")
+                                .WithBairro("Consolação")
+                                .WithCEP("01305-000")
+                                .WithMunicipio("São Paulo")
+                                .WithUF("SP"))))
+                    .WithRepresentanteLegal(rep => rep
+                        .WithCpf("11111111111")
+                        .WithSetor("Diretoria")
+                        .WithTelefone(tel => tel
+                            .WithDDD("11")
+                            .WithNumero("654321098")
+                            .WithRamal("1000"))))
+                .Build();
+
+            _logger.LogInformation("✓ Evento EvtAberturaeFinanceira criado com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", eventoAbertura.GetType().Name);
+            _logger.LogInformation("  - ID: {Id}", eventoAbertura.IdValue);
+            _logger.LogInformation("  - Versão: {Version}", eventoAbertura.Version);
+            _logger.LogInformation("  - Elemento Raiz: {Root}", eventoAbertura.RootElementName);
+
+            // Demonstrar serialização do evento
+            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
+            var xml = serializer.Serialize(eventoAbertura.Payload);
+
+            _logger.LogInformation("✓ Evento serializado para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
+
+            // Salvar exemplo do evento
+            var eventoFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_abertura_exemplo.xml");
+            await File.WriteAllTextAsync(eventoFile, xml);
+            _logger.LogInformation("  - Salva em: {File}", eventoFile);
+
+            // Demonstrar uso do factory para criar o evento
+            _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
+            var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+            
+            // Configuração simples para o factory
+            Action<object>? factoryConfig = builder =>
+            {
+                var typedBuilder = (EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraBuilder)builder!;
+                typedBuilder
+                    .WithId("FACTORY_ABERT_001")
+                    .WithIdeDeclarante(decl => decl
+                        .WithCnpjDeclarante(cnpjDeclarante))
+                    .WithInfoAbertura(info => info
+                        .WithDataInicio(new DateTime(2024, 1, 1))
+                        .WithDataFim(new DateTime(2024, 12, 31)));
+            };
+
+            var eventoViaFactory = (EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraMessage)factory.Create(
+                EFinanceira.Core.Factory.MessageKind.Evento("EvtAberturaeFinanceira"),
+                "v1_2_1",
+                factoryConfig);
+
+            _logger.LogInformation("✓ Evento criado via Factory com sucesso");
+            _logger.LogInformation("  - ID via Factory: {Id}", eventoViaFactory.IdValue);
+
+            // Serializar evento criado via factory
+            var xmlFactory = serializer.Serialize(eventoViaFactory.Payload);
+            _logger.LogInformation("✓ Evento via Factory serializado");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
+
+            // Salvar evento criado via factory
+            var factoryFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_abertura_factory.xml");
+            await File.WriteAllTextAsync(factoryFile, xmlFactory);
+            _logger.LogInformation("  - Salva em: {File}", factoryFile);
+
+            // Relatório do evento
+            _logger.LogInformation("\n=== Relatório do Evento EvtAberturaeFinanceira ===");
+            _logger.LogInformation("  - Evento ID: {EventoId}", eventoAbertura.IdValue);
+            _logger.LogInformation("  - Declarante: {Declarante}", cnpjDeclarante);
+            _logger.LogInformation("  - Período: 01/01/2024 a 31/12/2024");
+            _logger.LogInformation("  - Responsáveis financeiros: 2");
+            _logger.LogInformation("  - Arquivo XML: {Size:N0} caracteres", xml.Length);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao criar evento EvtAberturaeFinanceira");
+            throw;
+        }
+    }
+
     private static async Task DemonstrarValidacao()
     {
         _logger!.LogInformation("\n--- 3. Demonstração: Validação XML ---");
@@ -467,12 +607,13 @@ public class Program
             var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
             var validator = _serviceProvider.GetRequiredService<IXmlValidator>();
 
-            // Criar evento para validar
-            var evento = new LeiauteMovimentacaoFinanceiraBuilder()
+            // Criar evento de abertura e-Financeira para validar
+            var evento = new EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraBuilder()
                 .WithId("EVT_VALIDACAO_001")
-                .WithDeclarante("12345678000199")
-                .WithDeclarado(d => d.WithTipoNI(2).WithNumeroInscricao("98765432000188").WithNome("Teste"))
-                .WithMovimentacao(m => m.WithDataInicio(DateTime.Today).WithDataFim(DateTime.Today))
+                .WithIdeDeclarante(decl => decl.WithCnpjDeclarante("12345678000199"))
+                .WithInfoAbertura(info => info
+                    .WithDataInicio(DateTime.Today)
+                    .WithDataFim(DateTime.Today.AddDays(365)))
                 .Build();
 
             // Serializar
@@ -521,12 +662,13 @@ public class Program
             var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
             var signer = _serviceProvider.GetRequiredService<IXmlSigner>();
 
-            // Criar evento
-            var evento = new LeiauteMovimentacaoFinanceiraBuilder()
+            // Criar evento de abertura e-Financeira
+            var evento = new EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraBuilder()
                 .WithId("EVT_ASSINATURA_001")
-                .WithDeclarante("12345678000199")
-                .WithDeclarado(d => d.WithTipoNI(2).WithNumeroInscricao("98765432000188").WithNome("Teste Assinatura"))
-                .WithMovimentacao(m => m.WithDataInicio(DateTime.Today).WithDataFim(DateTime.Today))
+                .WithIdeDeclarante(decl => decl.WithCnpjDeclarante("12345678000199"))
+                .WithInfoAbertura(info => info
+                    .WithDataInicio(DateTime.Today)
+                    .WithDataFim(DateTime.Today.AddDays(365)))
                 .Build();
 
             // Serializar para assinatura (sem identação)
@@ -574,32 +716,17 @@ public class Program
 
             _logger.LogInformation("Simulando fluxo completo de produção...");
 
-            // 1. Criar múltiplos eventos
+            // 1. Criar múltiplos eventos de abertura e-Financeira
             var eventos = new List<IEFinanceiraMessage>();
 
             for (int i = 1; i <= 3; i++)
             {
-                var evento = new LeiauteMovimentacaoFinanceiraBuilder()
+                var evento = new EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraBuilder()
                     .WithId($"EVT_COMPLETO_{i:D3}")
-                    .WithDeclarante(cnpjDeclarante)
-                    .WithAmbiente(2) // Homologação
-                    .WithDeclarado(d =>
-                    {
-                        d.WithTipoNI(2)
-                         .WithNumeroInscricao($"{i:D8}000{i:D3}")
-                         .WithNome($"Cliente Completo {i}")
-                         .WithEndereco(e => e.WithPais("076").WithCidade("São Paulo"));
-                    })
-                    .WithMovimentacao(m =>
-                    {
-                        m.WithDataInicio(DateTime.Today.AddDays(-30))
-                         .WithDataFim(DateTime.Today)
-                         .AdicionarReportavel(r =>
-                         {
-                             r.WithTipoReportavel(1)
-                              .WithInformacoesConta(c => c.WithTipoConta(1).WithMoeda("986"));
-                         });
-                    })
+                    .WithIdeDeclarante(decl => decl.WithCnpjDeclarante(cnpjDeclarante))
+                    .WithInfoAbertura(info => info
+                        .WithDataInicio(DateTime.Today.AddDays(-30))
+                        .WithDataFim(DateTime.Today.AddDays(335))) // ~1 ano
                     .Build();
 
                 eventos.Add(evento);

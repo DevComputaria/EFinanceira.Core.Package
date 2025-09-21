@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceiraEvtAberturaeFinanceira id="ABERT_20241219001">
+  <ideEvento xmlns="http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1">
+    <indRetificacao>1</indRetificacao>
+    <tpAmb>2</tpAmb>
+    <aplicEmi>1</aplicEmi>
+    <verAplic>1.0.0</verAplic>
+  </ideEvento>
+  <ideDeclarante xmlns="http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1">
+    <cnpjDeclarante>12345678000199</cnpjDeclarante>
+  </ideDeclarante>
+  <infoAbertura xmlns="http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1">
+    <dtInicio>2024-01-01</dtInicio>
+    <dtFim>2024-12-31</dtFim>
+  </infoAbertura>
+  <AberturaPP xmlns="http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1">
+    <tpEmpresa>
+      <tpPrevPriv>1</tpPrevPriv>
+    </tpEmpresa>
+  </AberturaPP>
+  <AberturaMovOpFin xmlns="http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1">
+    <ResponsavelRMF>
+      <CNPJ>12345678000199</CNPJ>
+      <Nome>João da Silva Responsável</Nome>
+      <Setor>Financeiro</Setor>
+      <Telefone>
+        <DDD>11</DDD>
+        <Numero>987654321</Numero>
+        <Ramal>1001</Ramal>
+      </Telefone>
+      <Endereco>
+        <Logradouro>Rua das Flores</Logradouro>
+        <Numero>123</Numero>
+        <Complemento>Sala 1001</Complemento>
+        <Bairro>Centro</Bairro>
+        <CEP>01310-100</CEP>
+        <Municipio>São Paulo</Municipio>
+        <UF>SP</UF>
+      </Endereco>
+    </ResponsavelRMF>
+    <RespeFin>
+      <CPF>12345678909</CPF>
+      <Nome>Maria Santos Financeiro</Nome>
+      <Setor>Compliance</Setor>
+      <Telefone>
+        <DDD>11</DDD>
+        <Numero>876543210</Numero>
+        <Ramal>2002</Ramal>
+      </Telefone>
+      <Endereco>
+        <Logradouro>Av. Paulista</Logradouro>
+        <Numero>1000</Numero>
+        <Bairro>Bela Vista</Bairro>
+        <CEP>01310-200</CEP>
+        <Municipio>São Paulo</Municipio>
+        <UF>SP</UF>
+      </Endereco>
+      <Email>maria.santos@empresa.com</Email>
+    </RespeFin>
+    <RespeFin>
+      <CPF>98765432100</CPF>
+      <Nome>Carlos Oliveira Junior</Nome>
+      <Setor>Operações</Setor>
+      <Telefone>
+        <DDD>11</DDD>
+        <Numero>765432109</Numero>
+        <Ramal>3003</Ramal>
+      </Telefone>
+      <Endereco>
+        <Logradouro>Rua Augusta</Logradouro>
+        <Numero>500</Numero>
+        <Complemento>Andar 10</Complemento>
+        <Bairro>Consolação</Bairro>
+        <CEP>01305-000</CEP>
+        <Municipio>São Paulo</Municipio>
+        <UF>SP</UF>
+      </Endereco>
+      <Email>carlos.oliveira@empresa.com</Email>
+    </RespeFin>
+    <RepresLegal>
+      <CPF>11111111111</CPF>
+      <Setor>Diretoria</Setor>
+      <Telefone>
+        <DDD>11</DDD>
+        <Numero>654321098</Numero>
+        <Ramal>1000</Ramal>
+      </Telefone>
+    </RepresLegal>
+  </AberturaMovOpFin>
+</eFinanceiraEvtAberturaeFinanceira>

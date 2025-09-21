@@ -2,6 +2,37 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.2.0] - 2024-12-19
+
+### ✨ Adicionado
+
+#### 🎯 Implementação EvtAberturaeFinanceira Builder - EVENTO COMPLETO IMPLEMENTADO!
+- **EvtAberturaeFinanceiraBuilder**: Primeiro builder de evento implementado com sucesso total
+- **🏆 MARCO PRINCIPAL**: Primeiro evento da categoria completo, expandindo além de consultas
+- **Builder consolidado**: Todos os sub-builders consolidados em arquivo único (1,093 linhas)
+- **XML validado**: Geração de XML estruturado corretamente com serialização funcional
+- **Factory integrado**: Registrado como "EvtAberturaeFinanceira" v1_2_1 no EFinanceiraMessageFactory
+- **Demonstração dupla**: Implementação direta + Factory Pattern no Console.Sample
+- **Arquitetura complexa implementada**:
+  - **IdeEventoBuilder**: Configuração de indicador de retificação, ambiente, emissor
+  - **IdeDeclaranteBuilder**: Dados do declarante (CNPJ)
+  - **InfoAberturaBuilder**: Período de abertura (datas início/fim)
+  - **AberturaPPCollectionBuilder**: Gestão de múltiplas aberturas de previdência privada
+  - **TipoEmpresaBuilder**: Configuração de tipo de previdência privada
+  - **AberturaMovOpFinBuilder**: Operações financeiras com estrutura complexa:
+    - **ResponsavelRMFBuilder**: Responsável por movimentação financeira com endereço/telefone
+    - **ResponsaveisFinanceirosCollectionBuilder**: Múltiplos responsáveis financeiros
+    - **ResponsavelFinanceiroBuilder**: Dados individuais (CPF, nome, setor, email, telefone, endereço)
+    - **RepresentanteLegalBuilder**: Representante legal com telefone
+    - **TelefoneBuilder**: DDD, número, ramal
+    - **EnderecoBuilder**: Logradouro, número, complemento, bairro, CEP, município, UF
+- **Namespace isolado**: `EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira`
+- **Interface fluente**: Padrão builder com validação e estrutura hierárquica
+- **Wrapper IEFinanceiraMessage**: EvtAberturaeFinanceiraMessage implementa interface corretamente
+- **Demonstrações XML**:
+  - **Exemplo completo**: 2,970 caracteres com todos os campos preenchidos
+  - **Factory simples**: 715 caracteres com campos essenciais via Factory Pattern
+
 ## [1.1.0] - 2024-12-19
 
 ### ✨ Adicionado

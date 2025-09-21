@@ -6,6 +6,7 @@ using EFinanceira.Messages.Builders.Consultas.RetInfoMovimento;
 using EFinanceira.Messages.Builders.Consultas.RetInfoPatrocinado;
 using EFinanceira.Messages.Builders.Consultas.RetListaeFinanceira;
 using EFinanceira.Messages.Builders.Consultas.RetRERCT;
+using EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira;
 
 namespace EFinanceira.Messages.Factory;
 
@@ -127,13 +128,29 @@ public static class MessagesFactoryExtensions
     }
 
     /// <summary>
-    /// Registra todas as mensagens de eventos no factory (placeholder para futuro)
+    /// Registra todas as mensagens de eventos no factory
     /// </summary>
     /// <param name="factory">Factory do Core para configurar</param>
     /// <returns>O mesmo factory para fluent interface</returns>
     public static EFinanceiraMessageFactory AddEventos(this EFinanceiraMessageFactory factory)
     {
-        // TODO: Implementar quando houver builders de eventos
+        // Registro do evento de Abertura e-Financeira
+        factory.RegisterFactory(
+            MessageKind.Evento("EvtAberturaeFinanceira"),
+            "v1_2_1",
+            (Action<object>? seed) =>
+            {
+                var builder = new EvtAberturaeFinanceiraBuilder("v1_2_1");
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<EvtAberturaeFinanceiraBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
         return factory;
     }
 
