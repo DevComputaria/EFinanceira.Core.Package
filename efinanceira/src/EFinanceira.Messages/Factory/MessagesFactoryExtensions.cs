@@ -4,6 +4,7 @@ using EFinanceira.Messages.Builders.Consultas.RetInfoCadastral;
 using EFinanceira.Messages.Builders.Consultas.RetInfoIntermediario;
 using EFinanceira.Messages.Builders.Consultas.RetInfoMovimento;
 using EFinanceira.Messages.Builders.Consultas.RetInfoPatrocinado;
+using EFinanceira.Messages.Builders.Consultas.RetListaeFinanceira;
 
 namespace EFinanceira.Messages.Factory;
 
@@ -80,6 +81,23 @@ public static class MessagesFactoryExtensions
 
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<RetInfoPatrocinadoBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
+        // Registro da consulta de lista de e-Financeira
+        factory.RegisterFactory(
+            MessageKind.Consulta("RetListaeFinanceira"),
+            "v1_2_0",
+            (Action<object>? seed) =>
+            {
+                var builder = new RetListaeFinanceiraBuilder();
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<RetListaeFinanceiraBuilder> configure)
                 {
                     configure(builder);
                 }

@@ -351,6 +351,45 @@ public class Program
             await File.WriteAllTextAsync(patrocinadoFile, xmlPatrocinado);
             _logger.LogInformation("  - Salva em: {File}", patrocinadoFile);
 
+            // Demonstrar criação de consulta RetListaeFinanceira
+            _logger.LogInformation("\n--- Demonstrando RetListaeFinanceira ---");
+            var consultaLista = new EFinanceira.Messages.Builders.Consultas.RetListaeFinanceira.RetListaeFinanceiraBuilder("v1_2_0")
+                .WithDataHoraProcessamento(DateTime.UtcNow)
+                .WithStatus("200", "Consulta de lista processada com sucesso")
+                .WithEmpresaDeclarante("12345678000199")
+                .AddInformacoesEFinanceira(
+                    new DateTime(2024, 1, 1),
+                    new DateTime(2024, 6, 30),
+                    "Ativa",
+                    "REC100001",
+                    "ABT_001",
+                    "REC100002",
+                    "FEC_001")
+                .AddInformacoesEFinanceira(
+                    new DateTime(2024, 7, 1),
+                    new DateTime(2024, 12, 31),
+                    "Encerrada",
+                    "REC200001",
+                    "ABT_002",
+                    "REC200002",
+                    "FEC_002")
+                .AddOcorrencia("1", "Campo obrigatório", "E001", "Campo CNPJ é obrigatório")
+                .Build();
+
+            _logger.LogInformation("✓ Consulta RetListaeFinanceira criada com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", consultaLista.GetType().Name);
+            _logger.LogInformation("  - Versão: {Version}", consultaLista.Version);
+
+            // Serializar consulta de lista
+            var xmlLista = serializer.Serialize(consultaLista.Payload);
+            _logger.LogInformation("✓ Consulta de lista serializada para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlLista.Length);
+
+            // Salvar exemplo da consulta de lista
+            var listaFile = Path.Combine(Directory.GetCurrentDirectory(), "consulta_lista_exemplo.xml");
+            await File.WriteAllTextAsync(listaFile, xmlLista);
+            _logger.LogInformation("  - Salva em: {File}", listaFile);
+
             // Demonstrar uso do factory
             _logger.LogInformation("\n--- Demonstrando Factory Pattern ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();

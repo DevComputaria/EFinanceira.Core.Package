@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaListaEFinanceira/v1_2_0">
+  <retornoConsultaListaEFinanceira>
+    <dhProcessamento>2025-09-21T05:03:49.7312532Z</dhProcessamento>
+    <status>
+      <cdRetorno>200</cdRetorno>
+      <descRetorno>Consulta de lista processada com sucesso</descRetorno>
+      <dadosRegistroOcorrenciaEvento>
+        <ocorrencias>
+          <tipo>1</tipo>
+          <localizacaoErroAviso>Campo obrigatório</localizacaoErroAviso>
+          <codigo>E001</codigo>
+          <descricao>Campo CNPJ é obrigatório</descricao>
+        </ocorrencias>
+      </dadosRegistroOcorrenciaEvento>
+    </status>
+    <identificacaoEmpresaDeclarante>
+      <cnpjEmpresaDeclarante>12345678000199</cnpjEmpresaDeclarante>
+    </identificacaoEmpresaDeclarante>
+    <informacoesEFinanceira>
+      <dhInicial>2024-01-01T00:00:00</dhInicial>
+      <dhFinal>2024-06-30T00:00:00</dhFinal>
+      <situacaoEFinanceira>Ativa</situacaoEFinanceira>
+      <numeroReciboAbertura>REC100001</numeroReciboAbertura>
+      <idAbertura>ABT_001</idAbertura>
+      <numeroReciboFechamento>REC100002</numeroReciboFechamento>
+      <idFechamento>FEC_001</idFechamento>
+    </informacoesEFinanceira>
+    <informacoesEFinanceira>
+      <dhInicial>2024-07-01T00:00:00</dhInicial>
+      <dhFinal>2024-12-31T00:00:00</dhFinal>
+      <situacaoEFinanceira>Encerrada</situacaoEFinanceira>
+      <numeroReciboAbertura>REC200001</numeroReciboAbertura>
+      <idAbertura>ABT_002</idAbertura>
+      <numeroReciboFechamento>REC200002</numeroReciboFechamento>
+      <idFechamento>FEC_002</idFechamento>
+    </informacoesEFinanceira>
+  </retornoConsultaListaEFinanceira>
+</eFinanceira>

@@ -6,6 +6,21 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
 ### ✨ Adicionado
 
+#### 🆕 Implementação RetListaeFinanceira Builder  
+- **RetListaeFinanceiraBuilder**: Quinto builder de consulta implementado com sucesso
+- **Cobertura expandida**: Agora suportamos 5 dos 6 tipos principais de consulta (83% de cobertura)
+- **XML validado**: Geração de XML com 1755 caracteres, estrutura correta
+- **Factory integrado**: Registrado como "RetListaeFinanceira" v1_2_0 no EFinanceiraMessageFactory
+- **Demonstração funcional**: Teste completo no Console.Sample com múltiplas informações de e-Financeira
+- **Funcionalidades especializadas**:
+  - Configuração de data/hora de processamento
+  - Status com código e descrição de retorno
+  - Empresa declarante com CNPJ
+  - Múltiplas informações de e-Financeira com períodos, situações e recibos
+  - Ocorrências com tipos, localizações, códigos e descrições
+  - Interface fluente com validação automática de campos obrigatórios
+  - Namespace: `EFinanceira.Messages.Builders.Consultas.RetListaeFinanceira`
+
 #### 🆕 Implementação RetInfoPatrocinado Builder
 - **RetInfoPatrocinadoBuilder**: Quarto builder de consulta implementado com sucesso
 - **Cobertura expandida**: Agora suportamos 4 dos 6 tipos principais de consulta (67% de cobertura)
@@ -83,15 +98,16 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
 #### 🏭 Factory Pattern Integrado
 - **MessagesFactoryExtensions**: Extensões para configurar factory no projeto Messages
-- **Registro automático expandido**: 4 tipos de consulta registrados no factory
+- **Registro automático expandido**: 5 tipos de consulta registrados no factory
   - `RetInfoCadastral` v1_2_0 - Consulta de informações cadastrais
   - `RetInfoIntermediario` v1_2_0 - Consulta de informações de intermediário
   - `RetInfoMovimento` v1_2_0 - Consulta de informações de movimento
   - `RetInfoPatrocinado` v1_2_0 - Consulta de informações de patrocinado
+  - `RetListaeFinanceira` v1_2_0 - Consulta de lista de e-Financeira
 - **Sem dependência circular**: Factory configurado via extensões, não no Core
 - **Pattern escalável**: Estrutura preparada para adicionar novos builders
 - **Métodos de conveniência**:
-  - `.AddConsultas()` - Registra consultas (4 tipos ativos)
+  - `.AddConsultas()` - Registra consultas (5 tipos ativos)
   - `.AddEventos()` - Placeholder para futuros eventos
   - `.AddLotes()` - Placeholder para futuros lotes
   - `.CreateConfiguredFactory()` - Factory completo pré-configurado
