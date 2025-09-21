@@ -5,6 +5,7 @@ using EFinanceira.Messages.Builders.Consultas.RetInfoIntermediario;
 using EFinanceira.Messages.Builders.Consultas.RetInfoMovimento;
 using EFinanceira.Messages.Builders.Consultas.RetInfoPatrocinado;
 using EFinanceira.Messages.Builders.Consultas.RetListaeFinanceira;
+using EFinanceira.Messages.Builders.Consultas.RetRERCT;
 
 namespace EFinanceira.Messages.Factory;
 
@@ -98,6 +99,23 @@ public static class MessagesFactoryExtensions
 
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<RetListaeFinanceiraBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
+        // Registro da consulta RERCT
+        factory.RegisterFactory(
+            MessageKind.Consulta("RetRERCT"),
+            "v1_2_0",
+            (Action<object>? seed) =>
+            {
+                var builder = new RetRERCTBuilder("v1_2_0");
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<RetRERCTBuilder> configure)
                 {
                     configure(builder);
                 }

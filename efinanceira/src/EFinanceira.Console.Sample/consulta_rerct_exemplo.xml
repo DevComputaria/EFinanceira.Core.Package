@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesRerct/v1_2_0">
+  <retornoConsultaInformacoesRerct>
+    <dadosProcessamento>
+      <cdStatusResposta>200</cdStatusResposta>
+      <descResposta>Consulta RERCT processada com sucesso</descResposta>
+      <dadosRegistroOcorrenciaEvento>
+        <ocorrencias>
+          <tipo>1</tipo>
+          <localizacaoErroAviso>Sistema</localizacaoErroAviso>
+          <codigo>S001</codigo>
+          <descricao>Processamento realizado com sucesso</descricao>
+        </ocorrencias>
+      </dadosRegistroOcorrenciaEvento>
+    </dadosProcessamento>
+    <dadosEvento>
+      <identificacaoEvento>
+        <idEvento>EVT20241219001</idEvento>
+        <ideEventoRERCT>RERCT001</ideEventoRERCT>
+        <situacao>Processado</situacao>
+        <numeroRecibo>REC123456789</numeroRecibo>
+      </identificacaoEvento>
+      <identificacaoDeclarado>
+        <tipoInscricaoDeclarado>2</tipoInscricaoDeclarado>
+        <inscricaoDeclarado>12345678000199</inscricaoDeclarado>
+      </identificacaoDeclarado>
+      <identificacaoTitular>
+        <tipoInscricaoTitular>1</tipoInscricaoTitular>
+        <inscricaoTitular>12345678909</inscricaoTitular>
+        <nomeTitular>João Silva Santos</nomeTitular>
+        <nifTitular>PT123456789</nifTitular>
+      </identificacaoTitular>
+      <beneficiarioFinal>
+        <inscricaoBeneficiario>98765432109</inscricaoBeneficiario>
+        <nomeBeneficiario>Maria Santos Silva</nomeBeneficiario>
+        <nifBeneficiario>ES987654321</nifBeneficiario>
+      </beneficiarioFinal>
+    </dadosEvento>
+  </retornoConsultaInformacoesRerct>
+</eFinanceira>

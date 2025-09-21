@@ -390,6 +390,54 @@ public class Program
             await File.WriteAllTextAsync(listaFile, xmlLista);
             _logger.LogInformation("  - Salva em: {File}", listaFile);
 
+            // Demonstrar criação de consulta RetRERCT
+            _logger.LogInformation("\n--- Demonstrando RetRERCT ---");
+            var consultaRERCT = new EFinanceira.Messages.Builders.Consultas.RetRERCT.RetRERCTBuilder("v1_2_0")
+                .ComDadosProcessamento(dp => dp
+                    .ComCodigoStatus("200")
+                    .ComDescricaoResposta("Consulta RERCT processada com sucesso")
+                    .ComOcorrencias(oc => oc
+                        .AdicionarOcorrencia(o => o
+                            .ComTipo("1")
+                            .ComCodigo("S001")
+                            .ComDescricao("Processamento realizado com sucesso")
+                            .ComLocalizacaoErroAviso("Sistema"))))
+                .ComDadosEventos(de => de
+                    .AdicionarEvento(e => e
+                        .ComIdentificacaoEvento(ie => ie
+                            .ComIdEvento("EVT20241219001")
+                            .ComIdeEventoRERCT("RERCT001")
+                            .ComSituacao("Processado")
+                            .ComNumeroRecibo("REC123456789"))
+                        .ComIdentificacaoDeclarado(id => id
+                            .ComTipoInscricao("2")
+                            .ComInscricao("12345678000199"))
+                        .ComIdentificacoesTitulares(it => it
+                            .AdicionarTitular(t => t
+                                .ComTipoInscricao("1")
+                                .ComInscricao("12345678909")
+                                .ComNome("João Silva Santos")
+                                .ComNif("PT123456789")))
+                        .ComBeneficiarios(b => b
+                            .AdicionarBeneficiario(bf => bf
+                                .ComInscricao("98765432109")
+                                .ComNome("Maria Santos Silva")
+                                .ComNif("ES987654321")))))
+                .Build();
+
+            _logger.LogInformation("✓ Consulta RetRERCT criada com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", consultaRERCT.GetType().Name);
+
+            // Serializar consulta RERCT
+            var xmlRERCT = serializer.Serialize(consultaRERCT.Payload);
+            _logger.LogInformation("✓ Consulta RERCT serializada para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlRERCT.Length);
+
+            // Salvar exemplo da consulta RERCT
+            var rerctFile = Path.Combine(Directory.GetCurrentDirectory(), "consulta_rerct_exemplo.xml");
+            await File.WriteAllTextAsync(rerctFile, xmlRERCT);
+            _logger.LogInformation("  - Salva em: {File}", rerctFile);
+
             // Demonstrar uso do factory
             _logger.LogInformation("\n--- Demonstrando Factory Pattern ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
