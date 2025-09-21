@@ -268,6 +268,52 @@ public class Program
             await File.WriteAllTextAsync(intermediarioFile, xmlIntermediario);
             _logger.LogInformation("  - Salva em: {File}", intermediarioFile);
 
+            // Demonstrar criação de consulta RetInfoMovimento
+            _logger.LogInformation("\n--- Demonstrando RetInfoMovimento ---");
+            var consultaMovimento = new EFinanceira.Messages.Builders.Consultas.RetInfoMovimento.RetInfoMovimentoBuilder("v1_2_0")
+                .WithDataHoraProcessamento(DateTime.UtcNow)
+                .WithStatus(status => status
+                    .WithCodigo("200")
+                    .WithDescricao("Consulta de movimento processada com sucesso"))
+                .WithEmpresaDeclarante(empresa => empresa
+                    .WithCnpj("12345678000199"))
+                .WithInformacoesMovimento(movimentos => movimentos
+                    .AddMovimento(m => m
+                        .WithTipoMovimento("1")
+                        .WithTipoNI("1")
+                        .WithNI("12345678000188")
+                        .WithAnoMesCaixa("202412")
+                        .WithAnoCaixa("2024")
+                        .WithSemestre("2")
+                        .WithSituacao("1")
+                        .WithNumeroRecibo("REC111222333")
+                        .WithId("MOV_001"))
+                    .AddMovimento(m => m
+                        .WithTipoMovimento("2")
+                        .WithTipoNI("2")
+                        .WithNI("98765432000177")
+                        .WithAnoMesCaixa("202411")
+                        .WithAnoCaixa("2024")
+                        .WithSemestre("2")
+                        .WithSituacao("2")
+                        .WithNumeroRecibo("REC444555666")
+                        .WithId("MOV_002")))
+                .Build();
+
+            _logger.LogInformation("✓ Consulta RetInfoMovimento criada com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", consultaMovimento.GetType().Name);
+            _logger.LogInformation("  - Versão: {Version}", consultaMovimento.Version);
+
+            // Serializar consulta de movimento
+            var xmlMovimento = serializer.Serialize(consultaMovimento.Payload);
+            _logger.LogInformation("✓ Consulta de movimento serializada para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlMovimento.Length);
+
+            // Salvar exemplo da consulta de movimento
+            var movimentoFile = Path.Combine(Directory.GetCurrentDirectory(), "consulta_movimento_exemplo.xml");
+            await File.WriteAllTextAsync(movimentoFile, xmlMovimento);
+            _logger.LogInformation("  - Salva em: {File}", movimentoFile);
+
             // Demonstrar uso do factory
             _logger.LogInformation("\n--- Demonstrando Factory Pattern ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();

@@ -39,13 +39,38 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 - **Validação automática**: Verificação de campos obrigatórios no Build()
 - **Fluent interface**: API intuitiva com métodos encadeáveis
 
+#### 🏗️ Builders Adicionais de Consultas
+- **RetInfoIntermediarioBuilder**: Builder completo para consulta de informações de intermediário
+  - **RetInfoIntermediarioMessage**: Implementação IEFinanceiraMessage
+  - **IdentificacaoIntermediarioBuilder**: Configuração de dados de intermediário individual
+  - **IdentificacaoIntermediarioCollectionBuilder**: Gestão de múltiplos intermediários
+  - **Namespace isolado**: `EFinanceira.Messages.Builders.Consultas.RetInfoIntermediario`
+  - **Fluent interface**: API consistente com outros builders
+
+- **RetInfoMovimentoBuilder**: Builder completo para consulta de informações de movimento
+  - **RetInfoMovimentoMessage**: Implementação IEFinanceiraMessage  
+  - **InformacoesMovimentoBuilder**: Configuração de movimento individual
+  - **InformacoesMovimentoCollectionBuilder**: Gestão de múltiplos movimentos
+  - **Campos específicos**: tipoMovimento, tipoNI, NI, anoMesCaixa, anoCaixa, semestre, situacao
+  - **Namespace isolado**: `EFinanceira.Messages.Builders.Consultas.RetInfoMovimento`
+  - **Validação de dados**: Verificação automática de campos obrigatórios
+
+#### 🏢 Organização de Builders
+- **Estrutura por pastas**: Cada builder em pasta específica para evitar ambiguidade
+- **Namespaces isolados**: Resolução de conflitos entre classes auxiliares
+- **Padrão escalável**: Estrutura preparada para novos tipos de consulta
+- **Arquitetura limpa**: Separação clara entre diferentes tipos de mensagem
+
 #### 🏭 Factory Pattern Integrado
 - **MessagesFactoryExtensions**: Extensões para configurar factory no projeto Messages
-- **Registro automático**: RetInfoCadastral v1_2_0 registrado no factory
+- **Registro automático expandido**: 3 tipos de consulta registrados no factory
+  - `RetInfoCadastral` v1_2_0 - Consulta de informações cadastrais
+  - `RetInfoIntermediario` v1_2_0 - Consulta de informações de intermediário
+  - `RetInfoMovimento` v1_2_0 - Consulta de informações de movimento
 - **Sem dependência circular**: Factory configurado via extensões, não no Core
 - **Pattern escalável**: Estrutura preparada para adicionar novos builders
 - **Métodos de conveniência**:
-  - `.AddConsultas()` - Registra consultas
+  - `.AddConsultas()` - Registra consultas (3 tipos ativos)
   - `.AddEventos()` - Placeholder para futuros eventos
   - `.AddLotes()` - Placeholder para futuros lotes
   - `.CreateConfiguredFactory()` - Factory completo pré-configurado
@@ -102,22 +127,31 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 - **Organização por categoria**: Acesso intuitivo aos schemas por tipo
 
 #### 💻 Exemplo Funcional Completo
-- **Console.Sample atualizado**: Demonstração completa do builder RetInfoCadastral
-- **Fluxo de criação demonstrado**: Builder → Serialização → Validação → Arquivo XML
-- **XML gerado corretamente**: Namespace oficial e estrutura validada
-- **Factory pattern em ação**: Demonstração de registro e uso do factory
-- **Arquivo de exemplo**: `consulta_exemplo.xml` gerado automaticamente com:
-  - Namespace correto: `http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesCadastrais/v1_2_0`
-  - Estrutura XML completa e válida
-  - Dados de exemplo realistas para todas as propriedades
+- **Console.Sample expandido**: Demonstração completa de todos os builders de consulta
+- **RetInfoCadastral demonstrado**: Builder → Serialização → Validação → Arquivo XML
+- **RetInfoIntermediario demonstrado**: Múltiplos intermediários com dados completos  
+- **RetInfoMovimento demonstrado**: Múltiplos movimentos com todos os campos
+- **XML gerado corretamente**: Namespaces oficiais e estrutura validada
+- **Factory pattern ativo**: Demonstração de registro e uso de 3 tipos de consulta
+- **Arquivos de exemplo gerados**:
+  - `consulta_exemplo.xml` (RetInfoCadastral, 974 caracteres)
+  - `consulta_intermediario_exemplo.xml` (RetInfoIntermediario, 1149 caracteres)
+  - `consulta_movimento_exemplo.xml` (RetInfoMovimento, 1333 caracteres)
+- **Namespaces validados**:
+  - `http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesCadastrais/v1_2_0`
+  - `http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesIntermediario/v1_2_0`
+  - `http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesMovimento/v1_2_0`
 
 #### 🎯 Impacto Técnico da Implementação Builder
+- **Cobertura expandida**: 3 tipos de consulta com builders completos (50% das consultas oficiais)
 - **Arquitetura limpa**: Separação clara entre Core e Messages, evitando dependências circulares
+- **Organização escalável**: Estrutura de pastas por tipo evita ambiguidade entre builders
 - **Extensibilidade**: Fácil adição de novos tipos de consulta e eventos
 - **Testabilidade**: Factory pattern permite injeção de dependência e mocking
 - **Produtividade**: Fluent interface reduz tempo de desenvolvimento em ~60%
 - **Qualidade**: Validação automática previne erros de serialização XML
 - **Manutenibilidade**: Código mais legível e auto-documentado com builder pattern
+- **Consistency**: Padrão uniforme entre todos os builders implementados
 
 ### 🛠️ Correções
 
