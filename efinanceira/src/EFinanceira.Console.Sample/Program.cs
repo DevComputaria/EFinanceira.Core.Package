@@ -1,3 +1,5 @@
+using System.Xml;
+using EFinanceira.Console.Sample.Configuration;
 using EFinanceira.Core.Abstractions;
 using EFinanceira.Core.Factory;
 using EFinanceira.Core.Serialization;
@@ -9,6 +11,7 @@ using EFinanceira.Messages.Builders.Xmldsig;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace EFinanceira.Console.Sample;
 
@@ -39,6 +42,7 @@ public class Program
             await DemonstrarCriacaoConsulta();
             await DemonstrarEvtAberturaeFinanceira();
             await DemonstrarXmldsigBuilder();
+            await DemonstrarMensagemComAssinatura();
             await DemonstrarValidacao();
             await DemonstrarAssinatura();
             await DemonstrarFluxoCompleto();
@@ -79,6 +83,9 @@ public class Program
 
         // Configuração
         services.AddSingleton(_configuration);
+        
+        // Configuração tipada da e-Financeira
+        services.Configure<EFinanceiraSettings>(_configuration.GetSection(EFinanceiraSettings.SectionName));
 
         _serviceProvider = services.BuildServiceProvider();
     }
@@ -813,94 +820,209 @@ public class Program
     {
         try
         {
-            _logger.LogInformation("\n=== Demonstração: XMLDSig Builder (Produção) ===");
+            _logger.LogInformation("\n=== Demonstração: XMLDSig Builder (Baseado no Exemplo Oficial RF) ===");
+            
+            // Mostrar configurações carregadas
+            var settings = _serviceProvider!.GetRequiredService<IOptions<EFinanceiraSettings>>().Value;
+            _logger.LogInformation("Configurações carregadas do appsettings.json:");
+            _logger.LogInformation("  - Declarante: {Cnpj} - {Nome}", settings.Declarante.Cnpj, settings.Declarante.Nome);
+            _logger.LogInformation("  - Certificado: {Path}", settings.Certificate.PfxPath);
+            _logger.LogInformation("  - Ambiente: {Environment}", settings.Environment);
+            _logger.LogInformation("  - XSD Base Path: {XsdBasePath}", settings.Validation.XsdBasePath);
 
-            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
-
-            // Exemplo 1: Assinatura usando certificado de arquivo (simulado)
-            _logger.LogInformation("Demonstrando uso com certificado de arquivo...");
+            // Exemplo 1: Demonstrar seleção interativa de certificado
+            _logger.LogInformation("\nDemonstrando seleção de certificado...");
             
             try
             {
-                var builderArquivo = new XmldsigBuilder();
-                var assinaturaArquivo = builderArquivo
-                    .WithId("SIGNATURE_ARQUIVO_001")
-                    .WithCertificateFromFile(@"C:\Certificados\MeuCertificado.pfx", "minhaSenha")
-                    .WithXmlContent("#EventoId", "<evento>Conteúdo do evento XML</evento>")
-                    .Build();
-
-                _logger.LogInformation("✓ Assinatura criada com certificado de arquivo");
-                _logger.LogInformation("  - ID: {Id}", assinaturaArquivo.IdValue);
+                using var builderInterativo = new XmldsigBuilder();
+                builderInterativo.WithInteractiveCertificateSelection();
+                _logger.LogInformation("✓ Certificado selecionado com sucesso");
+                
+                // Criar um XML de evento de exemplo para assinar
+                var xmlEvento = CreateSampleEventXml();
+                var xmlAssinado = builderInterativo.SignXmlEvent(xmlEvento);
+                
+                _logger.LogInformation("✓ Evento XML assinado com sucesso");
+                _logger.LogInformation("  - Tamanho XML assinado: {Size} caracteres", xmlAssinado.OuterXml.Length);
+                
+                // Validar assinatura
+                var isValid = XmldsigBuilder.ValidateSignature(xmlAssinado);
+                _logger.LogInformation("  - Assinatura válida: {IsValid}", isValid);
+                
+                // Salvar exemplo
+                var outputPath = Path.Combine("exemplos", "evento-assinado-rf.xml");
+                Directory.CreateDirectory("exemplos");
+                xmlAssinado.Save(outputPath);
+                _logger.LogInformation("  - Arquivo salvo: {Path}", outputPath);
             }
-            catch (Exception ex)
+            catch (InvalidOperationException ex)
             {
-                _logger.LogWarning("⚠ Certificado de arquivo não encontrado (esperado em demonstração): {Message}", ex.Message);
-                _logger.LogInformation("  - Para usar: configure certificado válido em C:\\Certificados\\MeuCertificado.pfx");
+                _logger.LogWarning("⚠ Certificado não disponível (esperado em demonstração): {Message}", ex.Message);
             }
 
-            // Exemplo 2: Assinatura usando certificado do repositório do Windows (simulado)
-            _logger.LogInformation("\nDemonstrando uso com certificado do repositório...");
+            // Exemplo 2: Demonstrar assinatura com certificado de arquivo (usando appsettings.json)
+            _logger.LogInformation("\nDemonstrando uso com certificado de arquivo (configurado em appsettings.json)...");
             
             try
             {
-                var builderStore = new XmldsigBuilder();
-                var assinaturaStore = builderStore
-                    .WithId("SIGNATURE_STORE_001")
-                    .WithCertificateFromStore("1234567890ABCDEF1234567890ABCDEF12345678") // thumbprint exemplo
-                    .WithXmlContent("#MovimentoId", "<movimento>Dados do movimento</movimento>")
-                    .Build();
-
-                _logger.LogInformation("✓ Assinatura criada com certificado do repositório");
-                _logger.LogInformation("  - ID: {Id}", assinaturaStore.IdValue);
+                // Obter configurações do appsettings.json
+                var eFinanceiraSettings = _serviceProvider!.GetRequiredService<IOptions<EFinanceiraSettings>>().Value;
+                
+                using var builderArquivo = new XmldsigBuilder();
+                builderArquivo.WithCertificateFromFile(eFinanceiraSettings.Certificate.PfxPath, eFinanceiraSettings.Certificate.PfxPassword);
+                
+                var xmlEvento = CreateSampleEventXml();
+                var xmlAssinado = builderArquivo.SignXmlEvent(xmlEvento);
+                
+                _logger.LogInformation("✓ Evento assinado com certificado de arquivo");
+                _logger.LogInformation("  - Certificado: {Path}", eFinanceiraSettings.Certificate.PfxPath);
+                _logger.LogInformation("  - Configurado em: appsettings.json");
             }
-            catch (Exception ex)
+            catch (FileNotFoundException)
             {
-                _logger.LogWarning("⚠ Certificado do repositório não encontrado (esperado em demonstração): {Message}", ex.Message);
+                _logger.LogWarning("⚠ Arquivo de certificado não encontrado");
+                _logger.LogInformation("  - Verifique o caminho em appsettings.json: EFinanceira:Certificate:PfxPath");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                _logger.LogWarning("⚠ Diretório de certificado não encontrado");
+                _logger.LogInformation("  - Verifique o PfxPath em appsettings.json: {Path}", _configuration!["EFinanceira:Certificate:PfxPath"]);
+            }
+
+            // Exemplo 3: Demonstrar assinatura de lote completo
+            _logger.LogInformation("\nDemonstrando assinatura de lote de eventos...");
+            
+            try
+            {
+                using var builderLote = new XmldsigBuilder();
+                builderLote.WithCertificateFromStore("THUMBPRINT_EXEMPLO");
+                
+                var xmlLote = CreateSampleBatchXml();
+                var xmlLoteAssinado = builderLote.SignXmlDocument(xmlLote);
+                
+                _logger.LogInformation("✓ Lote de eventos assinado com sucesso");
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning("⚠ Certificado não encontrado no repositório: {Message}", ex.Message);
                 _logger.LogInformation("  - Para usar: instale certificado válido no repositório do Windows");
             }
 
-            // Exemplo 3: Validação de builder
-            _logger.LogInformation("\nDemonstrando validação de builder...");
+            // Exemplo 4: Criar assinatura básica para compatibilidade
+            _logger.LogInformation("\nDemonstrando criação de assinatura básica...");
             
-            var builderTeste = new XmldsigBuilder();
-            var isValidoAntes = builderTeste.IsValid();
-            _logger.LogInformation("  - Builder vazio é válido: {Valid}", isValidoAntes);
+            var assinaturaBasica = XmldsigBuilder.BuildBasicSignature("SIGNATURE_BASICA_001");
+            
+            _logger.LogInformation("✓ Assinatura básica criada");
+            _logger.LogInformation("  - ID: {Id}", assinaturaBasica.IdValue);
+            _logger.LogInformation("  - Algoritmo: RSA-SHA256");
 
-            builderTeste.WithId("SIGNATURE_TESTE_001");
-            var isValidoApos = builderTeste.IsValid();
-            _logger.LogInformation("  - Builder com ID é válido: {Valid}", isValidoApos);
+            _logger.LogInformation("\n=== Características do XmldsigBuilder Melhorado ===");
+            _logger.LogInformation("✓ Baseado no exemplo oficial da Receita Federal");
+            _logger.LogInformation("✓ Algoritmos corretos: RSA-SHA256 e SHA256");
+            _logger.LogInformation("✓ Suporte a assinatura de eventos individuais");
+            _logger.LogInformation("✓ Suporte a assinatura de lotes completos");
+            _logger.LogInformation("✓ Validação automática de assinaturas");
+            _logger.LogInformation("✓ Detecção automática de tipos de evento e-Financeira");
+            _logger.LogInformation("✓ Seleção interativa de certificados");
+            _logger.LogInformation("✓ Validação robusta de certificados");
+            _logger.LogInformation("✓ Gestão adequada de recursos com IDisposable");
 
-            _logger.LogInformation("\nCaracterísticas do XmldsigBuilder de produção:");
-            _logger.LogInformation("  ✓ Carrega certificados de arquivos .pfx/.p12");
-            _logger.LogInformation("  ✓ Acessa certificados do repositório do Windows");
-            _logger.LogInformation("  ✓ Calcula digest real com canonicalização C14N");
-            _logger.LogInformation("  ✓ Usa algoritmos seguros (RSA-SHA256)");
-            _logger.LogInformation("  ✓ Valida presença de chave privada");
-            _logger.LogInformation("  ✓ Suporte completo ao padrão XMLDSig");
-
-            _logger.LogInformation("\nPara uso em produção:");
-            _logger.LogInformation("  1. Configure certificado válido com chave privada");
-            _logger.LogInformation("  2. Use WithCertificateFromFile() ou WithCertificateFromStore()");
-            _logger.LogInformation("  3. Chame WithXmlContent() com XML real a ser assinado");
-            _logger.LogInformation("  4. Execute Build() para obter assinatura válida");
-
-            // Salvar exemplo de uso em arquivo
-            var exemploUso = @"// Exemplo de uso em produção:
-var xmlSignature = new XmldsigBuilder()
-    .WithId(""AssinaturaEvento001"")
-    .WithCertificateFromFile(@""C:\Certs\certificado.pfx"", ""senha"")
-    .WithXmlContent(""#EventoId"", xmlContentToSign)
-    .Build();";
-
-            var exemploPath = Path.Combine("exemplos", "xmldsig-exemplo-producao.cs");
-            Directory.CreateDirectory("exemplos");
-            await File.WriteAllTextAsync(exemploPath, exemploUso);
-            _logger.LogInformation("✓ Exemplo de uso salvo em: {FilePath}", exemploPath);
+            _logger.LogInformation("\n=== Tipos de Eventos Suportados ===");
+            _logger.LogInformation("• evtCadDeclarante - Cadastro de Declarante");
+            _logger.LogInformation("• evtAberturaeFinanceira - Abertura de Conta");
+            _logger.LogInformation("• evtCadIntermediario - Cadastro de Intermediário");
+            _logger.LogInformation("• evtCadPatrocinado - Cadastro de Patrocinado");
+            _logger.LogInformation("• evtExclusaoeFinanceira - Exclusão de Conta");
+            _logger.LogInformation("• evtExclusao - Exclusão Geral");
+            _logger.LogInformation("• evtFechamentoeFinanceira - Fechamento de Conta");
+            _logger.LogInformation("• evtMovOpFin - Movimento de Operação Financeira");
+            _logger.LogInformation("• evtMovPP - Movimento de Pessoa Política");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao demonstrar XMLDSig builder");
             throw;
+        }
+    }
+
+    private static XmlDocument CreateSampleEventXml()
+    {
+        var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<evtAberturaeFinanceira id=""EVENTO_001"" xmlns=""http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1"">
+    <ideEvento>
+        <indRetif>1</indRetif>
+        <tpAmb>2</tpAmb>
+        <aplicEmi>1</aplicEmi>
+        <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+        <cnpjDeclarante>12345678000195</cnpjDeclarante>
+    </ideDeclarante>
+    <infoAbertura>
+        <dtInicio>2024-01-01</dtInicio>
+        <dtFim>2024-12-31</dtFim>
+    </infoAbertura>
+</evtAberturaeFinanceira>";
+
+        var xmlDoc = new XmlDocument { PreserveWhitespace = true };
+        xmlDoc.LoadXml(xml);
+        return xmlDoc;
+    }
+
+    private static XmlDocument CreateSampleBatchXml()
+    {
+        var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<eFinanceira xmlns=""http://www.eFinanceira.gov.br/schemas/loteEventos/v1_2_0"">
+    <loteEventos id=""LOTE_001"">
+        <ideTransmissor>
+            <cnpjTransmissor>12345678000195</cnpjTransmissor>
+            <nmTransmissor>Empresa Exemplo</nmTransmissor>
+        </ideTransmissor>
+        <evento id=""EVT_001"">
+            <evtAberturaeFinanceira id=""EVENTO_001"">
+                <ideEvento>
+                    <indRetif>1</indRetif>
+                    <tpAmb>2</tpAmb>
+                    <aplicEmi>1</aplicEmi>
+                    <verAplic>1.0.0</verAplic>
+                </ideEvento>
+                <ideDeclarante>
+                    <cnpjDeclarante>12345678000195</cnpjDeclarante>
+                </ideDeclarante>
+                <infoAbertura>
+                    <dtInicio>2024-01-01</dtInicio>
+                    <dtFim>2024-12-31</dtFim>
+                </infoAbertura>
+            </evtAberturaeFinanceira>
+        </evento>
+    </loteEventos>
+</eFinanceira>";
+
+        var xmlDoc = new XmlDocument { PreserveWhitespace = true };
+        xmlDoc.LoadXml(xml);
+        return xmlDoc;
+    }
+
+    private static async Task DemonstrarMensagemComAssinatura()
+    {
+        try
+        {
+            _logger!.LogInformation("\n--- 🔐 Demonstração: Mensagem Completa com Assinatura Digital ---");
+
+            // Criar mensagem completa com assinatura
+            var xmlAssinado = await ExemploAssinatura.CriarMensagemComAssinatura(_serviceProvider!, _logger);
+
+            // Verificar mensagem assinada
+            ExemploAssinatura.VerificarMensagemAssinada(xmlAssinado, _logger);
+
+            _logger.LogInformation("✅ Demonstração de mensagem com assinatura concluída com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            _logger!.LogError(ex, "❌ Erro na demonstração de mensagem com assinatura");
+            _logger.LogInformation("💡 Dica: Verifique se o certificado está configurado corretamente em appsettings.json");
         }
     }
 }

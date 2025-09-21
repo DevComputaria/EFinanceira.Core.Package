@@ -8,7 +8,7 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira;
 /// </summary>
 public sealed class EvtAberturaeFinanceiraMessage : IEFinanceiraMessage
 {
-    public string Version { get; }
+    public string Version { get; private set; }
     public string RootElementName => "evtAberturaeFinanceira";
     public string? IdAttributeName => "id";
     public string? IdValue { get; internal set; }
@@ -17,7 +17,18 @@ public sealed class EvtAberturaeFinanceiraMessage : IEFinanceiraMessage
     /// <summary>
     /// Evento tipado gerado do XSD
     /// </summary>
-    public eFinanceiraEvtAberturaeFinanceira Evento { get; }
+    public eFinanceiraEvtAberturaeFinanceira Evento { get; private set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EvtAberturaeFinanceiraMessage"/> class.
+    /// Construtor sem parâmetros necessário para serialização XML.
+    /// </summary>
+    public EvtAberturaeFinanceiraMessage()
+    {
+        Version = "v1_2_1";
+        Evento = new eFinanceiraEvtAberturaeFinanceira();
+        IdValue = string.Empty;
+    }
 
     internal EvtAberturaeFinanceiraMessage(eFinanceiraEvtAberturaeFinanceira evento, string version)
     {

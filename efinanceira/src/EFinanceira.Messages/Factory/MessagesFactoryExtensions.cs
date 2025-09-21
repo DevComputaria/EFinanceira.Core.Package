@@ -193,15 +193,10 @@ public static class MessagesFactoryExtensions
             "core",
             (Action<object>? seed) =>
             {
-                var builder = new XmldsigBuilder();
-
-                // Aplicar configurações do seed se fornecido
-                if (seed is Action<XmldsigBuilder> configure)
-                {
-                    configure(builder);
-                }
-
-                return builder.Build();
+                var signatureId = "XMLSignature_" + Guid.NewGuid().ToString("N")[..8];
+                
+                // Para compatibilidade com factory, criar assinatura básica
+                return XmldsigBuilder.BuildBasicSignature(signatureId);
             });
 
         return factory;

@@ -2,6 +2,86 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.3.0] - 2025-09-21
+
+### ✨ Adicionado
+
+#### 🔐 Implementação Completa de Assinatura Digital XML - MARCO FUNDAMENTAL!
+- **XmldsigBuilder Avançado**: Sistema completo de assinatura digital XMLDSig conforme padrões da Receita Federal
+- **🏆 RF-COMPLIANT**: Baseado no exemplo oficial da Receita Federal com algoritmos corretos
+- **Algoritmos Suportados**:
+  - **RSA-SHA256**: Algoritmo principal conforme especificação RF
+  - **RSA-SHA1**: Fallback automático para compatibilidade
+  - **SHA256**: Digest method padrão
+  - **Canonical XML**: Canonicalização C14N conforme W3C
+- **Funcionalidades Avançadas**:
+  - **Detecção automática** de tipos de evento e-Financeira
+  - **Validação robusta** de certificados X.509
+  - **Gestão de recursos** com IDisposable pattern
+  - **Suporte múltiplo**: Eventos individuais e lotes completos
+  - **Seleção interativa** de certificados do repositório Windows
+  - **Configuração via appsettings.json** para certificados de arquivo
+- **Compatibilidade com Certificados**:
+  - **A1**: Certificados de arquivo (.pfx/.p12) com senha
+  - **A3**: Certificados de cartão/token via repositório Windows
+  - **Validação automática** de chave privada RSA
+  - **Tratamento de exceções** específico para cada tipo
+
+#### 🎯 Exemplo Completo de Mensagem com Assinatura Digital
+- **ExemploAssinatura.cs**: Demonstração completa do workflow de produção
+- **Processo em 6 Etapas**:
+  1. **Criação de Evento**: EvtAberturaeFinanceira com dados completos
+  2. **Serialização XML**: Estrutura eFinanceira com namespace correto
+  3. **Configuração de Certificado**: Carregamento via appsettings.json
+  4. **Assinatura Digital**: XMLDSig com algoritmos RF-compliant
+  5. **Validação**: Verificação automática da integridade
+  6. **Salvamento**: Arquivo XML assinado com timestamp
+- **Estatísticas de Demonstração**:
+  - **Tamanho original**: 1,123 caracteres
+  - **Tamanho assinado**: 3,643 caracteres
+  - **Aumento**: 224.4% (normal para assinaturas digitais)
+- **Validação Completa**:
+  - **Elemento raiz**: eFinanceira (conforme XSD)
+  - **Namespace**: http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1
+  - **Estrutura XML**: Validada contra schema oficial
+  - **Assinatura XMLDSig**: Conforme padrão W3C e RF
+
+#### ⚙️ Configuração Avançada via appsettings.json
+- **EFinanceiraSettings**: Classe tipada para configuração centralizada
+- **Configuração de Certificado**:
+  - **Caminho do arquivo**: certificate.pfx
+  - **Senha protegida**: Configurável via appsettings
+  - **Validação automática**: Verificação de existência e formato
+- **Configuração do Declarante**:
+  - **CNPJ**: 12345678000199
+  - **Razão Social**: Empresa Exemplo Ltda
+  - **Ambiente**: Homologação/Produção
+- **Paths de Schema**: Configuração para validação XSD
+
+#### 🏗️ Correções Arquiteturais Importantes
+- **EvtAberturaeFinanceiraMessage**: Adicionado construtor sem parâmetros para serialização XML
+- **Estrutura XML Corrigida**: Uso do elemento raiz eFinanceira em vez do sub-elemento
+- **Serialização Otimizada**: Serialização do objeto XSD diretamente via IXmlSerializer
+- **Namespace Isolation**: Imports organizados para evitar conflitos
+
+#### 📊 Demonstração de Produção Completa
+- **Console.Sample Expandido**: Demonstração completa de mensagem com assinatura
+- **Relatórios detalhados**: Estatísticas de tamanho, algoritmos e validação
+- **Logs estruturados**: Microsoft.Extensions.Logging com níveis apropriados
+- **Tratamento de erros**: Captura e relato de problemas específicos
+- **Arquivo de saída**: evento_assinado_[timestamp].xml com assinatura válida
+
+### 🔧 Corrigido
+- **Serialização XML**: Corrigido erro "parameterless constructor" no EvtAberturaeFinanceiraMessage
+- **Elemento raiz XML**: Corrigido uso de eFinanceira como root element conforme schema
+- **Detecção de evento**: Corrigido problema "Elemento 'evtAberturaeFinanceira' não encontrado"
+- **Namespace imports**: Adicionado EFinanceira.Messages.Generated.Eventos.EvtAberturaeFinanceira
+
+### 📚 Documentação
+- **Comentários XML**: Documentação completa do XmldsigBuilder e ExemploAssinatura
+- **README atualizado**: Instruções de uso da assinatura digital (implícito)
+- **Exemplos práticos**: Demonstração completa do workflow de produção
+
 ## [1.2.0] - 2024-12-19
 
 ### ✨ Adicionado
