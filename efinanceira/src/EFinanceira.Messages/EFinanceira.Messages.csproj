@@ -29,6 +29,14 @@
         </None>
     </ItemGroup>
 
+    <!-- Incluir Schemas de Consulta como recursos incorporados -->
+    <ItemGroup>
+        <EmbeddedResource Include="Schemas\*.xsd" />
+        <None Include="Schemas\*.xsd">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
     <!-- Target opcional para codegen automático -->
     <Target Name="CodeGen" BeforeTargets="BeforeBuild" Condition="'$(RunCodeGen)' == 'true'">
         <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;../../build/codegen.ps1&quot;" ContinueOnError="false" WorkingDirectory="$(MSBuildProjectDirectory)" />
