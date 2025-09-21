@@ -314,6 +314,43 @@ public class Program
             await File.WriteAllTextAsync(movimentoFile, xmlMovimento);
             _logger.LogInformation("  - Salva em: {File}", movimentoFile);
 
+            // Demonstrar criação de consulta RetInfoPatrocinado
+            _logger.LogInformation("\n--- Demonstrando RetInfoPatrocinado ---");
+            var consultaPatrocinado = new EFinanceira.Messages.Builders.Consultas.RetInfoPatrocinado.RetInfoPatrocinadoBuilder("v1_2_0")
+                .WithDataHoraProcessamento(DateTime.UtcNow)
+                .WithStatus(status => status
+                    .WithCodigo("200")
+                    .WithDescricao("Consulta de patrocinado processada com sucesso"))
+                .WithEmpresaDeclarante(empresa => empresa
+                    .WithCnpj("12345678000199")
+                    .WithGiin("ABC123.45678.LE.987"))
+                .WithIdentificacoesPatrocinados(patrocinados => patrocinados
+                    .AddPatrocinado(p => p
+                        .WithGiin("XYZ987.65432.LE.321")
+                        .WithCnpj("11111111000100")
+                        .WithNumeroRecibo("REC777888999")
+                        .WithId("PAT_001"))
+                    .AddPatrocinado(p => p
+                        .WithGiin("DEF456.78901.LE.654")
+                        .WithCnpj("22222222000200")
+                        .WithNumeroRecibo("REC111222333")
+                        .WithId("PAT_002")))
+                .Build();
+
+            _logger.LogInformation("✓ Consulta RetInfoPatrocinado criada com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", consultaPatrocinado.GetType().Name);
+            _logger.LogInformation("  - Versão: {Version}", consultaPatrocinado.Version);
+
+            // Serializar consulta de patrocinado
+            var xmlPatrocinado = serializer.Serialize(consultaPatrocinado.Payload);
+            _logger.LogInformation("✓ Consulta de patrocinado serializada para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlPatrocinado.Length);
+
+            // Salvar exemplo da consulta de patrocinado
+            var patrocinadoFile = Path.Combine(Directory.GetCurrentDirectory(), "consulta_patrocinado_exemplo.xml");
+            await File.WriteAllTextAsync(patrocinadoFile, xmlPatrocinado);
+            _logger.LogInformation("  - Salva em: {File}", patrocinadoFile);
+
             // Demonstrar uso do factory
             _logger.LogInformation("\n--- Demonstrando Factory Pattern ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();

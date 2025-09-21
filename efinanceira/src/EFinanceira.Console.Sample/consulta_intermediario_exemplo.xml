@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-16"?>
 <eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesIntermediario/v1_2_0">
   <retornoConsultaInformacoesIntermediario>
-    <dataHoraProcessamento>2025-09-21T04:41:31.2504986Z</dataHoraProcessamento>
+    <dataHoraProcessamento>2025-09-21T04:49:35.6225894Z</dataHoraProcessamento>
     <status>
       <cdRetorno>200</cdRetorno>
       <descRetorno>Consulta de intermediário processada com sucesso</descRetorno>

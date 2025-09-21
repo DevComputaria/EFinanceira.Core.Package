@@ -2,9 +2,21 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
-## [1.1.0] - 2025-09-21
+## [1.1.0] - 2024-12-19
 
 ### ✨ Adicionado
+
+#### 🆕 Implementação RetInfoPatrocinado Builder
+- **RetInfoPatrocinadoBuilder**: Quarto builder de consulta implementado com sucesso
+- **Cobertura expandida**: Agora suportamos 4 dos 6 tipos principais de consulta (67% de cobertura)
+- **XML validado**: Geração de XML com 1085 caracteres, estrutura correta
+- **Factory integrado**: Registrado como "RetInfoPatrocinado" v1_2_0 no EFinanceiraMessageFactory
+- **Demonstração funcional**: Teste completo no Console.Sample com múltiplos patrocinados
+- **Estrutura especializada**:
+  - `IdentificacaoPatrocinadoBuilder` - Configuração individual de entidade patrocinada
+  - `IdentificacaoPatrocinadoCollectionBuilder` - Gestão de múltiplas entidades
+  - Campos GIIN, CNPJ, numeroRecibo, id para identificação completa
+  - Namespace isolado: `EFinanceira.Messages.Builders.Consultas.RetInfoPatrocinado`
 
 #### 📦 Integração Completa de Schemas XSD
 - **Cópia completa de schemas**: Todos os 25 arquivos XSD oficiais agora estão incorporados no projeto EFinanceira.Messages
@@ -55,6 +67,14 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
   - **Namespace isolado**: `EFinanceira.Messages.Builders.Consultas.RetInfoMovimento`
   - **Validação de dados**: Verificação automática de campos obrigatórios
 
+- **RetInfoPatrocinadoBuilder**: Builder completo para consulta de informações de patrocinado
+  - **RetInfoPatrocinadoMessage**: Implementação IEFinanceiraMessage
+  - **IdentificacaoPatrocinadoBuilder**: Configuração de dados de patrocinado individual
+  - **IdentificacaoPatrocinadoCollectionBuilder**: Gestão de múltiplos patrocinados
+  - **Campos específicos**: GIIN, CNPJ, numeroRecibo, id para identificação de entidades patrocinadas
+  - **Namespace isolado**: `EFinanceira.Messages.Builders.Consultas.RetInfoPatrocinado`
+  - **Validação de dados**: Verificação automática de campos obrigatórios
+
 #### 🏢 Organização de Builders
 - **Estrutura por pastas**: Cada builder em pasta específica para evitar ambiguidade
 - **Namespaces isolados**: Resolução de conflitos entre classes auxiliares
@@ -63,14 +83,15 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
 #### 🏭 Factory Pattern Integrado
 - **MessagesFactoryExtensions**: Extensões para configurar factory no projeto Messages
-- **Registro automático expandido**: 3 tipos de consulta registrados no factory
+- **Registro automático expandido**: 4 tipos de consulta registrados no factory
   - `RetInfoCadastral` v1_2_0 - Consulta de informações cadastrais
   - `RetInfoIntermediario` v1_2_0 - Consulta de informações de intermediário
   - `RetInfoMovimento` v1_2_0 - Consulta de informações de movimento
+  - `RetInfoPatrocinado` v1_2_0 - Consulta de informações de patrocinado
 - **Sem dependência circular**: Factory configurado via extensões, não no Core
 - **Pattern escalável**: Estrutura preparada para adicionar novos builders
 - **Métodos de conveniência**:
-  - `.AddConsultas()` - Registra consultas (3 tipos ativos)
+  - `.AddConsultas()` - Registra consultas (4 tipos ativos)
   - `.AddEventos()` - Placeholder para futuros eventos
   - `.AddLotes()` - Placeholder para futuros lotes
   - `.CreateConfiguredFactory()` - Factory completo pré-configurado
