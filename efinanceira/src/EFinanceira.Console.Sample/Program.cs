@@ -194,7 +194,7 @@ public class Program
         try
         {
             // Criar consulta diretamente usando o builder
-            var consulta = new EFinanceira.Messages.Builders.Consultas.RetInfoCadastralBuilder("v1_2_0")
+            var consulta = new EFinanceira.Messages.Builders.Consultas.RetInfoCadastral.RetInfoCadastralBuilder("v1_2_0")
                 .WithId("CONSULTA_001")
                 .WithDataHoraProcessamento(DateTime.UtcNow)
                 .WithNumeroRecibo("REC123456789")
@@ -229,6 +229,44 @@ public class Program
             var consultaFile = Path.Combine(Directory.GetCurrentDirectory(), "consulta_exemplo.xml");
             await File.WriteAllTextAsync(consultaFile, xml);
             _logger.LogInformation("  - Salva em: {File}", consultaFile);
+
+            // Demonstrar criação de consulta RetInfoIntermediario
+            _logger.LogInformation("\n--- Demonstrando RetInfoIntermediario ---");
+            var consultaIntermediario = new EFinanceira.Messages.Builders.Consultas.RetInfoIntermediario.RetInfoIntermediarioBuilder("v1_2_0")
+                .WithDataHoraProcessamento(DateTime.UtcNow)
+                .WithStatus(status => status
+                    .WithCodigo("200")
+                    .WithDescricao("Consulta de intermediário processada com sucesso"))
+                .WithEmpresaDeclarante(empresa => empresa
+                    .WithCnpj("12345678000199"))
+                .WithIdentificacoesIntermediarios(intermediarios => intermediarios
+                    .AddIntermediario(i => i
+                        .WithGiin("ABC123.45678.LE.987")
+                        .WithTipoNI(1)
+                        .WithNIIntermediario("12345678000188")
+                        .WithNumeroRecibo("REC987654321")
+                        .WithId("INT_001"))
+                    .AddIntermediario(i => i
+                        .WithGiin("DEF456.78901.LE.654")
+                        .WithTipoNI(2)
+                        .WithNIIntermediario("98765432000177")
+                        .WithNumeroRecibo("REC123789456")
+                        .WithId("INT_002")))
+                .Build();
+
+            _logger.LogInformation("✓ Consulta RetInfoIntermediario criada com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", consultaIntermediario.GetType().Name);
+            _logger.LogInformation("  - Versão: {Version}", consultaIntermediario.Version);
+
+            // Serializar consulta de intermediário
+            var xmlIntermediario = serializer.Serialize(consultaIntermediario.Payload);
+            _logger.LogInformation("✓ Consulta de intermediário serializada para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlIntermediario.Length);
+
+            // Salvar exemplo da consulta de intermediário
+            var intermediarioFile = Path.Combine(Directory.GetCurrentDirectory(), "consulta_intermediario_exemplo.xml");
+            await File.WriteAllTextAsync(intermediarioFile, xmlIntermediario);
+            _logger.LogInformation("  - Salva em: {File}", intermediarioFile);
 
             // Demonstrar uso do factory
             _logger.LogInformation("\n--- Demonstrando Factory Pattern ---");

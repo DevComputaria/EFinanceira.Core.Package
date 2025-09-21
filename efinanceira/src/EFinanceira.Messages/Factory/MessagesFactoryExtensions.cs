@@ -1,6 +1,7 @@
 using EFinanceira.Core.Abstractions;
 using EFinanceira.Core.Factory;
-using EFinanceira.Messages.Builders.Consultas;
+using EFinanceira.Messages.Builders.Consultas.RetInfoCadastral;
+using EFinanceira.Messages.Builders.Consultas.RetInfoIntermediario;
 
 namespace EFinanceira.Messages.Factory;
 
@@ -26,6 +27,23 @@ public static class MessagesFactoryExtensions
 
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<RetInfoCadastralBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
+        // Registro da consulta de informações de intermediário
+        factory.RegisterFactory(
+            MessageKind.Consulta("RetInfoIntermediario"),
+            "v1_2_0",
+            (Action<object>? seed) =>
+            {
+                var builder = new RetInfoIntermediarioBuilder("v1_2_0");
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<RetInfoIntermediarioBuilder> configure)
                 {
                     configure(builder);
                 }

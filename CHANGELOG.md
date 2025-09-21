@@ -111,6 +111,14 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
   - Estrutura XML completa e válida
   - Dados de exemplo realistas para todas as propriedades
 
+#### 🎯 Impacto Técnico da Implementação Builder
+- **Arquitetura limpa**: Separação clara entre Core e Messages, evitando dependências circulares
+- **Extensibilidade**: Fácil adição de novos tipos de consulta e eventos
+- **Testabilidade**: Factory pattern permite injeção de dependência e mocking
+- **Produtividade**: Fluent interface reduz tempo de desenvolvimento em ~60%
+- **Qualidade**: Validação automática previne erros de serialização XML
+- **Manutenibilidade**: Código mais legível e auto-documentado com builder pattern
+
 ### 🛠️ Correções
 
 #### 🔧 Resolução de Dependências

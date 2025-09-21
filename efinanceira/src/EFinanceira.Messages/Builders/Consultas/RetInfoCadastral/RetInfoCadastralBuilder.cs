@@ -1,7 +1,7 @@
 using EFinanceira.Core.Abstractions;
 using EFinanceira.Messages.Generated.Consultas.RetInfoCadastral;
 
-namespace EFinanceira.Messages.Builders.Consultas;
+namespace EFinanceira.Messages.Builders.Consultas.RetInfoCadastral;
 
 /// <summary>
 /// Mensagem de consulta de informações cadastrais
