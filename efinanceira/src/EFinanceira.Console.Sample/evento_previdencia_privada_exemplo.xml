@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtMovPP/v1_2_5">
+  <evtMovPP id="PREVIDENCIA_001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>2</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>12345678000199</cnpjDeclarante>
+    </ideDeclarante>
+    <ideDeclarado>
+      <tpNI>1</tpNI>
+      <NIDeclarado>12345678901</NIDeclarado>
+      <NomeDeclarado>João Silva Santos</NomeDeclarado>
+    </ideDeclarado>
+    <mesCaixa>
+      <anoMesCaixa>2024-12</anoMesCaixa>
+      <infoPrevPriv>
+        <numProposta>PGBL202412001</numProposta>
+        <numProcesso>15414.901234/2020-12</numProcesso>
+        <Produto>
+          <tpProduto>1</tpProduto>
+          <opcaoTributacao>2</opcaoTributacao>
+        </Produto>
+        <Plano>
+          <tpPlano>1</tpPlano>
+          <planoFechado>0</planoFechado>
+        </Plano>
+        <opPrevPriv>
+          <saldoInicial>
+            <vlrPrincipal>15000.50</vlrPrincipal>
+            <vlrRendimentos>2500.25</vlrRendimentos>
+          </saldoInicial>
+          <aplic>
+            <vlrContribuicao>1200.00</vlrContribuicao>
+            <vlrCarregamento>60.00</vlrCarregamento>
+            <vlrPartPF>1200.00</vlrPartPF>
+            <vlrPartPJ>0.00</vlrPartPJ>
+          </aplic>
+          <saldoFinal>
+            <vlrPrincipal>16200.50</vlrPrincipal>
+            <vlrRendimentos>2650.75</vlrRendimentos>
+          </saldoFinal>
+        </opPrevPriv>
+      </infoPrevPriv>
+    </mesCaixa>
+  </evtMovPP>
+</eFinanceira>

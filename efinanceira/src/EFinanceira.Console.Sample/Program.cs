@@ -46,6 +46,7 @@ public class Program
             await DemonstrarEvtMovimentacaoFinanceira();
             await DemonstrarEvtMovimentacaoFinanceiraAnual();
             await DemonstrarEvtPatrocinado();
+            await DemonstrarEvtPrevidenciaPrivada();
             await DemonstrarEvtExclusao();
             await DemonstrarEvtExclusaoeFinanceira();
             await DemonstrarEvtFechamentoeFinanceira();
@@ -1204,6 +1205,104 @@ public class Program
         catch (Exception ex)
         {
             _logger!.LogError(ex, "Erro ao criar evento EvtPatrocinado");
+            throw;
+        }
+    }
+
+    private static async Task DemonstrarEvtPrevidenciaPrivada()
+    {
+        _logger!.LogInformation("\n--- 11. Demonstração: Evento EvtPrevidenciaPrivada ---");
+
+        try
+        {
+            var cnpjDeclarante = _configuration!["EFinanceira:Declarante:Cnpj"]!;
+
+            // Criar evento de previdência privada usando builder fluente
+            var eventoPrevidencia = new EFinanceira.Messages.Builders.Eventos.EvtPrevidenciaPrivada.EvtPrevidenciaPrivadaBuilder()
+                .ComId("PREVIDENCIA_001")
+                .ComIdeEvento(ide => ide
+                    .ComIndRetificacao(1) // Evento Original
+                    .ComTpAmb(2) // Homologação
+                    .ComAplicEmi(1) // Aplicativo do declarante
+                    .ComVerAplic("1.0.0"))
+                .ComIdeDeclarante(decl => decl
+                    .ComCnpjDeclarante(cnpjDeclarante))
+                .ComIdeDeclarado(declarado => declarado
+                    .ComTpNI(1) // CPF
+                    .ComNIDeclarado("12345678901")
+                    .ComNomeDeclarado("João Silva Santos"))
+                .ComMesCaixa(mesCaixa => mesCaixa
+                    .ComAnoMesCaixa("2024-12")
+                    .ComInfoPrevPriv(infoPrevPriv => infoPrevPriv
+                        .ComNumProposta("PGBL202412001")
+                        .ComNumProcesso("15414.901234/2020-12")
+                        .ComProduto(produto => produto
+                            .ComTpProduto(1) // PGBL
+                            .ComOpcaoTributacao(2)) // Regressiva
+                        .ComPlano(plano => plano
+                            .ComTpPlano(1) // Aberto
+                            .ComPlanoFechado(0)) // Não é plano fechado
+                        .ComOpPrevPriv(opPrevPriv => opPrevPriv
+                            .ComSaldoInicial(saldoInicial => saldoInicial
+                                .ComVlrPrincipal("15000.50")
+                                .ComVlrRendimentos("2500.25"))
+                            .ComAplic(aplic => aplic
+                                .ComVlrContribuicao("1200.00")
+                                .ComVlrCarregamento("60.00")
+                                .ComVlrPartPF("1200.00")
+                                .ComVlrPartPJ("0.00"))
+                            .ComSaldoFinal(saldoFinal => saldoFinal
+                                .ComVlrPrincipal("16200.50")
+                                .ComVlrRendimentos("2650.75")))))
+                .Build();
+
+            _logger.LogInformation("✓ Evento EvtPrevidenciaPrivada criado com sucesso");
+            _logger.LogInformation("  - ID: {EventoId}", eventoPrevidencia.IdValue);
+            _logger.LogInformation("  - Versão: {Versao}", eventoPrevidencia.Version);
+            _logger.LogInformation("  - Root Element: {RootElement}", eventoPrevidencia.RootElementName);
+
+            // Serializar para XML
+            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
+
+            var eFinanceira = new EFinanceira.Messages.Generated.Eventos.EvtPrevidenciaPrivada.eFinanceira
+            {
+                evtMovPP = eventoPrevidencia.Evento
+            };
+
+            var xml = serializer.Serialize(eFinanceira);
+            _logger.LogInformation("✓ Evento serializado para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
+
+            // Salvar arquivo
+            var fileName = Path.Combine(Directory.GetCurrentDirectory(), "evento_previdencia_privada_exemplo.xml");
+            await File.WriteAllTextAsync(fileName, xml);
+            _logger.LogInformation("  - Salvo em: {File}", fileName);
+
+            // Demonstrar uso do factory
+            _logger.LogInformation("\n--- Demonstrando Factory Pattern ---");
+            var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+
+            // Listar tipos registrados
+            var tiposRegistrados = factory.GetRegisteredTypes();
+            _logger.LogInformation("✓ Factory configurado com {Count} tipos de mensagem", tiposRegistrados.Count());
+            _logger.LogInformation("✓ Evento EvtPrevidenciaPrivada registrado no factory");
+
+            // Relatório do evento
+            _logger.LogInformation("\n=== Relatório do Evento EvtPrevidenciaPrivada ===");
+            _logger.LogInformation("  - Evento ID: {EventoId}", eventoPrevidencia.IdValue);
+            _logger.LogInformation("  - Declarante: {Declarante}", cnpjDeclarante);
+            _logger.LogInformation("  - Declarado: João Silva Santos (CPF: 12345678901)");
+            _logger.LogInformation("  - Produto: PGBL com tributação regressiva");
+            _logger.LogInformation("  - Proposta: PGBL202412001");
+            _logger.LogInformation("  - Processo SUSEP: 15414.901234/2020-12");
+            _logger.LogInformation("  - Tipo de Movimento: Previdência Privada");
+            _logger.LogInformation("  - Contribuição: R$ 1.200,00");
+            _logger.LogInformation("  - Saldo Final: R$ 18.851,25 (Principal + Rendimentos)");
+            _logger.LogInformation("  - Arquivo XML: {Size:N0} caracteres", xml.Length);
+        }
+        catch (Exception ex)
+        {
+            _logger!.LogError(ex, "Erro ao criar evento EvtPrevidenciaPrivada");
             throw;
         }
     }

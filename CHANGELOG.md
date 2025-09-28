@@ -2,6 +2,49 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.12.0] - 2024-12-19
+
+### ✨ Adicionado
+
+#### 🎯 Implementação EvtPrevidenciaPrivada Builder - DÉCIMO PRIMEIRO EVENTO COMPLETO!
+- **EvtPrevidenciaPrivadaBuilder**: Décimo primeiro builder de evento implementado com sucesso total para gestão de previdência privada
+- **🏆 COBERTURA MÁXIMA**: Agora suportamos 11 tipos de eventos completos (todos os anteriores + EvtPrevidenciaPrivada)
+- **Builder de previdência**: Sistema especializado para fundos de pensão, PGBL, VGBL e planos previdenciários
+- **XML validado**: Geração de XML estruturado corretamente (1,660 caracteres exemplo) com serialização otimizada
+- **Factory expandido**: Registrado como "EvtPrevidenciaPrivada" v1_2_5 no EFinanceiraMessageFactory (18º tipo de mensagem)
+- **Demonstração completa**: Implementação direta no Console.Sample com cenários reais de previdência
+- **Arquitetura previdenciária implementada com suporte completo**:
+  - **EvtPrevidenciaPrivadaBuilder**: Builder principal com 11 sub-builders especializados (700+ linhas)
+  - **IdeEventoBuilder**: Configuração completa com indicador de retificação, ambiente, aplicativo emissor e versão
+  - **IdeDeclaranteBuilder**: Dados do declarante (CNPJ)
+  - **IdeDeclaradoBuilder**: Informações da pessoa declarada (CPF/CNPJ + nome)
+  - **MesCaixaBuilder**: Gestão de fluxo de caixa mensal com data (ano-mês)
+  - **InfoPrevPrivBuilder**: Informações centrais de previdência privada
+  - **ProdutoBuilder**: Configuração de produtos (PGBL, VGBL) com tributação (progressiva/regressiva)
+  - **PlanoBuilder**: Gestão de planos (abertos/fechados) com configuração de tipo
+  - **OpPrevPrivBuilder**: Operações previdenciárias completas
+  - **SaldoInicialBuilder**: Saldo inicial (principal + rendimentos)
+  - **AplicBuilder**: Aplicações e contribuições (valor, carregamento, PF/PJ)
+  - **SaldoFinalBuilder**: Saldo final com cálculos precisos
+
+#### 🔧 Características Técnicas
+- **XSD Compliance**: Baseado em evtPrevidenciaPrivada-v1_2_5.xsd oficial da Receita Federal
+- **Namespace correto**: http://www.eFinanceira.gov.br/schemas/evtMovPP/v1_2_5
+- **Elemento raiz**: evtMovPP (Movimento de Previdência Privada)
+- **Validação rigorosa**: Tipos de produtos (1=PGBL, 2=VGBL), planos (1=Aberto, 2=Fechado), tributação
+- **Compilação verificada**: Sucesso em 83.6s com todos os projetos
+- **Runtime testado**: Execução completa com XML gerado e demonstração funcional
+
+#### 📋 Gestão de Fundos de Pensão Suportada
+- **Produtos PGBL**: Plano Gerador de Benefício Livre com tributação configurável
+- **Produtos VGBL**: Vida Gerador de Benefício Livre para não dedutíveis  
+- **Planos Abertos**: Acessíveis ao público geral
+- **Planos Fechados**: Específicos para grupos (empresas, categorias)
+- **Tributação Progressiva**: Tabela progressiva mensal
+- **Tributação Regressiva**: Tabela regressiva por tempo de contribuição
+- **Controle Financeiro**: Saldos iniciais, contribuições, carregamentos, rendimentos
+- **Segregação PF/PJ**: Separação entre contribuições pessoa física e jurídica
+
 ## [1.11.0] - 2024-12-19
 
 ### ✨ Adicionado
