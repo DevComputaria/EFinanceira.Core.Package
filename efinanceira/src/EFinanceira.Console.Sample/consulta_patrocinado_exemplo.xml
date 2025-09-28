@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-16"?>
 <eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesPatrocinado/v1_2_0">
   <retornoConsultaInformacoesPatrocinado>
-    <dataHoraProcessamento>2025-09-28T22:16:58.1215456Z</dataHoraProcessamento>
+    <dataHoraProcessamento>2025-09-28T22:28:07.6579307Z</dataHoraProcessamento>
     <status>
       <cdRetorno>200</cdRetorno>
       <descRetorno>Consulta de patrocinado processada com sucesso</descRetorno>

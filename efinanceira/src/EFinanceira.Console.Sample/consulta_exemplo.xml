@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-16"?>
 <eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaInformacoesCadastrais/v1_2_0">
   <retornoConsultaInformacoesCadastrais>
-    <dataHoraProcessamento>2025-09-28T22:16:57.852682Z</dataHoraProcessamento>
+    <dataHoraProcessamento>2025-09-28T22:28:07.2437516Z</dataHoraProcessamento>
     <status>
       <cdRetorno>200</cdRetorno>
       <descRetorno>Consulta processada com sucesso</descRetorno>

@@ -2,6 +2,64 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.8.0] - 2025-09-28
+
+### ✨ Adicionado
+
+#### 🎯 Implementação EvtIntermediario Builder - SÉTIMO EVENTO COMPLETO!
+- **EvtIntermediarioBuilder**: Sétimo builder de evento implementado com sucesso total
+- **🏆 COBERTURA EXPANDIDA**: Agora suportamos 7 tipos de eventos (EvtAberturaeFinanceira + EvtCadDeclarante + EvtIntermediario + EvtExclusao + EvtExclusaoeFinanceira + EvtFechamentoeFinanceira + EvtFechamentoeFinanceiraAlt)
+- **Builder internacional**: Sistema especializado para cadastro de intermediários financeiros globais
+- **XML validado**: Geração de XML estruturado corretamente (954 caracteres exemplo) com serialização otimizada
+- **Factory integrado**: Registrado como "EvtIntermediario" v1_2_0 no EFinanceiraMessageFactory
+- **Demonstração dupla**: Implementação direta + Factory Pattern no Console.Sample
+- **Arquitetura internacional implementada**:
+  - **IdeEventoBuilder**: Configuração completa com indicador de retificação, número do recibo, ambiente, aplicativo emissor e versão
+  - **IdeDeclaranteBuilder**: Dados do declarante (CNPJ)
+  - **InfoIntermediarioBuilder**: Informações especializadas do intermediário financeiro internacional
+  - **EnderecoBuilder**: Endereço internacional em formato livre
+- **Funcionalidades especializadas para FATCA/CRS**:
+  - **GIIN (Global Intermediary Identification Number)**: Identificação global do intermediário financeiro
+  - **Tipo de NI**: Suporte a CPF (1), CNPJ (2), Passaporte (3) ou Outro (4)
+  - **NI Intermediário**: Número de identificação específico do intermediário
+  - **Nome Intermediário**: Razão social ou denominação do intermediário
+  - **Endereço Internacional**: Formato livre para endereços estrangeiros
+  - **Município**: Cidade ou município do intermediário
+  - **País**: Código de país (formato ISO)
+  - **País de Residência**: País de residência fiscal (código ISO 3166-1 alpha-2)
+  - **Ambiente configurável**: Homologação (2) ou Produção (1)
+- **Namespace isolado**: `EFinanceira.Messages.Builders.Eventos.EvtIntermediario`
+- **Interface fluente internacional**: Padrão builder com validação hierárquica e sub-builders especializados
+- **Wrapper IEFinanceiraMessage**: EvtIntermediarioMessage implementa interface corretamente
+- **Demonstrações XML internacionais**:
+  - **Exemplo completo**: 954 caracteres com dados de intermediário americano (Wall Street)
+  - **Factory internacional**: 949 caracteres via Factory Pattern com intermediário inglês (Londres)
+
+#### 📊 Estatísticas de Implementação
+- **Factory expandido**: Agora suporta 14 tipos de mensagem (6 consultas + 7 eventos + 1 signature)
+- **Console.Sample atualizado**: Nova seção "--- 10. Demonstração: Evento EvtIntermediario ---"
+- **Arquivos XML gerados**:
+  - `evento_intermediario_exemplo.xml`: Versão completa (954 chars) - Intermediário Internacional S.A. (US)
+  - `evento_intermediario_factory.xml`: Versão factory (949 chars) - Factory Intermediário Global Ltd. (GB)
+- **Relatório detalhado**: ID, CNPJ, GIIN, nome do intermediário, NI intermediário e país de residência
+- **Namespace correto**: `http://www.eFinanceira.gov.br/schemas/evtCadIntermediario/v1_2_0`
+
+#### 🔧 Características Técnicas Internacionais
+- **Builder hierárquico**: Sistema especializado com 5 sub-builders para intermediários globais
+- **Validação FATCA/CRS**: Verificação de campos obrigatórios para compliance internacional
+- **Geração automática**: IDs únicos no formato "INTERMEDIARIO_" + número sequencial
+- **Estrutura internacional**: XML adaptado para dados de intermediários financeiros globais
+- **Integração perfeita**: Compatibilidade total com sistema de serialização e factory existentes
+- **Suporte multi-país**: Endereços e identificações internacionais
+- **GIIN compliance**: Campo obrigatório para identificação global de intermediários
+
+#### 🌍 Marcos Técnicos Internacionais Alcançados
+- **Primeiro evento internacional**: Implementação especializada para intermediários financeiros globais
+- **Compliance FATCA/CRS**: Suporte completo às regulamentações internacionais
+- **Endereços globais**: Sistema flexível para endereços internacionais em formato livre
+- **Múltiplos tipos de NI**: Suporte a CPF, CNPJ, Passaporte e outros documentos
+- **Validação ISO**: Códigos de país seguindo padrão internacional ISO 3166-1 alpha-2
+
 ## [1.7.0] - 2025-09-28
 
 ### ✨ Adicionado
@@ -36,7 +94,7 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
   - **Factory simples**: 958 caracteres via Factory Pattern
 
 #### 📊 Estatísticas de Implementação
-- **Factory expandido**: Agora suporta 12 tipos de mensagem (6 consultas + 5 eventos + 1 signature)
+- **Factory expandido**: Agora suporta 13 tipos de mensagem (6 consultas + 6 eventos + 1 signature)
 - **Console.Sample atualizado**: Nova seção "--- 8. Demonstração: Evento EvtFechamentoeFinanceira ---"
 - **Arquivos XML gerados**:
   - `evento_fechamento_efinanceira_exemplo.xml`: Versão completa (1602 chars)

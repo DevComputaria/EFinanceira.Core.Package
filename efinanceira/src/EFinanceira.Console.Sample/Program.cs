@@ -42,6 +42,7 @@ public class Program
             await DemonstrarCriacaoConsulta();
             await DemonstrarEvtAberturaeFinanceira();
             await DemonstrarEvtCadDeclarante();
+            await DemonstrarEvtIntermediario();
             await DemonstrarEvtExclusao();
             await DemonstrarEvtExclusaoeFinanceira();
             await DemonstrarEvtFechamentoeFinanceira();
@@ -743,6 +744,128 @@ public class Program
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao criar evento EvtCadDeclarante");
+            throw;
+        }
+    }
+
+    private static async Task DemonstrarEvtIntermediario()
+    {
+        _logger!.LogInformation("\n--- 10. Demonstração: Evento EvtIntermediario ---");
+
+        try
+        {
+            var cnpjDeclarante = "12345678000199";
+            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
+
+            // Criar evento usando o builder
+            var eventoIntermediario = new EFinanceira.Messages.Builders.Eventos.EvtIntermediario.EvtIntermediarioBuilder("v1_2_0")
+                .ComId("INTERMEDIARIO_001")
+                .ComIdeEvento(ide => ide
+                    .ComIndRetificacao(1) // 1-Arquivo original, 2-Arquivo de retificação
+                    .ComTpAmb(2) // 1-Produção, 2-Homologação
+                    .ComAplicEmi(1) // Aplicativo emissor do evento
+                    .ComVerAplic("1.0.0"))
+                .ComIdeDeclarante(dec => dec
+                    .ComCnpjDeclarante(cnpjDeclarante))
+                .ComInfoIntermediario(info => info
+                    .ComGIIN("INT123.45678.LE.789")
+                    .ComTpNI(2) // 1-CPF, 2-CNPJ, 3-Passaporte, 4-Outro
+                    .ComNIIntermediario("98765432000111")
+                    .ComNomeIntermediario("Intermediário Financeiro Internacional S.A.")
+                    .ComEndereco(end => end
+                        .ComEnderecoLivre("Wall Street, 100, Manhattan")
+                        .ComMunicipio("New York")
+                        .ComPais("US"))
+                    .ComPaisResidencia("US"))
+                .Build();
+
+            _logger.LogInformation("✓ Evento EvtIntermediario criado com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", eventoIntermediario.GetType().Name);
+            _logger.LogInformation("  - ID: {Id}", eventoIntermediario.IdValue);
+            _logger.LogInformation("  - Versão: {Version}", eventoIntermediario.Version);
+            _logger.LogInformation("  - Elemento Raiz: {RootElement}", eventoIntermediario.RootElementName);
+
+            // Criar wrapper eFinanceira para serialização
+            var eFinanceira = new EFinanceira.Messages.Generated.Eventos.EvtIntermediario.eFinanceira
+            {
+                evtCadIntermediario = eventoIntermediario.Evento
+            };
+
+            // Serializar para XML
+            var xml = serializer.Serialize(eFinanceira);
+            _logger.LogInformation("✓ Evento serializado para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
+
+            // Salvar arquivo
+            var fileName = Path.Combine(Directory.GetCurrentDirectory(), "evento_intermediario_exemplo.xml");
+            await File.WriteAllTextAsync(fileName, xml);
+            _logger.LogInformation("  - Salvo em: {File}", fileName);
+
+            // Demonstrar criação via Factory
+            _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
+
+            var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+
+            Action<object> factoryConfig = (object builderObj) =>
+            {
+                var builder = (EFinanceira.Messages.Builders.Eventos.EvtIntermediario.EvtIntermediarioBuilder)builderObj;
+                builder
+                    .ComId("FACTORY_INTERMEDIARIO_001")
+                    .ComIdeEvento(ide => ide
+                        .ComIndRetificacao(1)
+                        .ComTpAmb(2)
+                        .ComAplicEmi(1)
+                        .ComVerAplic("1.0.0"))
+                    .ComIdeDeclarante(dec => dec
+                        .ComCnpjDeclarante(cnpjDeclarante))
+                    .ComInfoIntermediario(info => info
+                        .ComGIIN("FACTORY789.12345.LE.456")
+                        .ComTpNI(2)
+                        .ComNIIntermediario("11223344000155")
+                        .ComNomeIntermediario("Factory Intermediário Global Ltd.")
+                        .ComEndereco(end => end
+                            .ComEnderecoLivre("City Road, 200, London")
+                            .ComMunicipio("London")
+                            .ComPais("GB"))
+                        .ComPaisResidencia("GB"));
+            };
+
+            var eventoViaFactory = (EFinanceira.Messages.Builders.Eventos.EvtIntermediario.EvtIntermediarioMessage)factory.Create(
+                EFinanceira.Core.Factory.MessageKind.Evento("EvtIntermediario"),
+                "v1_2_0",
+                factoryConfig);
+
+            _logger.LogInformation("✓ Evento criado via Factory com sucesso");
+            _logger.LogInformation("  - ID via Factory: {Id}", eventoViaFactory.IdValue);
+
+            // Serializar evento criado via factory
+            var eFinanceiraFactory = new EFinanceira.Messages.Generated.Eventos.EvtIntermediario.eFinanceira
+            {
+                evtCadIntermediario = eventoViaFactory.Evento
+            };
+            
+            var xmlFactory = serializer.Serialize(eFinanceiraFactory);
+            _logger.LogInformation("✓ Evento via Factory serializado");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
+
+            // Salvar evento criado via factory
+            var factoryFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_intermediario_factory.xml");
+            await File.WriteAllTextAsync(factoryFile, xmlFactory);
+            _logger.LogInformation("  - Salvo em: {File}", factoryFile);
+
+            // Relatório do evento
+            _logger.LogInformation("\n=== Relatório do Evento EvtIntermediario ===");
+            _logger.LogInformation("  - Evento ID: {EventoId}", eventoIntermediario.IdValue);
+            _logger.LogInformation("  - Declarante: {Declarante}", cnpjDeclarante);
+            _logger.LogInformation("  - GIIN: INT123.45678.LE.789");
+            _logger.LogInformation("  - Intermediário: Intermediário Financeiro Internacional S.A.");
+            _logger.LogInformation("  - NI Intermediário: 98765432000111");
+            _logger.LogInformation("  - País Residência: US (Estados Unidos)");
+            _logger.LogInformation("  - Arquivo XML: {Size:N0} caracteres", xml.Length);
+        }
+        catch (Exception ex)
+        {
+            _logger!.LogError(ex, "Erro ao criar evento EvtIntermediario");
             throw;
         }
     }
