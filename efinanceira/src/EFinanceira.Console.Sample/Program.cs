@@ -45,6 +45,7 @@ public class Program
             await DemonstrarEvtExclusao();
             await DemonstrarEvtExclusaoeFinanceira();
             await DemonstrarEvtFechamentoeFinanceira();
+            await DemonstrarEvtFechamentoeFinanceiraAlt();
             await DemonstrarXmldsigBuilder();
             await DemonstrarMensagemComAssinatura();
             await DemonstrarValidacao();
@@ -1485,6 +1486,139 @@ public class Program
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao criar evento EvtFechamentoeFinanceira");
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Demonstração do evento EvtFechamentoeFinanceiraAlt
+    /// </summary>
+    private static async Task DemonstrarEvtFechamentoeFinanceiraAlt()
+    {
+        _logger!.LogInformation("\n--- 9. Demonstração: Evento EvtFechamentoeFinanceiraAlt ---");
+
+        try
+        {
+            var cnpjDeclarante = _configuration!["EFinanceira:Declarante:Cnpj"]!;
+
+            // Criar evento de fechamento e-Financeira alternativo usando builder fluente
+            var eventoFechamentoAlt = new EFinanceira.Messages.Builders.Eventos.EvtFechamentoeFinanceiraAlt.EvtFechamentoeFinanceiraAltBuilder("v1_2_2_alt")
+                .WithId("FECHAMENTO_ALT_001")
+                .WithIdeEvento(ide => ide
+                    .WithIndicadorRetificacao(1) // Original
+                    .WithAmbiente(2) // Homologação
+                    .WithAplicativoEmi(1) // Aplicativo do contribuinte
+                    .WithVersaoAplicativo("1.0.0"))
+                .WithIdeDeclarante(decl => decl
+                    .WithCnpj(cnpjDeclarante))
+                .WithInfoFechamento(info => info
+                    .WithDataInicio(new DateTime(2024, 7, 1))
+                    .WithDataFim(new DateTime(2024, 12, 31))
+                    .WithSituacaoEspecial(2)) // Evento de fechamento
+                .WithFechamentoPP(pp => pp
+                    .AdicionarFechamentoMes("202407", 8)
+                    .AdicionarFechamentoMes("202408", 12)
+                    .AdicionarFechamentoMes("202409", 6)
+                    .AdicionarFechamentoMes("202410", 9))
+                .WithFechamentoMovOpFin(movOpFin => movOpFin
+                    .AdicionarFechamentoMes(mes => mes
+                        .WithAnoMesCaixa("202407")
+                        .WithQuantidadeArquivos(18))
+                    .AdicionarFechamentoMes(mes => mes
+                        .WithAnoMesCaixa("202408")
+                        .WithQuantidadeArquivos(22))
+                    .AdicionarFechamentoMes(mes => mes
+                        .WithAnoMesCaixa("202409")
+                        .WithQuantidadeArquivos(15)))
+                .WithFechamentoMovOpFinAnual(anual => anual
+                    .WithFechamentoAno(ano => ano
+                        .WithAnoCaixa("2024")
+                        .WithQuantidadeArquivos(180)))
+                .Build();
+
+            _logger.LogInformation("✓ Evento EvtFechamentoeFinanceiraAlt criado com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", eventoFechamentoAlt.GetType().Name);
+            _logger.LogInformation("  - ID: {Id}", eventoFechamentoAlt.IdValue);
+            _logger.LogInformation("  - Versão: {Version}", eventoFechamentoAlt.Version);
+            _logger.LogInformation("  - Elemento Raiz: {Root}", eventoFechamentoAlt.RootElementName);
+
+            // Demonstrar serialização do evento
+            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
+            
+            // Criar o elemento raiz eFinanceira que contém o evento
+            var eFinanceiraRaiz = new EFinanceira.Messages.Generated.Eventos.EvtFechamentoeFinanceiraAlt.eFinanceira
+            {
+                evtFechamentoeFinanceira = eventoFechamentoAlt.Evento
+            };
+            
+            var xml = serializer.Serialize(eFinanceiraRaiz);
+            _logger.LogInformation("✓ Evento serializado para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
+
+            // Salvar exemplo do evento
+            var eventoFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_fechamento_alt_exemplo.xml");
+            await File.WriteAllTextAsync(eventoFile, xml);
+            _logger.LogInformation("  - Salvo em: {File}", eventoFile);
+
+            // Demonstrar uso do factory para criar o evento
+            _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
+            var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+            
+            // Configuração simples para o factory
+            Action<object>? factoryConfig = builder =>
+            {
+                var typedBuilder = (EFinanceira.Messages.Builders.Eventos.EvtFechamentoeFinanceiraAlt.EvtFechamentoeFinanceiraAltBuilder)builder!;
+                typedBuilder
+                    .WithId("FACTORY_FECHAMENTO_ALT_001")
+                    .WithIdeDeclarante(decl => decl
+                        .WithCnpj(cnpjDeclarante))
+                    .WithInfoFechamento(info => info
+                        .WithDataInicio(new DateTime(2024, 10, 1))
+                        .WithDataFim(new DateTime(2024, 12, 31))
+                        .WithSituacaoEspecial(2))
+                    .WithFechamentoPP(pp => pp
+                        .AdicionarFechamentoMes("202410", 4)
+                        .AdicionarFechamentoMes("202411", 6)
+                        .AdicionarFechamentoMes("202412", 8));
+            };
+
+            var eventoViaFactory = (EFinanceira.Messages.Builders.Eventos.EvtFechamentoeFinanceiraAlt.EvtFechamentoeFinanceiraAltMessage)factory.Create(
+                EFinanceira.Core.Factory.MessageKind.Evento("EvtFechamentoeFinanceiraAlt"),
+                "v1_2_2_alt",
+                factoryConfig);
+
+            _logger.LogInformation("✓ Evento criado via Factory com sucesso");
+            _logger.LogInformation("  - ID via Factory: {Id}", eventoViaFactory.IdValue);
+
+            // Serializar evento criado via factory
+            var eFinanceiraFactory = new EFinanceira.Messages.Generated.Eventos.EvtFechamentoeFinanceiraAlt.eFinanceira
+            {
+                evtFechamentoeFinanceira = eventoViaFactory.Evento
+            };
+            
+            var xmlFactory = serializer.Serialize(eFinanceiraFactory);
+            _logger.LogInformation("✓ Evento via Factory serializado");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
+
+            // Salvar evento criado via factory
+            var factoryFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_fechamento_alt_factory.xml");
+            await File.WriteAllTextAsync(factoryFile, xmlFactory);
+            _logger.LogInformation("  - Salvo em: {File}", factoryFile);
+
+            // Relatório do evento
+            _logger.LogInformation("\n=== Relatório do Evento EvtFechamentoeFinanceiraAlt ===");
+            _logger.LogInformation("  - Evento ID: {EventoId}", eventoFechamentoAlt.IdValue);
+            _logger.LogInformation("  - Declarante: {Declarante}", cnpjDeclarante);
+            _logger.LogInformation("  - Período: {Inicio} a {Fim}", "01/07/2024", "31/12/2024");
+            _logger.LogInformation("  - Fechamentos PP: 4 meses (Jul-Out 2024)");
+            _logger.LogInformation("  - Fechamentos MovOpFin: 3 meses");
+            _logger.LogInformation("  - Fechamento Anual: 1 ano (2024)");
+            _logger.LogInformation("  - Arquivo XML: {Size:N0} caracteres", xml.Length);
+            _logger.LogInformation("  - Versão Alternativa: v1_2_2_alt");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao criar evento EvtFechamentoeFinanceiraAlt");
             throw;
         }
     }

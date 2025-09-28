@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtFechamentoeFinanceira/v1_2_2">
+  <evtFechamentoeFinanceira id="FACTORY_FECHAMENTO_ALT_001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>2</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>12345678000199</cnpjDeclarante>
+    </ideDeclarante>
+    <infoFechamento>
+      <dtInicio>2024-10-01</dtInicio>
+      <dtFim>2024-12-31</dtFim>
+      <sitEspecial>2</sitEspecial>
+    </infoFechamento>
+    <FechamentoPP>
+      <FechamentoMes>
+        <anoMesCaixa>202410</anoMesCaixa>
+        <quantArqTrans>4</quantArqTrans>
+      </FechamentoMes>
+      <FechamentoMes>
+        <anoMesCaixa>202411</anoMesCaixa>
+        <quantArqTrans>6</quantArqTrans>
+      </FechamentoMes>
+      <FechamentoMes>
+        <anoMesCaixa>202412</anoMesCaixa>
+        <quantArqTrans>8</quantArqTrans>
+      </FechamentoMes>
+    </FechamentoPP>
+  </evtFechamentoeFinanceira>
+</eFinanceira>

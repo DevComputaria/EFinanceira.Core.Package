@@ -11,6 +11,7 @@ using EFinanceira.Messages.Builders.Eventos.EvtCadDeclarante;
 using EFinanceira.Messages.Builders.Eventos.EvtExclusao;
 using EFinanceira.Messages.Builders.Eventos.EvtExclusaoeFinanceira;
 using EFinanceira.Messages.Builders.Eventos.EvtFechamentoeFinanceira;
+using EFinanceira.Messages.Builders.Eventos.EvtFechamentoeFinanceiraAlt;
 using EFinanceira.Messages.Builders.Xmldsig;
 
 namespace EFinanceira.Messages.Factory;
@@ -217,6 +218,23 @@ public static class MessagesFactoryExtensions
 
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<EvtFechamentoeFinanceiraBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
+        // Registro do evento de Fechamento e-Financeira Alternativo
+        factory.RegisterFactory(
+            MessageKind.Evento("EvtFechamentoeFinanceiraAlt"),
+            "v1_2_2_alt",
+            (Action<object>? seed) =>
+            {
+                var builder = new EvtFechamentoeFinanceiraAltBuilder("v1_2_2_alt");
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<EvtFechamentoeFinanceiraAltBuilder> configure)
                 {
                     configure(builder);
                 }
