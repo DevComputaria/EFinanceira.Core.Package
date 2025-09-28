@@ -2,6 +2,54 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.4.0] - 2025-09-28
+
+### ✨ Adicionado
+
+#### 🎯 Implementação EvtCadEmpresaDeclarante Builder - SEGUNDO EVENTO COMPLETO!
+- **EvtCadDeclaranteBuilder**: Segundo builder de evento implementado com sucesso total
+- **🏆 EXPANSÃO DA COBERTURA**: Agora suportamos 2 tipos de eventos (EvtAberturaeFinanceira + EvtCadDeclarante)
+- **Builder completo**: Sistema robusto com 1,100+ linhas de código organizado em builders hierárquicos
+- **XML validado**: Geração de XML estruturado corretamente (1,294 caracteres) com serialização funcional
+- **Factory integrado**: Registrado como "EvtCadDeclarante" v1_2_0 no EFinanceiraMessageFactory
+- **Demonstração dupla**: Implementação direta + Factory Pattern no Console.Sample
+- **Arquitetura complexa implementada**:
+  - **IdeEventoBuilder**: Configuração de indicador de retificação, ambiente, emissor
+  - **IdeDeclaranteBuilder**: Dados do declarante (CNPJ)
+  - **InfoCadastroBuilder**: Informações cadastrais completas do declarante
+  - **NIFBuilder**: Número de Identificação Fiscal com país de emissão e tipo
+  - **PaisResidenciaBuilder**: Configuração de país de residência fiscal
+  - **EnderecoOutrosBuilder**: Endereços adicionais com tipo e país
+- **Funcionalidades especializadas**:
+  - **GIIN**: Global Intermediary Identification Number
+  - **Categoria Declarante**: Classificação (Instituição Financeira, etc.)
+  - **NIF completo**: Número, país emissor, tipo de NIF
+  - **Endereços múltiplos**: Endereço livre + endereços outros países
+  - **Dados geográficos**: Município, UF, CEP, País
+  - **Residência fiscal**: Configuração de países de residência
+- **Namespace isolado**: `EFinanceira.Messages.Builders.Eventos.EvtCadEmpresaDeclarante`
+- **Interface fluente**: Padrão builder com validação e estrutura hierárquica
+- **Wrapper IEFinanceiraMessage**: EvtCadDeclaranteMessage implementa interface corretamente
+- **Demonstrações XML**:
+  - **Exemplo completo**: 1,294 caracteres com todos os campos preenchidos
+  - **Factory simples**: 889 caracteres com campos essenciais via Factory Pattern
+
+#### 📊 Estatísticas de Implementação
+- **Factory expandido**: Agora suporta 9 tipos de mensagem (6 consultas + 2 eventos + 1 signature)
+- **Console.Sample atualizado**: Nova seção "--- 5. Demonstração: Evento EvtCadDeclarante ---"
+- **Arquivos XML gerados**:
+  - `evento_cad_declarante_exemplo.xml`: Versão completa (1,294 chars)
+  - `evento_cad_declarante_factory.xml`: Versão factory (889 chars)
+- **Relatório detalhado**: ID, CNPJ, GIIN, categoria e tamanho do arquivo
+- **Namespace correto**: `http://www.eFinanceira.gov.br/schemas/evtCadDeclarante/v1_2_0`
+
+#### 🔧 Melhorias Técnicas
+- **Builders auxiliares organizados**: Cada sub-builder em região específica para manutenibilidade
+- **Validação robusta**: Verificação de campos obrigatórios antes da construção
+- **Geração de ID automática**: IDs únicos no formato apropriado para cada contexto
+- **Tratamento de tipos**: Configuração correta de enums e tipos específicos do domínio
+- **Serialização otimizada**: Integração perfeita com o sistema de serialização existente
+
 ## [1.3.0] - 2025-09-21
 
 ### ✨ Adicionado

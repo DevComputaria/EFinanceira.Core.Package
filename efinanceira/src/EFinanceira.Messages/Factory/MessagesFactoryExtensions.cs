@@ -7,6 +7,7 @@ using EFinanceira.Messages.Builders.Consultas.RetInfoPatrocinado;
 using EFinanceira.Messages.Builders.Consultas.RetListaeFinanceira;
 using EFinanceira.Messages.Builders.Consultas.RetRERCT;
 using EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira;
+using EFinanceira.Messages.Builders.Eventos.EvtCadDeclarante;
 using EFinanceira.Messages.Builders.Xmldsig;
 
 namespace EFinanceira.Messages.Factory;
@@ -145,6 +146,23 @@ public static class MessagesFactoryExtensions
 
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<EvtAberturaeFinanceiraBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
+        // Registro do evento de Cadastro de Declarante
+        factory.RegisterFactory(
+            MessageKind.Evento("EvtCadDeclarante"),
+            "v1_2_0",
+            (Action<object>? seed) =>
+            {
+                var builder = new EvtCadDeclaranteBuilder("v1_2_0");
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<EvtCadDeclaranteBuilder> configure)
                 {
                     configure(builder);
                 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-16"?>
 <eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/retornoConsultaListaEFinanceira/v1_2_0">
   <retornoConsultaListaEFinanceira>
-    <dhProcessamento>2025-09-21T07:53:17.5597615Z</dhProcessamento>
+    <dhProcessamento>2025-09-28T21:30:29.839041Z</dhProcessamento>
     <status>
       <cdRetorno>200</cdRetorno>
       <descRetorno>Consulta de lista processada com sucesso</descRetorno>

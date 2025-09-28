@@ -41,6 +41,7 @@ public class Program
             await DemonstrarCriacaoLote();
             await DemonstrarCriacaoConsulta();
             await DemonstrarEvtAberturaeFinanceira();
+            await DemonstrarEvtCadDeclarante();
             await DemonstrarXmldsigBuilder();
             await DemonstrarMensagemComAssinatura();
             await DemonstrarValidacao();
@@ -606,6 +607,138 @@ public class Program
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao criar evento EvtAberturaeFinanceira");
+            throw;
+        }
+    }
+
+    private static async Task DemonstrarEvtCadDeclarante()
+    {
+        _logger!.LogInformation("\n--- 5. Demonstração: Evento EvtCadDeclarante ---");
+
+        try
+        {
+            var cnpjDeclarante = _configuration!["EFinanceira:Declarante:Cnpj"]!;
+
+            // Criar evento de cadastro de declarante usando builder fluente
+            var eventoCadDeclarante = new EFinanceira.Messages.Builders.Eventos.EvtCadDeclarante.EvtCadDeclaranteBuilder("v1_2_0")
+                .WithId("CAD_DECLARANTE_001")
+                .WithIdeEvento(ide => ide
+                    .WithIndRetificacao(1) // Original
+                    .WithTpAmb(2) // Homologação
+                    .WithAplicEmi(1) // Aplicativo do contribuinte
+                    .WithVerAplic("1.0.0"))
+                .WithIdeDeclarante(decl => decl
+                    .WithCnpj(cnpjDeclarante))
+                .WithInfoCadastro(info => info
+                    .WithGIIN("ABC123.45678.LE.987")
+                    .WithCategoriaDeclarante("1") // Instituição Financeira
+                    .WithNome("Empresa Exemplo Ltda")
+                    .WithTipoNome("1") // Nome comercial
+                    .WithEnderecoLivre("Rua das Flores, 123, Centro, São Paulo, SP")
+                    .WithTipoEndereco("1") // Endereço comercial
+                    .WithMunicipio(3550308) // São Paulo
+                    .WithUF("SP")
+                    .WithCEP("01310-100")
+                    .WithPais("BR")
+                    .WithNIFs(nifs => nifs
+                        .AddNIF(nif => nif
+                            .WithNumeroNIF("12345678000199")
+                            .WithPaisEmissao("BR")
+                            .WithTipoNIF("1")))
+                    .WithPaisesResidencia(paises => paises
+                        .AddPaisResidencia(pais => pais
+                            .WithPais("BR")))
+                    .WithOutrosEnderecos(enderecos => enderecos
+                        .AddEndereco(end => end
+                            .WithTipoEndereco("2") // Endereço fiscal
+                            .WithPais("BR")
+                            .WithEnderecoLivre("Av. Paulista, 1000, Bela Vista, São Paulo, SP"))))
+                .Build();
+
+            _logger.LogInformation("✓ Evento EvtCadDeclarante criado com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", eventoCadDeclarante.GetType().Name);
+            _logger.LogInformation("  - ID: {Id}", eventoCadDeclarante.IdValue);
+            _logger.LogInformation("  - Versão: {Version}", eventoCadDeclarante.Version);
+            _logger.LogInformation("  - Elemento Raiz: {Root}", eventoCadDeclarante.RootElementName);
+
+            // Demonstrar serialização do evento
+            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
+            
+            // Criar o elemento raiz eFinanceira que contém o evento
+            var eFinanceiraRaiz = new EFinanceira.Messages.Generated.Eventos.EvtCadEmpresaDeclarante.eFinanceira
+            {
+                evtCadDeclarante = eventoCadDeclarante.Evento
+            };
+            
+            var xml = serializer.Serialize(eFinanceiraRaiz);
+
+            _logger.LogInformation("✓ Evento serializado para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
+
+            // Salvar exemplo do evento
+            var eventoFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_cad_declarante_exemplo.xml");
+            await File.WriteAllTextAsync(eventoFile, xml);
+            _logger.LogInformation("  - Salvo em: {File}", eventoFile);
+
+            // Demonstrar uso do factory para criar o evento
+            _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
+            var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+            
+            // Configuração simples para o factory
+            Action<object>? factoryConfig = builder =>
+            {
+                var typedBuilder = (EFinanceira.Messages.Builders.Eventos.EvtCadDeclarante.EvtCadDeclaranteBuilder)builder!;
+                typedBuilder
+                    .WithId("FACTORY_CAD_DECLARANTE_001")
+                    .WithIdeDeclarante(decl => decl
+                        .WithCnpj(cnpjDeclarante))
+                    .WithInfoCadastro(info => info
+                        .WithGIIN("FACTORY123.45678.LE.987")
+                        .WithCategoriaDeclarante("1")
+                        .WithNome("Empresa Factory Ltda")
+                        .WithTipoNome("1")
+                        .WithEnderecoLivre("Rua Factory, 456, Centro")
+                        .WithTipoEndereco("1")
+                        .WithMunicipio(3550308)
+                        .WithUF("SP")
+                        .WithCEP("01310-200")
+                        .WithPais("BR"));
+            };
+
+            var eventoViaFactory = (EFinanceira.Messages.Builders.Eventos.EvtCadDeclarante.EvtCadDeclaranteMessage)factory.Create(
+                EFinanceira.Core.Factory.MessageKind.Evento("EvtCadDeclarante"),
+                "v1_2_0",
+                factoryConfig);
+
+            _logger.LogInformation("✓ Evento criado via Factory com sucesso");
+            _logger.LogInformation("  - ID via Factory: {Id}", eventoViaFactory.IdValue);
+
+            // Serializar evento criado via factory
+            var eFinanceiraFactory = new EFinanceira.Messages.Generated.Eventos.EvtCadEmpresaDeclarante.eFinanceira
+            {
+                evtCadDeclarante = eventoViaFactory.Evento
+            };
+            
+            var xmlFactory = serializer.Serialize(eFinanceiraFactory);
+            _logger.LogInformation("✓ Evento via Factory serializado");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
+
+            // Salvar evento criado via factory
+            var factoryFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_cad_declarante_factory.xml");
+            await File.WriteAllTextAsync(factoryFile, xmlFactory);
+            _logger.LogInformation("  - Salvo em: {File}", factoryFile);
+
+            // Relatório do evento
+            _logger.LogInformation("\n=== Relatório do Evento EvtCadDeclarante ===");
+            _logger.LogInformation("  - Evento ID: {EventoId}", eventoCadDeclarante.IdValue);
+            _logger.LogInformation("  - Declarante: {Declarante}", cnpjDeclarante);
+            _logger.LogInformation("  - GIIN: ABC123.45678.LE.987");
+            _logger.LogInformation("  - Categoria: Instituição Financeira");
+            _logger.LogInformation("  - Arquivo XML: {Size:N0} caracteres", xml.Length);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao criar evento EvtCadDeclarante");
             throw;
         }
     }
