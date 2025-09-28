@@ -9,6 +9,7 @@ using EFinanceira.Messages.Builders.Consultas.RetRERCT;
 using EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira;
 using EFinanceira.Messages.Builders.Eventos.EvtCadDeclarante;
 using EFinanceira.Messages.Builders.Eventos.EvtExclusao;
+using EFinanceira.Messages.Builders.Eventos.EvtExclusaoeFinanceira;
 using EFinanceira.Messages.Builders.Xmldsig;
 
 namespace EFinanceira.Messages.Factory;
@@ -181,6 +182,23 @@ public static class MessagesFactoryExtensions
 
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<EvtExclusaoBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
+        // Registro do evento de Exclusão e-Financeira
+        factory.RegisterFactory(
+            MessageKind.Evento("EvtExclusaoeFinanceira"),
+            "v1_2_0",
+            (Action<object>? seed) =>
+            {
+                var builder = new EvtExclusaoeFinanceiraBuilder("v1_2_0");
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<EvtExclusaoeFinanceiraBuilder> configure)
                 {
                     configure(builder);
                 }

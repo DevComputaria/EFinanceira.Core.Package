@@ -43,6 +43,7 @@ public class Program
             await DemonstrarEvtAberturaeFinanceira();
             await DemonstrarEvtCadDeclarante();
             await DemonstrarEvtExclusao();
+            await DemonstrarEvtExclusaoeFinanceira();
             await DemonstrarXmldsigBuilder();
             await DemonstrarMensagemComAssinatura();
             await DemonstrarValidacao();
@@ -1256,6 +1257,107 @@ public class Program
         {
             _logger!.LogError(ex, "❌ Erro na demonstração de mensagem com assinatura");
             _logger.LogInformation("💡 Dica: Verifique se o certificado está configurado corretamente em appsettings.json");
+        }
+    }
+
+    /// <summary>
+    /// Demonstração do evento EvtExclusaoeFinanceira
+    /// </summary>
+    private static async Task DemonstrarEvtExclusaoeFinanceira()
+    {
+        _logger!.LogInformation("\n--- 7. Demonstração: Evento EvtExclusaoeFinanceira ---");
+
+        try
+        {
+            var cnpjDeclarante = _configuration!["EFinanceira:Declarante:Cnpj"]!;
+
+            // Criar evento de exclusão e-Financeira usando builder fluente
+            var eventoExclusaoeFinanceira = new EFinanceira.Messages.Builders.Eventos.EvtExclusaoeFinanceira.EvtExclusaoeFinanceiraBuilder("v1_2_0")
+                .WithId("EXCLUSAO_EFINANCEIRA_001")
+                .WithIdeEvento(ide => ide
+                    .WithAmbiente(2) // Homologação
+                    .WithAplicativoEmi(1) // Aplicativo do contribuinte
+                    .WithVersaoAplicativo("1.0.0"))
+                .WithIdeDeclarante(decl => decl
+                    .WithCnpj(cnpjDeclarante))
+                .WithInfoExclusaoeFinanceira(info => info
+                    .WithNumeroReciboEvento("REC_EFINANCEIRA_123456789012345678901234567890"))
+                .Build();
+
+            _logger.LogInformation("✓ Evento EvtExclusaoeFinanceira criado com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", eventoExclusaoeFinanceira.GetType().Name);
+            _logger.LogInformation("  - ID: {Id}", eventoExclusaoeFinanceira.IdValue);
+            _logger.LogInformation("  - Versão: {Version}", eventoExclusaoeFinanceira.Version);
+            _logger.LogInformation("  - Elemento Raiz: {Root}", eventoExclusaoeFinanceira.RootElementName);
+
+            // Demonstrar serialização do evento
+            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
+            
+            // Criar o elemento raiz eFinanceira que contém o evento
+            var eFinanceiraRaiz = new EFinanceira.Messages.Generated.Eventos.EvtExclusaoeFinanceira.eFinanceira
+            {
+                evtExclusaoeFinanceira = eventoExclusaoeFinanceira.Evento
+            };
+            
+            var xml = serializer.Serialize(eFinanceiraRaiz);
+            _logger.LogInformation("✓ Evento serializado para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
+
+            // Salvar exemplo do evento
+            var eventoFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_exclusao_efinanceira_exemplo.xml");
+            await File.WriteAllTextAsync(eventoFile, xml);
+            _logger.LogInformation("  - Salvo em: {File}", eventoFile);
+
+            // Demonstrar uso do factory para criar o evento
+            _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
+            var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+            
+            // Configuração simples para o factory
+            Action<object>? factoryConfig = builder =>
+            {
+                var typedBuilder = (EFinanceira.Messages.Builders.Eventos.EvtExclusaoeFinanceira.EvtExclusaoeFinanceiraBuilder)builder!;
+                typedBuilder
+                    .WithId("FACTORY_EXCLUSAO_EFINANCEIRA_001")
+                    .WithIdeDeclarante(decl => decl
+                        .WithCnpj(cnpjDeclarante))
+                    .WithInfoExclusaoeFinanceira(info => info
+                        .WithNumeroReciboEvento("FACTORY_REC_EFINANCEIRA_987654321098765432109876543210"));
+            };
+
+            var eventoViaFactory = (EFinanceira.Messages.Builders.Eventos.EvtExclusaoeFinanceira.EvtExclusaoeFinanceiraMessage)factory.Create(
+                EFinanceira.Core.Factory.MessageKind.Evento("EvtExclusaoeFinanceira"),
+                "v1_2_0",
+                factoryConfig);
+
+            _logger.LogInformation("✓ Evento criado via Factory com sucesso");
+            _logger.LogInformation("  - ID via Factory: {Id}", eventoViaFactory.IdValue);
+
+            // Serializar evento criado via factory
+            var eFinanceiraFactory = new EFinanceira.Messages.Generated.Eventos.EvtExclusaoeFinanceira.eFinanceira
+            {
+                evtExclusaoeFinanceira = eventoViaFactory.Evento
+            };
+            
+            var xmlFactory = serializer.Serialize(eFinanceiraFactory);
+            _logger.LogInformation("✓ Evento via Factory serializado");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
+
+            // Salvar evento criado via factory
+            var factoryFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_exclusao_efinanceira_factory.xml");
+            await File.WriteAllTextAsync(factoryFile, xmlFactory);
+            _logger.LogInformation("  - Salvo em: {File}", factoryFile);
+
+            // Relatório do evento
+            _logger.LogInformation("\n=== Relatório do Evento EvtExclusaoeFinanceira ===");
+            _logger.LogInformation("  - Evento ID: {EventoId}", eventoExclusaoeFinanceira.IdValue);
+            _logger.LogInformation("  - Declarante: {Declarante}", cnpjDeclarante);
+            _logger.LogInformation("  - Recibo e-Financeira a excluir: REC_EFINANCEIRA_123456789012345678901234567890");
+            _logger.LogInformation("  - Arquivo XML: {Size:N0} caracteres", xml.Length);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao criar evento EvtExclusaoeFinanceira");
+            throw;
         }
     }
 }

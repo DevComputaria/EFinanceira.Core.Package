@@ -2,6 +2,49 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.6.0] - 2025-09-28
+
+### ✨ Adicionado
+
+#### 🎯 Implementação EvtExclusaoeFinanceira Builder - QUARTO EVENTO COMPLETO!
+- **EvtExclusaoeFinanceiraBuilder**: Quarto builder de evento implementado com sucesso total
+- **🏆 COBERTURA EXPANDIDA**: Agora suportamos 4 tipos de eventos (EvtAberturaeFinanceira + EvtCadDeclarante + EvtExclusao + EvtExclusaoeFinanceira)
+- **Builder especializado**: Sistema elegante focado na exclusão específica de contas e-Financeira
+- **XML validado**: Geração de XML estruturado corretamente com serialização otimizada
+- **Factory integrado**: Registrado como "EvtExclusaoeFinanceira" v1_2_0 no EFinanceiraMessageFactory
+- **Demonstração dupla**: Implementação direta + Factory Pattern no Console.Sample
+- **Arquitetura consistente implementada**:
+  - **IdeEventoBuilder**: Configuração de ambiente, aplicativo emissor e versão
+  - **IdeDeclaranteBuilder**: Dados do declarante (CNPJ)
+  - **InfoExclusaoeFinanceiraBuilder**: Informações específicas para exclusão de contas e-Financeira
+- **Funcionalidades especializadas**:
+  - **Número do Recibo e-Financeira**: Referência específica ao evento e-Financeira que deve ser excluído
+  - **Ambiente configurável**: Homologação (2) ou Produção (1)
+  - **Aplicativo emissor**: Configuração do tipo de aplicativo
+  - **Versão do aplicativo**: Controle de versão da aplicação
+- **Namespace isolado**: `EFinanceira.Messages.Builders.Eventos.EvtExclusaoeFinanceira`
+- **Interface fluente**: Padrão builder com validação e estrutura hierárquica
+- **Wrapper IEFinanceiraMessage**: EvtExclusaoeFinanceiraMessage implementa interface corretamente
+- **Demonstrações XML**:
+  - **Exemplo completo**: XML com recibo e-Financeira de exemplo
+  - **Factory simples**: XML via Factory Pattern
+
+#### 📊 Estatísticas de Implementação
+- **Factory expandido**: Agora suporta 11 tipos de mensagem (6 consultas + 4 eventos + 1 signature)
+- **Console.Sample atualizado**: Nova seção "--- 7. Demonstração: Evento EvtExclusaoeFinanceira ---"
+- **Arquivos XML gerados**:
+  - `evento_exclusao_efinanceira_exemplo.xml`: Versão completa
+  - `evento_exclusao_efinanceira_factory.xml`: Versão factory
+- **Relatório detalhado**: ID, CNPJ, número do recibo e-Financeira e tamanho do arquivo
+- **Namespace correto**: `http://www.eFinanceira.gov.br/schemas/evtExclusaoeFinanceira/v1_2_0`
+
+#### 🔧 Características Técnicas
+- **Builder eficiente**: Implementação simplificada seguindo padrão estabelecido
+- **Validação específica**: Verificação de campos obrigatórios adaptada ao contexto de exclusão e-Financeira
+- **Geração automática**: IDs únicos no formato "EXCLUSAO_EFINANCEIRA_" + número sequencial
+- **Estrutura otimizada**: XML conciso focado apenas nos dados necessários para exclusão de contas e-Financeira
+- **Integração perfeita**: Compatibilidade total com sistema de serialização e factory existentes
+
 ## [1.5.0] - 2025-09-28
 
 ### ✨ Adicionado
