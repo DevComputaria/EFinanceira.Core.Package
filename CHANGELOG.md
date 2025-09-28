@@ -2,6 +2,62 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.10.0] - 2025-09-28
+
+### ✨ Adicionado
+
+#### 🎯 Implementação EvtMovimentacaoFinanceiraAnual Builder - NONO EVENTO COMPLETO!
+- **EvtMovimentacaoFinanceiraAnualBuilder**: Nono builder de evento implementado com sucesso total para movimentações anuais consolidadas
+- **🏆 COBERTURA EXPANDIDA**: Agora suportamos 9 tipos de eventos (EvtAberturaeFinanceira + EvtCadDeclarante + EvtIntermediario + EvtMovimentacaoFinanceira + EvtMovimentacaoFinanceiraAnual + EvtExclusao + EvtExclusaoeFinanceira + EvtFechamentoeFinanceira + EvtFechamentoeFinanceiraAlt)
+- **Builder de movimentação anual**: Sistema especializado para consolidação de movimentações financeiras por semestre
+- **XML validado**: Geração de XML estruturado corretamente (835 caracteres exemplo) com serialização otimizada
+- **Factory integrado**: Registrado como "EvtMovimentacaoFinanceiraAnual" v1_2_2 no EFinanceiraMessageFactory
+- **Demonstração dupla**: Implementação direta + Factory Pattern no Console.Sample
+- **Arquitetura anual implementada com simplificação estratégica**:
+  - **IdeEventoBuilder**: Configuração completa com indicador de retificação, ambiente, aplicativo emissor e versão
+  - **IdeDeclaranteBuilder**: Dados do declarante (CNPJ)
+  - **IdeDeclaradoBuilder**: Identificação simplificada do declarado (CPF, nome, data nascimento, endereço livre)
+  - **CaixaBuilder**: Configuração da caixa anual com ano e semestre
+  - **ContaBuilder**: Informações básicas da conta com balanço anual
+- **Funcionalidades especializadas para consolidação anual**:
+  - **Período Anual**: Configuração por ano (AAAA) e semestre (1º ou 2º)
+  - **Tipos de NI**: Suporte a CPF (1), CNPJ (2), Passaporte (3) ou Outro (4)
+  - **Data de Nascimento**: DateTime com validação automática via DataNasc
+  - **Endereço Livre**: Campo direto EnderecoLivre para simplificação
+  - **Balanço da Conta**: Valores consolidados anuais com decimal
+  - **Semestre**: 1-Primeiro semestre, 2-Segundo semestre
+  - **Ambiente configurável**: Homologação (2) ou Produção (1)
+- **Namespace isolado**: `EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual`
+- **Interface fluente simplificada**: Padrão builder com 5 sub-builders especializados
+- **Wrapper IEFinanceiraMessage**: EvtMovimentacaoFinanceiraAnualMessage implementa interface corretamente
+- **Demonstrações XML anuais**:
+  - **Exemplo completo**: 835 caracteres com dados de João Silva Santos (2º Semestre/2024)
+  - **Factory anual**: 845 caracteres via Factory Pattern com Maria Oliveira Lima (1º Semestre/2024)
+
+#### 📊 Estatísticas de Implementação Anual
+- **Implementação simplificada**: Focada nos componentes essenciais para movimentação anual com estrutura XSD complexa (3078 linhas)
+- **Factory expandido**: Agora suporta 16 tipos de mensagem (6 consultas + 9 eventos + 1 signature)
+- **Console.Sample atualizado**: Nova seção "--- 12. Demonstração: Evento EvtMovimentacaoFinanceiraAnual ---"
+- **Arquivos XML gerados**:
+  - `evento_movimentacao_financeira_anual_exemplo.xml`: Versão completa (835 chars) - João Silva Santos (2º Semestre/2024)
+  - `evento_movimentacao_financeira_anual_factory.xml`: Versão factory (845 chars) - Maria Oliveira Lima (1º Semestre/2024)
+- **Relatório detalhado**: ID, CNPJ declarante, dados do declarado, período, tipo de movimento, conta e balanço
+- **Namespace correto**: `http://www.eFinanceira.gov.br/schemas/evtMovOpFinAnual/v1_2_2`
+
+#### 🔧 Características Técnicas da Movimentação Anual
+- **Builder hierárquico anual**: Sistema com 5 sub-builders para consolidação anual
+- **Implementação pragmática**: Simplificação estratégica da estrutura XSD extremamente complexa
+- **Validação de tipos**: DateTime para data nascimento, string para endereço livre, decimal para balanços
+- **Geração automática**: IDs únicos no formato "MOVOPFINANUAL_" + número sequencial
+- **Compilação bem-sucedida**: Supressão de warnings StyleCop via GlobalSuppressions.cs
+- **Execução funcional**: Console.Sample executado com demonstração completa
+
+#### 🏗️ Estrutura do Builder Anual Implementada
+- **EvtMovimentacaoFinanceiraAnualBuilder.cs**: 460+ linhas com estrutura hierárquica
+- **5 componentes principais**: EvtMovimentacaoFinanceiraAnualMessage, IdeEvento, IdeDeclarante, IdeDeclarado, Caixa
+- **2 sub-builders especializados**: Caixa, Conta
+- **Abordagem consolidada**: Foco em dados anuais agregados para relatórios consolidados
+
 ## [1.9.0] - 2025-09-28
 
 ### ✨ Adicionado

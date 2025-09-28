@@ -44,6 +44,7 @@ public class Program
             await DemonstrarEvtCadDeclarante();
             await DemonstrarEvtIntermediario();
             await DemonstrarEvtMovimentacaoFinanceira();
+            await DemonstrarEvtMovimentacaoFinanceiraAnual();
             await DemonstrarEvtExclusao();
             await DemonstrarEvtExclusaoeFinanceira();
             await DemonstrarEvtFechamentoeFinanceira();
@@ -994,6 +995,133 @@ public class Program
         catch (Exception ex)
         {
             _logger!.LogError(ex, "Erro ao criar evento EvtMovimentacaoFinanceira");
+            throw;
+        }
+    }
+
+    private static async Task DemonstrarEvtMovimentacaoFinanceiraAnual()
+    {
+        _logger!.LogInformation("\n--- 12. Demonstração: Evento EvtMovimentacaoFinanceiraAnual ---");
+
+        try
+        {
+            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
+            const string cnpjDeclarante = "12345678000199";
+
+            // Criar evento via builder direto
+            var eventoMovimentacaoAnual = new EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual.EvtMovimentacaoFinanceiraAnualBuilder()
+                .ComId("MOVOPFINANUAL_001")
+                .ComIdeEvento(ide => ide
+                    .ComIndRetificacao(1)
+                    .ComTpAmb(2)
+                    .ComAplicEmi(1)
+                    .ComVerAplic("1.0.0"))
+                .ComIdeDeclarante(dec => dec
+                    .ComCnpjDeclarante(cnpjDeclarante))
+                .ComIdeDeclarado(decl => decl
+                    .ComTpNI(1) // 1-CPF, 2-CNPJ, 3-Passaporte, 4-Outro
+                    .ComNIDeclarado("12345678901")
+                    .ComNomeDeclarado("João Silva Santos")
+                    .ComDataNascimento(new DateTime(1985, 3, 15))
+                    .ComEnderecoLivre("Brasil"))
+                .ComCaixa(caixa => caixa
+                    .ComAnoCaixa("2024")
+                    .ComSemestre(2) // 1-Primeiro semestre, 2-Segundo semestre
+                    .ComConta(conta => conta
+                        .ComInfoConta("1", "1", "1", "12345-6") // Conta corrente básica
+                        .ComBalancoConta(15000.50m))) // Saldo anual
+                .Build();
+
+            _logger.LogInformation("✓ Evento EvtMovimentacaoFinanceiraAnual criado com sucesso");
+            _logger.LogInformation("  - Tipo: {Type}", eventoMovimentacaoAnual.GetType().Name);
+            _logger.LogInformation("  - ID: {Id}", eventoMovimentacaoAnual.IdValue);
+            _logger.LogInformation("  - Versão: {Version}", eventoMovimentacaoAnual.Version);
+            _logger.LogInformation("  - Elemento Raiz: {RootElement}", eventoMovimentacaoAnual.RootElementName);
+
+            // Criar wrapper eFinanceira para serialização
+            var eFinanceira = new EFinanceira.Messages.Generated.Eventos.EvtMovimentacaoFinanceiraAnual.eFinanceira
+            {
+                evtMovOpFinAnual = eventoMovimentacaoAnual.Evento
+            };
+
+            // Serializar para XML
+            var xml = serializer.Serialize(eFinanceira);
+            _logger.LogInformation("✓ Evento serializado para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
+
+            // Salvar arquivo
+            var fileName = Path.Combine(Directory.GetCurrentDirectory(), "evento_movimentacao_financeira_anual_exemplo.xml");
+            await File.WriteAllTextAsync(fileName, xml);
+            _logger.LogInformation("  - Salvo em: {File}", fileName);
+
+            // Demonstrar criação via Factory
+            _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
+
+            var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+
+            Action<object> factoryConfig = (object builderObj) =>
+            {
+                var builder = (EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual.EvtMovimentacaoFinanceiraAnualBuilder)builderObj;
+                builder
+                    .ComId("FACTORY_MOVOPFINANUAL_001")
+                    .ComIdeEvento(ide => ide
+                        .ComIndRetificacao(1)
+                        .ComTpAmb(2)
+                        .ComAplicEmi(1)
+                        .ComVerAplic("1.0.0"))
+                    .ComIdeDeclarante(dec => dec
+                        .ComCnpjDeclarante(cnpjDeclarante))
+                    .ComIdeDeclarado(decl => decl
+                        .ComTpNI(1)
+                        .ComNIDeclarado("98765432109")
+                        .ComNomeDeclarado("Maria Oliveira Lima")
+                        .ComDataNascimento(new DateTime(1990, 7, 22))
+                        .ComEnderecoLivre("Brasil"))
+                    .ComCaixa(caixa => caixa
+                        .ComAnoCaixa("2024")
+                        .ComSemestre(1) // Primeiro semestre
+                        .ComConta(conta => conta
+                            .ComInfoConta("2", "1", "1", "54321-9") // Conta poupança
+                            .ComBalancoConta(25000.00m))); // Saldo anual
+            };
+
+            var eventoViaFactory = (EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual.EvtMovimentacaoFinanceiraAnualMessage)factory.Create(
+                EFinanceira.Core.Factory.MessageKind.Evento("EvtMovimentacaoFinanceiraAnual"),
+                "v1_2_2",
+                factoryConfig);
+
+            _logger.LogInformation("✓ Evento criado via Factory com sucesso");
+            _logger.LogInformation("  - ID via Factory: {FactoryId}", eventoViaFactory.IdValue);
+
+            // Serializar evento criado via Factory
+            var eFinanceiraFactory = new EFinanceira.Messages.Generated.Eventos.EvtMovimentacaoFinanceiraAnual.eFinanceira
+            {
+                evtMovOpFinAnual = eventoViaFactory.Evento
+            };
+            
+            var xmlFactory = serializer.Serialize(eFinanceiraFactory);
+            _logger.LogInformation("✓ Evento via Factory serializado");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
+
+            // Salvar evento criado via factory
+            var factoryFile = Path.Combine(Directory.GetCurrentDirectory(), "evento_movimentacao_financeira_anual_factory.xml");
+            await File.WriteAllTextAsync(factoryFile, xmlFactory);
+            _logger.LogInformation("  - Salvo em: {File}", factoryFile);
+
+            // Relatório do evento
+            _logger.LogInformation("\n=== Relatório do Evento EvtMovimentacaoFinanceiraAnual ===");
+            _logger.LogInformation("  - Evento ID: {EventoId}", eventoMovimentacaoAnual.IdValue);
+            _logger.LogInformation("  - Declarante: {Declarante}", cnpjDeclarante);
+            _logger.LogInformation("  - Declarado: João Silva Santos (CPF: 12345678901)");
+            _logger.LogInformation("  - Período: 2º Semestre/2024");
+            _logger.LogInformation("  - Tipo de Movimento: Operação Financeira Anual");
+            _logger.LogInformation("  - Conta: Corrente 12345-6");
+            _logger.LogInformation("  - Balanço: R$ 15.000,50");
+            _logger.LogInformation("  - Arquivo XML: {Size:N0} caracteres", xml.Length);
+        }
+        catch (Exception ex)
+        {
+            _logger!.LogError(ex, "Erro ao criar evento EvtMovimentacaoFinanceiraAnual");
             throw;
         }
     }
