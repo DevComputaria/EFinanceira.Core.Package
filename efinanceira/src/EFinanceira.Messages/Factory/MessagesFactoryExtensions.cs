@@ -13,6 +13,7 @@ using EFinanceira.Messages.Builders.Eventos.EvtExclusaoeFinanceira;
 using EFinanceira.Messages.Builders.Eventos.EvtFechamentoeFinanceira;
 using EFinanceira.Messages.Builders.Eventos.EvtFechamentoeFinanceiraAlt;
 using EFinanceira.Messages.Builders.Eventos.EvtIntermediario;
+using EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceira;
 using EFinanceira.Messages.Builders.Xmldsig;
 
 namespace EFinanceira.Messages.Factory;
@@ -185,6 +186,23 @@ public static class MessagesFactoryExtensions
 
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<EvtIntermediarioBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
+        // Registro do evento de Movimentação de Operação Financeira
+        factory.RegisterFactory(
+            MessageKind.Evento("EvtMovimentacaoFinanceira"),
+            "v1_2_1",
+            (Action<object>? seed) =>
+            {
+                var builder = new EvtMovimentacaoFinanceiraBuilder("v1_2_1");
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<EvtMovimentacaoFinanceiraBuilder> configure)
                 {
                     configure(builder);
                 }

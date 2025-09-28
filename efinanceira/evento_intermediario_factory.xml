@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtCadIntermediario/v1_2_0">
+  <evtCadIntermediario id="FACTORY_INTERMEDIARIO_001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>2</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>12345678000199</cnpjDeclarante>
+    </ideDeclarante>
+    <infoIntermediario>
+      <GIIN>FACTORY789.12345.LE.456</GIIN>
+      <tpNI>2</tpNI>
+      <NIIntermediario>11223344000155</NIIntermediario>
+      <nomeIntermediario>Factory Intermediário Global Ltd.</nomeIntermediario>
+      <endereco>
+        <enderecoLivre>City Road, 200, London</enderecoLivre>
+        <municipio>London</municipio>
+        <pais>GB</pais>
+      </endereco>
+      <paisResidencia>GB</paisResidencia>
+    </infoIntermediario>
+  </evtCadIntermediario>
+</eFinanceira>

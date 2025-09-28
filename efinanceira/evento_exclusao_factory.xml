@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtExclusao/v1_2_0">
+  <evtExclusao id="FACTORY_EXCLUSAO_001">
+    <ideEvento>
+      <tpAmb>2</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>12345678000195</cnpjDeclarante>
+    </ideDeclarante>
+    <infoExclusao>
+      <nrReciboEvento>FACTORY987654321098765432109876543210</nrReciboEvento>
+    </infoExclusao>
+  </evtExclusao>
+</eFinanceira>

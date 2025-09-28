@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtCadDeclarante/v1_2_0">
+  <evtCadDeclarante id="FACTORY_CAD_DECLARANTE_001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>2</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>12345678000195</cnpjDeclarante>
+    </ideDeclarante>
+    <infoCadastro>
+      <GIIN>FACTORY123.45678.LE.987</GIIN>
+      <CategoriaDeclarante>1</CategoriaDeclarante>
+      <nome>Empresa Factory Ltda</nome>
+      <tpNome>1</tpNome>
+      <enderecoLivre>Rua Factory, 456, Centro</enderecoLivre>
+      <tpEndereco>1</tpEndereco>
+      <municipio>3550308</municipio>
+      <UF>SP</UF>
+      <CEP>01310-200</CEP>
+      <Pais>BR</Pais>
+    </infoCadastro>
+  </evtCadDeclarante>
+</eFinanceira>

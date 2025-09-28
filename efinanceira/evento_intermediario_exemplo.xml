@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtCadIntermediario/v1_2_0">
+  <evtCadIntermediario id="INTERMEDIARIO_001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>2</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>12345678000199</cnpjDeclarante>
+    </ideDeclarante>
+    <infoIntermediario>
+      <GIIN>INT123.45678.LE.789</GIIN>
+      <tpNI>2</tpNI>
+      <NIIntermediario>98765432000111</NIIntermediario>
+      <nomeIntermediario>Intermediário Financeiro Internacional S.A.</nomeIntermediario>
+      <endereco>
+        <enderecoLivre>Wall Street, 100, Manhattan</enderecoLivre>
+        <municipio>New York</municipio>
+        <pais>US</pais>
+      </endereco>
+      <paisResidencia>US</paisResidencia>
+    </infoIntermediario>
+  </evtCadIntermediario>
+</eFinanceira>
