@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtMovOpFin/v1_2_1">
+  <evtMovOpFin id="FACTORY_MOVOPFIN_001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>2</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>12345678000199</cnpjDeclarante>
+    </ideDeclarante>
+    <ideDeclarado>
+      <tpNI>1</tpNI>
+      <NIDeclarado>98765432109</NIDeclarado>
+      <NomeDeclarado>Maria Oliveira Lima</NomeDeclarado>
+      <DataNasc>1990-07-22</DataNasc>
+      <EnderecoLivre>Brasil</EnderecoLivre>
+    </ideDeclarado>
+    <mesCaixa>
+      <anoMesCaixa>2024-12</anoMesCaixa>
+      <movOpFin>
+        <Conta>
+          <infoConta>
+            <tpRelacaoDeclarado>0</tpRelacaoDeclarado>
+          </infoConta>
+        </Conta>
+      </movOpFin>
+    </mesCaixa>
+  </evtMovOpFin>
+</eFinanceira>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtCadPatrocinado/v1_2_0">
+  <evtCadPatrocinado id="PATROCINADO_001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>2</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>12345678000199</cnpjDeclarante>
+    </ideDeclarante>
+    <infoPatrocinado>
+      <GIIN>BR1234.56789.SL.123</GIIN>
+      <CNPJ>98765432000187</CNPJ>
+      <nomePatrocinado>Empresa Patrocinada Exemplo LTDA</nomePatrocinado>
+      <tpNome>2</tpNome>
+      <endereco>
+        <enderecoLivre>Av. Exemplo, 1000 - Centro</enderecoLivre>
+        <municipio>São Paulo</municipio>
+        <pais>BR</pais>
+      </endereco>
+      <tpEndereco>2</tpEndereco>
+      <paisResid>
+        <Pais>BR</Pais>
+      </paisResid>
+    </infoPatrocinado>
+  </evtCadPatrocinado>
+</eFinanceira>

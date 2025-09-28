@@ -2,6 +2,41 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.11.0] - 2024-12-19
+
+### ✨ Adicionado
+
+#### 🎯 Implementação EvtPatrocinado Builder - DÉCIMO EVENTO COMPLETO!
+- **EvtPatrocinadoBuilder**: Décimo builder de evento implementado com sucesso total para cadastro de entidades patrocinadas
+- **🏆 COBERTURA EXPANDIDA**: Agora suportamos 10 tipos de eventos (todos os anteriores + EvtPatrocinado)
+- **Builder de patrocinado**: Sistema especializado para compliance internacional (FATCA/CRS)
+- **XML validado**: Geração de XML estruturado corretamente (964 caracteres exemplo) com serialização otimizada
+- **Factory integrado**: Registrado como "EvtPatrocinado" v1_2_0 no EFinanceiraMessageFactory (17º tipo de mensagem)
+- **Demonstração completa**: Implementação direta no Console.Sample com cenários reais
+- **Arquitetura internacional implementada com suporte completo**:
+  - **IdeEventoBuilder**: Configuração completa com indicador de retificação, ambiente, aplicativo emissor e versão
+  - **IdeDeclaranteBuilder**: Dados do declarante (CNPJ)
+  - **InfoPatrocinadoBuilder**: Identificação completa da entidade patrocinada
+  - **NIFBuilder**: Múltiplos números de identificação fiscal (diferentes países)
+  - **EnderecoBuilder**: Endereços internacionais com formato livre
+  - **PaisResidBuilder**: Múltiplos países de residência fiscal
+- **Funcionalidades especializadas para compliance internacional**:
+  - **GIIN**: Global Intermediary Identification Number para FATCA
+  - **CNPJ**: Identificação nacional brasileira
+  - **Múltiplos NIFs**: Suporte a identificações fiscais de diferentes países
+  - **Nome do Patrocinado**: Razão social ou nome completo
+  - **Tipo de Nome**: 1-Nome Completo, 2-Razão Social
+  - **Endereço Internacional**: Formato livre com município e país
+  - **Tipo de Endereço**: 1-Residencial, 2-Comercial
+  - **Países de Residência**: Array de códigos de país (ISO 3166-1 alpha-2)
+  - **Ambiente configurável**: Homologação (2) ou Produção (1)
+- **Namespace isolado**: `EFinanceira.Messages.Builders.Eventos.EvtPatrocinado`
+
+### 🔧 Corrigido
+- Correção de nomes de propriedades no EvtPatrocinado (PaisEmissao, NumeroNIF, Pais)
+- Adicionado GlobalSuppressions para EvtPatrocinado builder pattern
+- StyleCop warnings resolvidos para builder com múltiplas classes
+
 ## [1.10.0] - 2025-09-28
 
 ### ✨ Adicionado

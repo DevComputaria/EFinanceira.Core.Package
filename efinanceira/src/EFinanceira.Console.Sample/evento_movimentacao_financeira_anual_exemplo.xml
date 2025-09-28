@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-16"?>
+<eFinanceira xmlns="http://www.eFinanceira.gov.br/schemas/evtMovOpFinAnual/v1_2_2">
+  <evtMovOpFinAnual id="MOVOPFINANUAL_001">
+    <ideEvento>
+      <indRetificacao>1</indRetificacao>
+      <tpAmb>2</tpAmb>
+      <aplicEmi>1</aplicEmi>
+      <verAplic>1.0.0</verAplic>
+    </ideEvento>
+    <ideDeclarante>
+      <cnpjDeclarante>12345678000199</cnpjDeclarante>
+    </ideDeclarante>
+    <ideDeclarado>
+      <tpNI>1</tpNI>
+      <NIDeclarado>12345678901</NIDeclarado>
+      <NomeDeclarado>João Silva Santos</NomeDeclarado>
+      <DataNasc>1985-03-15</DataNasc>
+      <EnderecoLivre>Brasil</EnderecoLivre>
+    </ideDeclarado>
+    <Caixa>
+      <anoCaixa>2024</anoCaixa>
+      <semestre>2</semestre>
+      <movOpFinAnual />
+    </Caixa>
+  </evtMovOpFinAnual>
+</eFinanceira>

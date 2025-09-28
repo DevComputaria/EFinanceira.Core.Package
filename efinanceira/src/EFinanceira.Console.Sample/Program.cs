@@ -45,6 +45,7 @@ public class Program
             await DemonstrarEvtIntermediario();
             await DemonstrarEvtMovimentacaoFinanceira();
             await DemonstrarEvtMovimentacaoFinanceiraAnual();
+            await DemonstrarEvtPatrocinado();
             await DemonstrarEvtExclusao();
             await DemonstrarEvtExclusaoeFinanceira();
             await DemonstrarEvtFechamentoeFinanceira();
@@ -1122,6 +1123,87 @@ public class Program
         catch (Exception ex)
         {
             _logger!.LogError(ex, "Erro ao criar evento EvtMovimentacaoFinanceiraAnual");
+            throw;
+        }
+    }
+
+    private static async Task DemonstrarEvtPatrocinado()
+    {
+        _logger!.LogInformation("\n--- 10. Demonstração: Evento EvtPatrocinado ---");
+
+        try
+        {
+            var cnpjDeclarante = _configuration!["EFinanceira:Declarante:Cnpj"]!;
+
+            // Criar evento de cadastro de patrocinado usando builder fluente
+            var eventoPatrocinado = new EFinanceira.Messages.Builders.Eventos.EvtPatrocinado.EvtPatrocinadoBuilder()
+                .ComId("PATROCINADO_001")
+                .ComIdeEvento(ide => ide
+                    .ComIndRetificacao(1) // Evento Original
+                    .ComTpAmb(2) // Homologação
+                    .ComAplicEmi(1) // Aplicativo do declarante
+                    .ComVerAplic("1.0.0"))
+                .ComIdeDeclarante(decl => decl
+                    .ComCnpjDeclarante(cnpjDeclarante))
+                .ComInfoPatrocinado(info => info
+                    .ComGIIN("BR1234.56789.SL.123") // GIIN brasileiro
+                    .ComCNPJ("98765432000187")
+                    .ComNomePatrocinado("Empresa Patrocinada Exemplo LTDA")
+                    .ComTpNome("2") // Razão Social
+                    .ComEndereco(endereco => endereco
+                        .ComEnderecoLivre("Av. Exemplo, 1000 - Centro")
+                        .ComMunicipio("São Paulo")
+                        .ComPais("BR"))
+                    .ComTpEndereco("2") // Comercial
+                    .ComPaisResidencia(paisResid => paisResid
+                        .ComPais("BR")))
+                .Build();
+
+            _logger.LogInformation("✓ Evento EvtPatrocinado criado com sucesso");
+            _logger.LogInformation("  - ID: {EventoId}", eventoPatrocinado.IdValue);
+            _logger.LogInformation("  - Versão: {Versao}", eventoPatrocinado.Version);
+            _logger.LogInformation("  - Root Element: {RootElement}", eventoPatrocinado.RootElementName);
+
+            // Serializar para XML
+            var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
+
+            var eFinanceira = new EFinanceira.Messages.Generated.Eventos.EvtPatrocinado.eFinanceira
+            {
+                evtCadPatrocinado = eventoPatrocinado.Evento
+            };
+
+            var xml = serializer.Serialize(eFinanceira);
+            _logger.LogInformation("✓ Evento serializado para XML");
+            _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
+
+            // Salvar arquivo
+            var fileName = Path.Combine(Directory.GetCurrentDirectory(), "evento_patrocinado_exemplo.xml");
+            await File.WriteAllTextAsync(fileName, xml);
+            _logger.LogInformation("  - Salvo em: {File}", fileName);
+
+            // Demonstrar uso do factory
+            _logger.LogInformation("\n--- Demonstrando Factory Pattern ---");
+            var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
+
+            // Listar tipos registrados
+            var tiposRegistrados = factory.GetRegisteredTypes();
+            _logger.LogInformation("✓ Factory configurado com {Count} tipos de mensagem", tiposRegistrados.Count());
+            _logger.LogInformation("✓ Evento EvtPatrocinado registrado no factory");
+
+            // Relatório do evento
+            _logger.LogInformation("\n=== Relatório do Evento EvtPatrocinado ===");
+            _logger.LogInformation("  - Evento ID: {EventoId}", eventoPatrocinado.IdValue);
+            _logger.LogInformation("  - Declarante: {Declarante}", cnpjDeclarante);
+            _logger.LogInformation("  - Patrocinado: Empresa Patrocinada Exemplo LTDA");
+            _logger.LogInformation("  - GIIN: BR1234.56789.SL.123");
+            _logger.LogInformation("  - CNPJ: 98765432000187");
+            _logger.LogInformation("  - Tipo de Movimento: Cadastro de Patrocinado");
+            _logger.LogInformation("  - Endereço: Av. Exemplo, 1000 - Centro, São Paulo/BR");
+            _logger.LogInformation("  - Arquivo XML: {Size:N0} caracteres", xml.Length);
+        }
+        catch (Exception ex)
+        {
+            _logger!.LogError(ex, "Erro ao criar evento EvtPatrocinado");
             throw;
         }
     }
