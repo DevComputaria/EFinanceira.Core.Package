@@ -2,6 +2,49 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.5.0] - 2025-09-28
+
+### ✨ Adicionado
+
+#### 🎯 Implementação EvtExclusao Builder - TERCEIRO EVENTO COMPLETO!
+- **EvtExclusaoBuilder**: Terceiro builder de evento implementado com sucesso total
+- **🏆 COBERTURA EXPANDIDA**: Agora suportamos 3 tipos de eventos (EvtAberturaeFinanceira + EvtCadDeclarante + EvtExclusao)
+- **Builder simplificado**: Sistema elegante e conciso focado na funcionalidade de exclusão
+- **XML validado**: Geração de XML estruturado corretamente (524 caracteres) com serialização otimizada
+- **Factory integrado**: Registrado como "EvtExclusao" v1_2_0 no EFinanceiraMessageFactory
+- **Demonstração dupla**: Implementação direta + Factory Pattern no Console.Sample
+- **Arquitetura enxuta implementada**:
+  - **IdeEventoBuilder**: Configuração de ambiente, aplicativo emissor e versão
+  - **IdeDeclaranteBuilder**: Dados do declarante (CNPJ)
+  - **InfoExclusaoBuilder**: Informações específicas para exclusão de eventos
+- **Funcionalidades especializadas**:
+  - **Número do Recibo**: Referência ao evento que deve ser excluído
+  - **Ambiente configurável**: Homologação (2) ou Produção (1)
+  - **Aplicativo emissor**: Configuração do tipo de aplicativo
+  - **Versão do aplicativo**: Controle de versão da aplicação
+- **Namespace isolado**: `EFinanceira.Messages.Builders.Eventos.EvtExclusao`
+- **Interface fluente**: Padrão builder com validação e estrutura hierárquica
+- **Wrapper IEFinanceiraMessage**: EvtExclusaoMessage implementa interface corretamente
+- **Demonstrações XML**:
+  - **Exemplo completo**: 524 caracteres com recibo de exemplo
+  - **Factory simples**: 536 caracteres via Factory Pattern
+
+#### 📊 Estatísticas de Implementação
+- **Factory expandido**: Agora suporta 10 tipos de mensagem (6 consultas + 3 eventos + 1 signature)
+- **Console.Sample atualizado**: Nova seção "--- 6. Demonstração: Evento EvtExclusao ---"
+- **Arquivos XML gerados**:
+  - `evento_exclusao_exemplo.xml`: Versão completa (524 chars)
+  - `evento_exclusao_factory.xml`: Versão factory (536 chars)
+- **Relatório detalhado**: ID, CNPJ, número do recibo e tamanho do arquivo
+- **Namespace correto**: `http://www.eFinanceira.gov.br/schemas/evtExclusao/v1_2_0`
+
+#### 🔧 Características Técnicas
+- **Builder eficiente**: Implementação simplificada sem sub-builders complexos desnecessários
+- **Validação específica**: Verificação de campos obrigatórios adaptada ao contexto de exclusão
+- **Geração automática**: IDs únicos no formato "EXCLUSAO_" + número sequencial
+- **Estrutura otimizada**: XML conciso focado apenas nos dados necessários para exclusão
+- **Integração perfeita**: Compatibilidade total com sistema de serialização e factory existentes
+
 ## [1.4.0] - 2025-09-28
 
 ### ✨ Adicionado
