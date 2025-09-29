@@ -17,6 +17,7 @@ using EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceira;
 using EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual;
 using EFinanceira.Messages.Builders.Eventos.EvtPatrocinado;
 using EFinanceira.Messages.Builders.Eventos.EvtPrevidenciaPrivada;
+using EFinanceira.Messages.Builders.Eventos.EvtRERCT;
 using EFinanceira.Messages.Builders.Xmldsig;
 
 namespace EFinanceira.Messages.Factory;
@@ -332,6 +333,23 @@ public static class MessagesFactoryExtensions
                 return builder.Build();
             });
 
+        // Registro do evento RERCT (Registro de Contas Exteriores e Transferências)
+        factory.RegisterFactory(
+            MessageKind.Evento("EvtRERCT"),
+            "v1_2_0",
+            (Action<object>? seed) =>
+            {
+                var builder = new EvtRERCTBuilder("v1_2_0");
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<EvtRERCTBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
         return factory;
     }
 
@@ -374,7 +392,7 @@ public static class MessagesFactoryExtensions
             (Action<object>? seed) =>
             {
                 var signatureId = "XMLSignature_" + Guid.NewGuid().ToString("N")[..8];
-                
+
                 // Para compatibilidade com factory, criar assinatura básica
                 return XmldsigBuilder.BuildBasicSignature(signatureId);
             });

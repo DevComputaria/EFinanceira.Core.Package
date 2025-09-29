@@ -2,6 +2,45 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.13.0] - 2025-09-28
+
+### ✨ Adicionado
+
+#### 🎯 Implementação EvtRERCT Builder - DÉCIMO SEGUNDO EVENTO COMPLETO!
+- **EvtRERCTBuilder**: Décimo segundo builder de evento implementado com sucesso total para Registro de Contas Exteriores e Transferências (RERCT)
+- **🏆 COBERTURA MÁXIMA**: Agora suportamos 12 tipos de eventos completos (todos os anteriores + EvtRERCT)
+- **Builder de contas exteriores**: Sistema especializado para declaração de contas em instituições financeiras no exterior
+- **XML validado**: Geração de XML estruturado corretamente com serialização otimizada para RERCT v1_2_0
+- **Factory expandido**: Registrado como "EvtRERCT" v1_2_0 no EFinanceiraMessageFactory (19º tipo de mensagem)
+- **Demonstração completa**: Implementação com exemplos abrangentes para cenários reais de RERCT
+- **Arquitetura RERCT implementada com suporte completo**:
+  - **EvtRERCTBuilder**: Builder principal com 8 sub-builders especializados (650+ linhas)
+  - **IdeEventoBuilder**: Configuração completa do evento RERCT com retificação, ambiente e aplicativo
+  - **IdeDeclaranteBuilder**: Dados da instituição declarante (CNPJ)
+  - **IdeDeclaradoBuilder**: Informações da pessoa/empresa declarada (CPF/CNPJ)
+  - **CpfCnpjDeclaradoBuilder**: Configuração específica de CPF/CNPJ do declarado
+  - **RERCTBuilder**: Builder central para registro de contas exteriores
+  - **InfoContaExteriorBuilder**: Informações detalhadas da conta exterior
+  - **TitularBuilder**: Dados do titular da conta
+  - **CpfCnpjTitularBuilder**: CPF/CNPJ do titular
+  - **BeneficiarioFinalBuilder**: Informações do beneficiário final
+
+#### 🔧 Características Técnicas RERCT
+- **Suporte completo a múltiplas contas**: Método `AddRERCTs()` para processar várias contas simultaneamente
+- **Múltiplos titulares**: Suporte a contas com vários titulares via `AddTitulares()`
+- **Múltiplos beneficiários**: Gestão de beneficiários finais via `AddBeneficiariosFinais()`
+- **Validação hierárquica**: Validação de campos obrigatórios em todos os níveis
+- **Interface fluente**: Padrão builder com encadeamento natural de métodos
+- **Configuração flexível**: Suporte a retificação, diferentes moedas e tipos de conta
+- **Exemplos práticos**: 3 exemplos demonstrativos (completo, mínimo, retificação)
+
+#### 📋 Funcionalidades RERCT
+- **Identificação de evento**: Configuração completa com ID único, retificação e ambiente
+- **Dados bancários**: Nome do banco, país de origem e código BIC
+- **Informações da conta**: Tipo, número, valor e moeda
+- **Gestão de pessoas**: Titulares e beneficiários finais com CPF/CNPJ e NIF
+- **Conformidade internacional**: Suporte a códigos ISO de moeda e identificação fiscal
+
 ## [1.12.0] - 2024-12-19
 
 ### ✨ Adicionado
