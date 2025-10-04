@@ -151,10 +151,10 @@ public sealed class EnvioLoteEventosBuilder : IMessageBuilder<EnvioLoteEventosMe
     public EnvioLoteEventosMessage Build()
     {
         ValidateRequiredFields();
-        
+
         // Atribuir eventos ao lote
         _eFinanceira.loteEventos.evento = _eventos.ToArray();
-        
+
         return new EnvioLoteEventosMessage(_eFinanceira, _version);
     }
 
@@ -189,10 +189,10 @@ public sealed class EnvioLoteEventosBuilder : IMessageBuilder<EnvioLoteEventosMe
     private static XmlElement SerializeEventoToXmlElement(IEFinanceiraMessage eventoMessage)
     {
         var doc = new XmlDocument();
-        
+
         // Criar serializer para o tipo do payload
         var serializer = new XmlSerializer(eventoMessage.Payload.GetType());
-        
+
         // Serializar para string primeiro
         using var stringWriter = new StringWriter();
         using var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
@@ -200,10 +200,10 @@ public sealed class EnvioLoteEventosBuilder : IMessageBuilder<EnvioLoteEventosMe
             OmitXmlDeclaration = true,
             Indent = false
         });
-        
+
         serializer.Serialize(xmlWriter, eventoMessage.Payload);
         var xmlString = stringWriter.ToString();
-        
+
         // Carregar como XmlDocument e retornar o DocumentElement
         doc.LoadXml(xmlString);
         return doc.DocumentElement!;

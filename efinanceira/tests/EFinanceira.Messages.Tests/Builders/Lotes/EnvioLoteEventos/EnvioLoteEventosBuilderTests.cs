@@ -191,7 +191,7 @@ public class EnvioLoteEventosBuilderTests
     {
         // Arrange
         var builder = new EnvioLoteEventosBuilder();
-        
+
         // Adicionar 101 eventos
         for (int i = 0; i < 101; i++)
         {

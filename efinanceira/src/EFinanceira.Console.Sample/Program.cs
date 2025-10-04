@@ -7,6 +7,7 @@ using EFinanceira.Core.Signing;
 using EFinanceira.Core.Validation;
 using EFinanceira.Messages.Builders.Eventos;
 using EFinanceira.Messages.Builders.Lotes;
+using EFinanceira.Messages.Builders.Lotes.EnvioLoteEventos;
 using EFinanceira.Messages.Builders.Xmldsig;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -93,7 +94,7 @@ public class Program
 
         // Configuração
         services.AddSingleton(_configuration);
-        
+
         // Configuração tipada da e-Financeira
         services.Configure<EFinanceiraSettings>(_configuration.GetSection(EFinanceiraSettings.SectionName));
 
@@ -174,24 +175,22 @@ public class Program
                 .Build();
 
             // Criar lote usando builder fluente
-            var loteBuilder = new EnvioLoteEventosV120Builder()
-                .WithId("LOTE20241219001")
-                .ComTransmissor(cnpjTransmissor, nomeTransmissor, "contato@empresa.com.br", "+5511999999999")
+            var loteBuilder = new EnvioLoteEventosBuilder()
                 .AdicionarEvento(evento1)
                 .AdicionarEvento(evento2);
 
             var lote = loteBuilder.Build();
 
             _logger.LogInformation("✓ Lote criado com sucesso");
-            _logger.LogInformation("  - ID: {Id}", lote.IdValue);
-            _logger.LogInformation("  - Transmissor: {Transmissor}", lote.Lote.IdeTransmissor.CnpjTransmissor);
-            _logger.LogInformation("  - Eventos: {Count}", lote.Lote.Eventos.Count);
+            _logger.LogInformation("  - ID: {Id}", lote.IdValue ?? "N/A");
+            _logger.LogInformation("  - Transmissor: {Transmissor}", "Configurado via XSD");
+            _logger.LogInformation("  - Eventos: {Count}", loteBuilder.ContarEventos());
         }
         catch (Exception ex)
         {
             _logger.LogWarning("⚠ Erro na demonstração de lote (esperado em ambiente de demonstração): {Message}", ex.Message);
             _logger.LogInformation("  - Para funcionar completamente, configure dados válidos em appsettings.json");
-            
+
             // Não propagar a exceção para não interromper outras demonstrações
             await Task.CompletedTask;
         }
@@ -573,7 +572,7 @@ public class Program
             // Demonstrar uso do factory para criar o evento
             _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
-            
+
             // Configuração simples para o factory
             Action<object>? factoryConfig = builder =>
             {
@@ -672,13 +671,13 @@ public class Program
 
             // Demonstrar serialização do evento
             var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
-            
+
             // Criar o elemento raiz eFinanceira que contém o evento
             var eFinanceiraRaiz = new EFinanceira.Messages.Generated.Eventos.EvtCadEmpresaDeclarante.eFinanceira
             {
                 evtCadDeclarante = eventoCadDeclarante.Evento
             };
-            
+
             var xml = serializer.Serialize(eFinanceiraRaiz);
 
             _logger.LogInformation("✓ Evento serializado para XML");
@@ -692,7 +691,7 @@ public class Program
             // Demonstrar uso do factory para criar o evento
             _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
-            
+
             // Configuração simples para o factory
             Action<object>? factoryConfig = builder =>
             {
@@ -727,7 +726,7 @@ public class Program
             {
                 evtCadDeclarante = eventoViaFactory.Evento
             };
-            
+
             var xmlFactory = serializer.Serialize(eFinanceiraFactory);
             _logger.LogInformation("✓ Evento via Factory serializado");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
@@ -847,7 +846,7 @@ public class Program
             {
                 evtCadIntermediario = eventoViaFactory.Evento
             };
-            
+
             var xmlFactory = serializer.Serialize(eFinanceiraFactory);
             _logger.LogInformation("✓ Evento via Factory serializado");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
@@ -973,7 +972,7 @@ public class Program
             {
                 evtMovOpFin = eventoViaFactory.Evento
             };
-            
+
             var xmlFactory = serializer.Serialize(eFinanceiraFactory);
             _logger.LogInformation("✓ Evento via Factory serializado");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
@@ -1100,7 +1099,7 @@ public class Program
             {
                 evtMovOpFinAnual = eventoViaFactory.Evento
             };
-            
+
             var xmlFactory = serializer.Serialize(eFinanceiraFactory);
             _logger.LogInformation("✓ Evento via Factory serializado");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
@@ -1336,13 +1335,13 @@ public class Program
 
             // Demonstrar serialização do evento
             var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
-            
+
             // Criar o elemento raiz eFinanceira que contém o evento
             var eFinanceiraRaiz = new EFinanceira.Messages.Generated.Eventos.EvtExclusao.eFinanceira
             {
                 evtExclusao = eventoExclusao.Evento
             };
-            
+
             var xml = serializer.Serialize(eFinanceiraRaiz);
 
             _logger.LogInformation("✓ Evento serializado para XML");
@@ -1356,7 +1355,7 @@ public class Program
             // Demonstrar uso do factory para criar o evento
             _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
-            
+
             // Configuração simples para o factory
             Action<object>? factoryConfig = builder =>
             {
@@ -1382,7 +1381,7 @@ public class Program
             {
                 evtExclusao = eventoViaFactory.Evento
             };
-            
+
             var xmlFactory = serializer.Serialize(eFinanceiraFactory);
             _logger.LogInformation("✓ Evento via Factory serializado");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
@@ -1542,9 +1541,7 @@ public class Program
             }
 
             // 2. Criar lote
-            var loteBuilder = new EnvioLoteEventosV120Builder()
-                .WithId("LOTE_COMPLETO_001")
-                .ComTransmissor(cnpjDeclarante, "Empresa Demo", "demo@empresa.com");
+            var loteBuilder = new EnvioLoteEventosBuilder();
 
             foreach (var evento in eventos)
             {
@@ -1552,7 +1549,7 @@ public class Program
             }
 
             var lote = loteBuilder.Build();
-            _logger.LogInformation("  ✓ Lote criado com {Count} eventos", lote.Lote.Eventos.Count);
+            _logger.LogInformation("  ✓ Lote criado com {Count} eventos", loteBuilder.ContarEventos());
 
             // 3. Serializar lote (com tratamento de erro)
             try
@@ -1617,7 +1614,7 @@ public class Program
         try
         {
             _logger.LogInformation("\n=== Demonstração: XMLDSig Builder (Baseado no Exemplo Oficial RF) ===");
-            
+
             // Mostrar configurações carregadas
             var settings = _serviceProvider!.GetRequiredService<IOptions<EFinanceiraSettings>>().Value;
             _logger.LogInformation("Configurações carregadas do appsettings.json:");
@@ -1628,24 +1625,24 @@ public class Program
 
             // Exemplo 1: Demonstrar seleção interativa de certificado
             _logger.LogInformation("\nDemonstrando seleção de certificado...");
-            
+
             try
             {
                 using var builderInterativo = new XmldsigBuilder();
                 builderInterativo.WithInteractiveCertificateSelection();
                 _logger.LogInformation("✓ Certificado selecionado com sucesso");
-                
+
                 // Criar um XML de evento de exemplo para assinar
                 var xmlEvento = CreateSampleEventXml();
                 var xmlAssinado = builderInterativo.SignXmlEvent(xmlEvento);
-                
+
                 _logger.LogInformation("✓ Evento XML assinado com sucesso");
                 _logger.LogInformation("  - Tamanho XML assinado: {Size} caracteres", xmlAssinado.OuterXml.Length);
-                
+
                 // Validar assinatura
                 var isValid = XmldsigBuilder.ValidateSignature(xmlAssinado);
                 _logger.LogInformation("  - Assinatura válida: {IsValid}", isValid);
-                
+
                 // Salvar exemplo
                 var outputPath = Path.Combine("exemplos", "evento-assinado-rf.xml");
                 Directory.CreateDirectory("exemplos");
@@ -1659,18 +1656,18 @@ public class Program
 
             // Exemplo 2: Demonstrar assinatura com certificado de arquivo (usando appsettings.json)
             _logger.LogInformation("\nDemonstrando uso com certificado de arquivo (configurado em appsettings.json)...");
-            
+
             try
             {
                 // Obter configurações do appsettings.json
                 var eFinanceiraSettings = _serviceProvider!.GetRequiredService<IOptions<EFinanceiraSettings>>().Value;
-                
+
                 using var builderArquivo = new XmldsigBuilder();
                 builderArquivo.WithCertificateFromFile(eFinanceiraSettings.Certificate.PfxPath, eFinanceiraSettings.Certificate.PfxPassword);
-                
+
                 var xmlEvento = CreateSampleEventXml();
                 var xmlAssinado = builderArquivo.SignXmlEvent(xmlEvento);
-                
+
                 _logger.LogInformation("✓ Evento assinado com certificado de arquivo");
                 _logger.LogInformation("  - Certificado: {Path}", eFinanceiraSettings.Certificate.PfxPath);
                 _logger.LogInformation("  - Configurado em: appsettings.json");
@@ -1688,15 +1685,15 @@ public class Program
 
             // Exemplo 3: Demonstrar assinatura de lote completo
             _logger.LogInformation("\nDemonstrando assinatura de lote de eventos...");
-            
+
             try
             {
                 using var builderLote = new XmldsigBuilder();
                 builderLote.WithCertificateFromStore("THUMBPRINT_EXEMPLO");
-                
+
                 var xmlLote = CreateSampleBatchXml();
                 var xmlLoteAssinado = builderLote.SignXmlDocument(xmlLote);
-                
+
                 _logger.LogInformation("✓ Lote de eventos assinado com sucesso");
             }
             catch (InvalidOperationException ex)
@@ -1707,9 +1704,9 @@ public class Program
 
             // Exemplo 4: Criar assinatura básica para compatibilidade
             _logger.LogInformation("\nDemonstrando criação de assinatura básica...");
-            
+
             var assinaturaBasica = XmldsigBuilder.BuildBasicSignature("SIGNATURE_BASICA_001");
-            
+
             _logger.LogInformation("✓ Assinatura básica criada");
             _logger.LogInformation("  - ID: {Id}", assinaturaBasica.IdValue);
             _logger.LogInformation("  - Algoritmo: RSA-SHA256");
@@ -1854,13 +1851,13 @@ public class Program
 
             // Demonstrar serialização do evento
             var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
-            
+
             // Criar o elemento raiz eFinanceira que contém o evento
             var eFinanceiraRaiz = new EFinanceira.Messages.Generated.Eventos.EvtExclusaoeFinanceira.eFinanceira
             {
                 evtExclusaoeFinanceira = eventoExclusaoeFinanceira.Evento
             };
-            
+
             var xml = serializer.Serialize(eFinanceiraRaiz);
             _logger.LogInformation("✓ Evento serializado para XML");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
@@ -1873,7 +1870,7 @@ public class Program
             // Demonstrar uso do factory para criar o evento
             _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
-            
+
             // Configuração simples para o factory
             Action<object>? factoryConfig = builder =>
             {
@@ -1899,7 +1896,7 @@ public class Program
             {
                 evtExclusaoeFinanceira = eventoViaFactory.Evento
             };
-            
+
             var xmlFactory = serializer.Serialize(eFinanceiraFactory);
             _logger.LogInformation("✓ Evento via Factory serializado");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
@@ -1973,13 +1970,13 @@ public class Program
 
             // Demonstrar serialização do evento
             var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
-            
+
             // Criar o elemento raiz eFinanceira que contém o evento
             var eFinanceiraRaiz = new EFinanceira.Messages.Generated.Eventos.EvtFechamentoeFinanceira.eFinanceira
             {
                 evtFechamentoeFinanceira = eventoFechamento.Evento
             };
-            
+
             var xml = serializer.Serialize(eFinanceiraRaiz);
             _logger.LogInformation("✓ Evento serializado para XML");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
@@ -1992,7 +1989,7 @@ public class Program
             // Demonstrar uso do factory para criar o evento
             _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
-            
+
             // Configuração simples para o factory
             Action<object>? factoryConfig = builder =>
             {
@@ -2023,7 +2020,7 @@ public class Program
             {
                 evtFechamentoeFinanceira = eventoViaFactory.Evento
             };
-            
+
             var xmlFactory = serializer.Serialize(eFinanceiraFactory);
             _logger.LogInformation("✓ Evento via Factory serializado");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
@@ -2104,13 +2101,13 @@ public class Program
 
             // Demonstrar serialização do evento
             var serializer = _serviceProvider!.GetRequiredService<IXmlSerializer>();
-            
+
             // Criar o elemento raiz eFinanceira que contém o evento
             var eFinanceiraRaiz = new EFinanceira.Messages.Generated.Eventos.EvtFechamentoeFinanceiraAlt.eFinanceira
             {
                 evtFechamentoeFinanceira = eventoFechamentoAlt.Evento
             };
-            
+
             var xml = serializer.Serialize(eFinanceiraRaiz);
             _logger.LogInformation("✓ Evento serializado para XML");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xml.Length);
@@ -2123,7 +2120,7 @@ public class Program
             // Demonstrar uso do factory para criar o evento
             _logger.LogInformation("\n--- Demonstrando criação via Factory ---");
             var factory = EFinanceira.Messages.Factory.MessagesFactoryExtensions.CreateConfiguredFactory();
-            
+
             // Configuração simples para o factory
             Action<object>? factoryConfig = builder =>
             {
@@ -2155,7 +2152,7 @@ public class Program
             {
                 evtFechamentoeFinanceira = eventoViaFactory.Evento
             };
-            
+
             var xmlFactory = serializer.Serialize(eFinanceiraFactory);
             _logger.LogInformation("✓ Evento via Factory serializado");
             _logger.LogInformation("  - Tamanho: {Size} caracteres", xmlFactory.Length);
