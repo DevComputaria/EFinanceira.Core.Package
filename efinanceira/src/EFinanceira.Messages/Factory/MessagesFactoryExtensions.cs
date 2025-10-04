@@ -20,6 +20,7 @@ using EFinanceira.Messages.Builders.Eventos.EvtPrevidenciaPrivada;
 using EFinanceira.Messages.Builders.Eventos.EvtRERCT;
 using EFinanceira.Messages.Builders.Lotes;
 using EFinanceira.Messages.Builders.Lotes.EnvioLoteCriptografado;
+using EFinanceira.Messages.Builders.Lotes.EnvioLoteEventos;
 using EFinanceira.Messages.Builders.Xmldsig;
 
 namespace EFinanceira.Messages.Factory;
@@ -362,16 +363,16 @@ public static class MessagesFactoryExtensions
     /// <returns>O mesmo factory para fluent interface</returns>
     public static EFinanceiraMessageFactory AddLotes(this EFinanceiraMessageFactory factory)
     {
-        // Registro do EnvioLoteEventos v1.2.0
+        // Registro do EnvioLoteEventos v1.2.0 (baseado em classes XSD geradas)
         factory.RegisterFactory(
             MessageKind.Lote("EnvioLoteEventos"),
             "v1_2_0",
             (Action<object>? seed) =>
             {
-                var builder = new EnvioLoteEventosV120Builder("v1_2_0");
+                var builder = new EnvioLoteEventosBuilder("v1_2_0");
 
                 // Aplicar configurações do seed se fornecido
-                if (seed is Action<EnvioLoteEventosV120Builder> configure)
+                if (seed is Action<EnvioLoteEventosBuilder> configure)
                 {
                     configure(builder);
                 }

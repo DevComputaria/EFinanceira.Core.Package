@@ -2,6 +2,39 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.15.0] - 2025-10-04
+
+### ✨ Adicionado
+
+#### 📦 Implementação EnvioLoteEventos Builder - SISTEMA DE LOTES XSD COMPLETO!
+- **EnvioLoteEventosBuilder**: Builder completo para envio de lote de eventos baseado em classes XSD reais
+- **🏆 INTEGRAÇÃO XSD NATIVA**: Implementação usando classes geradas do XSD (eFinanceira, TArquivoeFinanceira)
+- **Builder de lotes moderno**: Sistema especializado para processamento de lotes de eventos e-Financeira
+- **Validação de capacidade**: Limite automático de 100 eventos por lote conforme especificação
+- **Factory expandido**: Registrado como "EnvioLoteEventos" v1_2_0 no EFinanceiraMessageFactory (21º tipo de mensagem)
+- **Arquitetura de lotes implementada com suporte completo**:
+  - **EnvioLoteEventosBuilder**: Builder principal com interface fluente (257 linhas)
+  - **EnvioLoteEventosMessage**: Mensagem XSD nativa com eFinanceira e TArquivoeFinanceira
+  - **SerializeEventoToXmlElement**: Serialização automática de eventos para XML
+  - **EnvioLoteEventosBuilderExtensions**: Extensões fluente para configuração rápida
+  - **Testes unitários**: 20 testes completos cobrindo todos os cenários de uso
+  - **Exemplos práticos**: 6 exemplos demonstrando diferentes padrões de uso
+- **Capacidades técnicas avançadas**:
+  - Fluent interface para construção intuitiva de lotes
+  - Geração automática de IDs sequenciais para eventos
+  - Serialização XML nativa usando XmlSerializer
+  - Validação de limite de eventos (máximo 100 por lote)
+  - Suporte a builders de eventos e mensagens diretas
+  - Limpeza e contagem de eventos no lote
+
+### 🛠 Corrigido
+- **Serialização XML**: Corrigido problema de tipos anônimos na serialização para XmlElement
+- **Namespace conflicts**: Removido builder V120 conflitante para evitar ambiguidade
+
+### 🏗️ Reestruturação
+- **Pasta Examples**: Movida de `src/EFinanceira.Messages/Examples` para `efinanceira/Examples`
+- **Organização**: Examples agora ficam fora da estrutura de código fonte mantendo namespace original
+
 ## [1.14.0] - 2025-01-24
 
 ### ✨ Adicionado
