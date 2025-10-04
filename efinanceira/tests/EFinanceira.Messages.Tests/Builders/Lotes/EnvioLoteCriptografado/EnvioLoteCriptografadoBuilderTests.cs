@@ -117,7 +117,7 @@ public class EnvioLoteCriptografadoBuilderTests
         const string idCertificado = "CERT_BYTES";
         var chaveBytes = Encoding.UTF8.GetBytes("ChaveEmBytes");
         var loteBytes = Encoding.UTF8.GetBytes("LoteEmBytes");
-        
+
         var chaveBase64Esperada = Convert.ToBase64String(chaveBytes);
         var loteBase64Esperado = Convert.ToBase64String(loteBytes);
 
@@ -243,7 +243,7 @@ public class EnvioLoteCriptografadoBuilderTests
         Assert.Equal(idCertificado, loteCripto.idCertificado);
         Assert.NotEmpty(loteCripto.chave);
         Assert.NotEmpty(loteCripto.lote);
-        
+
         // Verificar se são Base64 válidos
         Assert.True(LoteCriptografiaUtils.IsValidBase64(loteCripto.chave));
         Assert.True(LoteCriptografiaUtils.IsValidBase64(loteCripto.lote));

@@ -97,13 +97,13 @@ public static class EnvioLoteCriptografadoExamples
         builder.WithLoteCriptografado(lote =>
         {
             lote.WithIdCertificado("CERT_STEP_BY_STEP");
-            
+
             // Gerar chave AES e obter referência
             lote.WithChaveAESAleatoria(out var chaveAES);
-            
+
             // Usar a chave para algum processamento adicional se necessário
             Console.WriteLine($"Chave AES gerada com {chaveAES.Length} bytes");
-            
+
             // Adicionar conteúdo do lote
             var conteudoLote = "Conteúdo específico do lote para processamento";
             var loteBytes = Encoding.UTF8.GetBytes(conteudoLote);
@@ -148,12 +148,12 @@ public static class EnvioLoteCriptografadoExamples
     {
         // Gerar chave AES
         var chaveAES = LoteCriptografiaUtils.GerarChaveAES();
-        
+
         // Simular mensagem de lote usando o builder
         var loteEventos = new EnvioLoteEventosV120Builder()
             .WithId("LOTE_UTILS")
             .Build();
-        
+
         // Criptografar usando utilitários
         var (chaveBase64, loteBase64) = LoteCriptografiaUtils.CriptografarLote(loteEventos, chaveAES);
 
@@ -188,7 +188,7 @@ public static class EnvioLoteCriptografadoExamples
         catch (InvalidOperationException ex)
         {
             Console.WriteLine($"Erro esperado na validação: {ex.Message}");
-            
+
             // Criar lote válido após capturar o erro
             return EnvioLoteCriptografadoBuilder
                 .Create()

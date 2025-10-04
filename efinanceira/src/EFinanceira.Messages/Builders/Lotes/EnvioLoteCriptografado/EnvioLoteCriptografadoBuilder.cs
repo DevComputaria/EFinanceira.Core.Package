@@ -114,16 +114,16 @@ public sealed class EnvioLoteCriptografadoBuilder : IMessageBuilder<EnvioLoteCri
     {
         if (_eFinanceira.loteCriptografado == null)
             throw new InvalidOperationException("LoteCriptografado é obrigatório");
-        
+
         if (string.IsNullOrEmpty(_eFinanceira.loteCriptografado.id))
             throw new InvalidOperationException("Id do lote é obrigatório");
-        
+
         if (string.IsNullOrEmpty(_eFinanceira.loteCriptografado.idCertificado))
             throw new InvalidOperationException("IdCertificado é obrigatório");
-        
+
         if (string.IsNullOrEmpty(_eFinanceira.loteCriptografado.chave))
             throw new InvalidOperationException("Chave criptográfica é obrigatória");
-        
+
         if (string.IsNullOrEmpty(_eFinanceira.loteCriptografado.lote))
             throw new InvalidOperationException("Lote criptografado é obrigatório");
     }
@@ -229,10 +229,10 @@ public sealed class LoteCriptografadoBuilder
     {
         // Serializar a mensagem para XML
         var xmlContent = SerializeToXml(loteMessage);
-        
+
         // Criptografar o conteúdo
         var loteCriptografado = EncryptContent(xmlContent, chaveAES);
-        
+
         _loteCriptografado.lote = Convert.ToBase64String(loteCriptografado);
         return this;
     }
@@ -259,13 +259,13 @@ public sealed class LoteCriptografadoBuilder
     {
         // Gerar chave se não fornecida
         chaveAES ??= GenerateAESKey();
-        
+
         // Definir a chave
         WithChave(chaveAES);
-        
+
         // Criptografar e definir o lote
         WithLoteFromMessage(loteMessage, chaveAES);
-        
+
         return this;
     }
 
@@ -299,23 +299,23 @@ public sealed class LoteCriptografadoBuilder
         {
             aes.Key = key;
             aes.GenerateIV();
-            
+
             using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
             {
                 var contentBytes = Encoding.UTF8.GetBytes(content);
-                
+
                 // Criptografar conteúdo primeiro para saber o tamanho real
                 var encrypted = encryptor.TransformFinalBlock(contentBytes, 0, contentBytes.Length);
-                
+
                 // Agora alocar array com tamanho correto
                 var encryptedContent = new byte[aes.IV.Length + encrypted.Length];
-                
+
                 // Adicionar IV no início
                 Array.Copy(aes.IV, 0, encryptedContent, 0, aes.IV.Length);
-                
+
                 // Adicionar conteúdo criptografado
                 Array.Copy(encrypted, 0, encryptedContent, aes.IV.Length, encrypted.Length);
-                
+
                 return encryptedContent;
             }
         }
@@ -417,15 +417,15 @@ public static class LoteCriptografiaUtils
     /// <param name="chaveAES">Chave AES para criptografia</param>
     /// <returns>Tupla com chave e lote criptografados em Base64</returns>
     public static (string ChaveBase64, string LoteBase64) CriptografarLote(
-        IEFinanceiraMessage loteMessage, 
+        IEFinanceiraMessage loteMessage,
         byte[] chaveAES)
     {
         var loteBuilder = new LoteCriptografadoBuilder();
-        
+
         loteBuilder
             .WithChave(chaveAES)
             .WithLoteFromMessage(loteMessage, chaveAES);
-        
+
         var resultado = loteBuilder.Build();
         return (resultado.chave, resultado.lote);
     }
@@ -455,7 +455,7 @@ public static class LoteCriptografiaUtils
         {
             if (string.IsNullOrEmpty(base64String))
                 return false;
-                
+
             Convert.FromBase64String(base64String);
             return true;
         }

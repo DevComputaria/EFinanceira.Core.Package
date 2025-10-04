@@ -369,13 +369,13 @@ public static class MessagesFactoryExtensions
             (Action<object>? seed) =>
             {
                 var builder = new EnvioLoteEventosV120Builder("v1_2_0");
-                
+
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<EnvioLoteEventosV120Builder> configure)
                 {
                     configure(builder);
                 }
-                
+
                 return builder.Build();
             });
 
@@ -386,13 +386,13 @@ public static class MessagesFactoryExtensions
             (Action<object>? seed) =>
             {
                 var builder = new EnvioLoteCriptografadoBuilder("v1_2_0");
-                
+
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<EnvioLoteCriptografadoBuilder> configure)
                 {
                     configure(builder);
                 }
-                
+
                 return builder.Build();
             });
 
