@@ -2,6 +2,36 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.14.0] - 2025-01-24
+
+### ✨ Adicionado
+
+#### 🔐 Implementação EnvioLoteCriptografado Builder - SISTEMA DE CRIPTOGRAFIA COMPLETO!
+- **EnvioLoteCriptografadoBuilder**: Builder completo para envio de lotes criptografados com AES-256
+- **🏆 SISTEMA CRIPTOGRÁFICO AVANÇADO**: Implementação completa com 400+ linhas de código especializado
+- **Builder de criptografia**: Sistema especializado para processamento seguro de lotes de eventos
+- **Criptografia AES-256**: Implementação robusta com geração automática de chaves e IVs
+- **Factory expandido**: Registrado como "EnvioLoteCriptografado" v1_2_0 no EFinanceiraMessageFactory (20º tipo de mensagem)
+- **Testes abrangentes**: Suite completa com 26 testes unitários validando toda funcionalidade
+- **Arquitetura criptográfica implementada com suporte completo**:
+  - **EnvioLoteCriptografadoBuilder**: Builder principal (100+ linhas)
+  - **LoteCriptografadoBuilder**: Sub-builder especializado para dados criptografados (200+ linhas)
+  - **LoteCriptografiaUtils**: Utilitários de criptografia com AES-256, Base64 e validações (100+ linhas)
+  - **EnvioLoteCriptografadoBuilderExtensions**: Extensões fluente para configuração rápida
+  - **Testes unitários**: 26 testes completos cobrindo todos os cenários de uso
+  - **InternalsVisibleTo**: Acesso interno configurado para testes unitários
+- **Capacidades técnicas avançadas**:
+  - Criptografia AES-256-CBC com chaves de 256 bits
+  - Geração automática de Initialization Vectors (IV)
+  - Serialização XML segura com codificação Base64
+  - Validação de integridade de dados criptografados
+  - Suporte a certificados digitais para identificação
+  - Processamento de lotes com validação de tamanho
+
+### 🛠 Corrigido
+- **Criptografia AES**: Corrigido problema de alocação de array na criptografia (padding AES tratado corretamente)
+- **Validação Base64**: Implementada validação robusta para strings Base64 incluindo casos extremos
+
 ## [1.13.0] - 2025-09-28
 
 ### ✨ Adicionado

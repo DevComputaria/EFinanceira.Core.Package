@@ -18,6 +18,8 @@ using EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual;
 using EFinanceira.Messages.Builders.Eventos.EvtPatrocinado;
 using EFinanceira.Messages.Builders.Eventos.EvtPrevidenciaPrivada;
 using EFinanceira.Messages.Builders.Eventos.EvtRERCT;
+using EFinanceira.Messages.Builders.Lotes;
+using EFinanceira.Messages.Builders.Lotes.EnvioLoteCriptografado;
 using EFinanceira.Messages.Builders.Xmldsig;
 
 namespace EFinanceira.Messages.Factory;
@@ -354,13 +356,46 @@ public static class MessagesFactoryExtensions
     }
 
     /// <summary>
-    /// Registra todas as mensagens de lotes no factory (placeholder para futuro)
+    /// Registra todas as mensagens de lotes no factory
     /// </summary>
     /// <param name="factory">Factory do Core para configurar</param>
     /// <returns>O mesmo factory para fluent interface</returns>
     public static EFinanceiraMessageFactory AddLotes(this EFinanceiraMessageFactory factory)
     {
-        // TODO: Implementar quando houver builders de lotes
+        // Registro do EnvioLoteEventos v1.2.0
+        factory.RegisterFactory(
+            MessageKind.Lote("EnvioLoteEventos"),
+            "v1_2_0",
+            (Action<object>? seed) =>
+            {
+                var builder = new EnvioLoteEventosV120Builder("v1_2_0");
+                
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<EnvioLoteEventosV120Builder> configure)
+                {
+                    configure(builder);
+                }
+                
+                return builder.Build();
+            });
+
+        // Registro do EnvioLoteCriptografado v1.2.0
+        factory.RegisterFactory(
+            MessageKind.Lote("EnvioLoteCriptografado"),
+            "v1_2_0",
+            (Action<object>? seed) =>
+            {
+                var builder = new EnvioLoteCriptografadoBuilder("v1_2_0");
+                
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<EnvioLoteCriptografadoBuilder> configure)
+                {
+                    configure(builder);
+                }
+                
+                return builder.Build();
+            });
+
         return factory;
     }
 
