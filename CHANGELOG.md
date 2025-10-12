@@ -2,6 +2,40 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.17.0] - 2025-01-28
+
+### ✨ Adicionado
+
+#### 📦 Implementação RetornoLoteEventos Builder - SISTEMA DE INTERPRETAÇÃO DE RETORNOS XSD COMPLETO!
+- **RetornoLoteEventosBuilder**: Builder completo para interpretação de retornos de lote de eventos baseado em classes XSD reais
+- **🏆 INTEGRAÇÃO XSD NATIVA**: Implementação usando classes geradas do XSD retornoLoteEventos-v1_2_0 (eFinanceira, eFinanceiraRetornoLoteEventos)
+- **Builder de retornos**: Sistema especializado para parsing e análise de retornos do governo e-Financeira
+- **Interpretação de status**: Análise automática de códigos de status e ocorrências
+- **Factory expandido**: Registrado como "RetornoLoteEventos" v1_2_0 no EFinanceiraMessageFactory (23º tipo de mensagem)
+- **Arquitetura de retornos implementada com suporte completo**:
+  - **RetornoLoteEventosBuilder**: Builder principal com interface fluente (405 linhas)
+  - **RetornoLoteEventosMessage**: Mensagem XSD nativa com eFinanceira e retornoLoteEventos
+  - **FromXml**: Parsing seguro de XML de retorno com proteção contra DTD
+  - **RetornoLoteEventosBuilderExtensions**: Extensões fluente para análise e validação
+  - **Testes unitários**: 28 testes completos cobrindo todos os cenários de retorno
+  - **Exemplos práticos**: 6 exemplos demonstrando diferentes padrões de interpretação
+- **Funcionalidades avançadas**:
+  - **Análise de status**: Identificação automática de sucesso/erro
+  - **Gestão de ocorrências**: Separação automática entre erros e avisos
+  - **Parsing de eventos**: Extração de eventos retornados do governo
+  - **Extensões de análise**: IsSuccessful(), GetErros(), GetAvisos(), GetEventos()
+  - **Construção fluente**: ComSucesso(), ComErro(), ComAviso(), ComErroProcessamento()
+  - **Segurança XML**: Proteção contra ataques DTD no parsing
+- **LotesBuilderExtensions**: Sistema unificado de extensões para todos os builders de lotes
+  - **CriarRetornoLoteEventos**: Factory method para criação de builders
+  - **ParseRetornoLoteEventos**: Factory method para parsing de XML existente
+  - **Integração completa**: Suporte para todos os tipos de lotes (Envio, Assíncrono, Criptografado, Retorno)
+
+### 🔧 Melhorado
+- **Segurança XML**: Aplicação de práticas seguras de serialização/deserialização
+- **Padrões de código**: Conformidade completa com StyleCop e análise de código
+- **Arquitetura unificada**: Sistema consistente de builders para todo o ecossistema de lotes
+
 ## [1.16.0] - 2025-01-28
 
 ### ✨ Adicionado
