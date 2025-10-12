@@ -15,7 +15,7 @@ public static class EnvioLoteEventosAssincronoExamples
     public static void ExemploBasico()
     {
         Console.WriteLine("=== Exemplo básico ===\n");
-        
+
         var evento1 = new EvtMovimentacaoFinanceiraBuilder()
             .ComId("MOV_001")
             .ComIdeEvento(ide => ide
@@ -115,7 +115,7 @@ public static class EnvioLoteEventosAssincronoExamples
                 .ComIdeDeclarante(decl => decl.WithCnpjDeclarante("12345678000123"))
                 .ComIdeDeclarado(decl => decl.WithTpNi(1).WithNiDeclarado("11122233344"))
                 .Build(),
-            
+
             new EvtMovimentacaoFinanceiraBuilder()
                 .ComId("MOV_EXT_002")
                 .ComIdeEvento(ide => ide.WithIndRetificacao(1).WithTpAmb(2))
@@ -155,7 +155,7 @@ public static class EnvioLoteEventosAssincronoExamples
                 .Build();
 
             builder.AdicionarEvento(evento);
-            
+
             Console.WriteLine($"  ✓ Evento {i} adicionado. Total: {builder.ContarEventos()}");
         }
 
