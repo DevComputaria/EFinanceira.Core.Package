@@ -2,6 +2,36 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.16.0] - 2025-01-28
+
+### ✨ Adicionado
+
+#### 📦 Implementação EnvioLoteEventosAssincrono Builder - SISTEMA DE LOTES ASSÍNCRONOS XSD COMPLETO!
+- **EnvioLoteEventosAssincronoBuilder**: Builder completo para envio de lote de eventos assíncronos baseado em classes XSD reais
+- **🏆 INTEGRAÇÃO XSD NATIVA**: Implementação usando classes geradas do XSD envioLoteEventosAssincrono-v1_0_0 (eFinanceira, eFinanceiraLoteEventosAssincrono)
+- **Builder de lotes assíncronos**: Sistema especializado para processamento assíncrono de lotes de eventos e-Financeira
+- **Validação de capacidade**: Limite automático de 100 eventos por lote conforme especificação
+- **Factory expandido**: Registrado como "EnvioLoteEventosAssincrono" v1_0_0 no EFinanceiraMessageFactory (22º tipo de mensagem)
+- **Arquitetura de lotes assíncronos implementada com suporte completo**:
+  - **EnvioLoteEventosAssincronoBuilder**: Builder principal com interface fluente (275 linhas)
+  - **EnvioLoteEventosAssincronoMessage**: Mensagem XSD nativa com eFinanceira e eFinanceiraLoteEventosAssincrono  
+  - **SerializeEventoToXmlElement**: Serialização automática de eventos para XML
+  - **EnvioLoteEventosAssincronoBuilderExtensions**: Extensões fluente para configuração rápida
+  - **Testes unitários**: 22 testes completos cobrindo todos os cenários de uso assíncrono
+  - **Exemplos práticos**: 6 exemplos demonstrando diferentes padrões de uso assíncrono
+- **Funcionalidades avançadas**:
+  - **Gerenciamento de CNPJ**: Configuração centralizada do declarante
+  - **Controle de eventos**: Adição individual, em lote, por builders e por mensagens
+  - **Contadores inteligentes**: Sistema automático de numeração sequencial
+  - **Validação de limites**: Proteção contra excesso de eventos por lote
+  - **Interface fluente**: API expressiva com encadeamento de métodos
+
+### 🔧 Melhorado
+- **Padrões de código**: Aplicação completa dos padrões StyleCop e análise de código
+- **Validação de argumentos**: Uso consistente de ArgumentNullException.ThrowIfNull
+- **Ordenação de membros**: Constantes públicas antes de campos privados (SA1202)
+- **Inicialização explícita**: Remoção de inicializações desnecessárias (CA1805)
+
 ## [1.15.0] - 2025-10-04
 
 ### ✨ Adicionado

@@ -21,6 +21,7 @@ using EFinanceira.Messages.Builders.Eventos.EvtRERCT;
 using EFinanceira.Messages.Builders.Lotes;
 using EFinanceira.Messages.Builders.Lotes.EnvioLoteCriptografado;
 using EFinanceira.Messages.Builders.Lotes.EnvioLoteEventos;
+using EFinanceira.Messages.Builders.Lotes.EnvioLoteEventosAssincrono;
 using EFinanceira.Messages.Builders.Xmldsig;
 
 namespace EFinanceira.Messages.Factory;
@@ -390,6 +391,23 @@ public static class MessagesFactoryExtensions
 
                 // Aplicar configurações do seed se fornecido
                 if (seed is Action<EnvioLoteCriptografadoBuilder> configure)
+                {
+                    configure(builder);
+                }
+
+                return builder.Build();
+            });
+
+        // Registro do EnvioLoteEventosAssincrono v1.0.0
+        factory.RegisterFactory(
+            MessageKind.Lote("EnvioLoteEventosAssincrono"),
+            "v1_0_0",
+            (Action<object>? seed) =>
+            {
+                var builder = new EnvioLoteEventosAssincronoBuilder("v1_0_0");
+
+                // Aplicar configurações do seed se fornecido
+                if (seed is Action<EnvioLoteEventosAssincronoBuilder> configure)
                 {
                     configure(builder);
                 }
