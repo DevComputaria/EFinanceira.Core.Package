@@ -200,7 +200,7 @@ public sealed class RetornoLoteEventosBuilder : IMessageBuilder<RetornoLoteEvent
 
         var xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(eventoXmlString);
-        
+
         if (xmlDoc.DocumentElement == null)
             throw new ArgumentException("XML inválido fornecido", nameof(eventoXmlString));
 
@@ -277,14 +277,14 @@ public sealed class RetornoLoteEventosBuilder : IMessageBuilder<RetornoLoteEvent
         ArgumentNullException.ThrowIfNull(xmlContent);
 
         var serializer = new XmlSerializer(typeof(eFinanceira), "http://www.eFinanceira.gov.br/schemas/retornoLoteEventos/v1_2_0");
-        
+
         using var reader = new StringReader(xmlContent);
-        using var xmlReader = XmlReader.Create(reader, new XmlReaderSettings 
-        { 
+        using var xmlReader = XmlReader.Create(reader, new XmlReaderSettings
+        {
             DtdProcessing = DtdProcessing.Prohibit,
             XmlResolver = null
         });
-        
+
         var deserializedObject = serializer.Deserialize(xmlReader);
         if (deserializedObject is not eFinanceira eFinanceira)
         {

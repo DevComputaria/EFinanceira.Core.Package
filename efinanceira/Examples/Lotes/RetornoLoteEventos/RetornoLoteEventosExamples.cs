@@ -48,7 +48,7 @@ public static class RetornoLoteEventosExamples
 
         Console.WriteLine($"Status: {retorno.EFinanceira.retornoLoteEventos.status.cdStatus}");
         Console.WriteLine($"Sucesso: {retorno.IsSuccessful()}");
-        
+
         Console.WriteLine("\nErros encontrados:");
         foreach (var erro in retorno.GetErros())
         {
@@ -85,7 +85,7 @@ public static class RetornoLoteEventosExamples
 
         Console.WriteLine($"Status: {retorno.EFinanceira.retornoLoteEventos.status.cdStatus}");
         Console.WriteLine($"Eventos retornados: {retorno.GetEventos().Count()}");
-        
+
         foreach (var evento in retorno.GetEventos())
         {
             Console.WriteLine($"- Evento ID: {evento.id}");
@@ -192,11 +192,11 @@ public static class RetornoLoteEventosExamples
         var xmlDoc = new XmlDocument();
         var eventoElement = xmlDoc.CreateElement("evento", "http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1");
         eventoElement.SetAttribute("id", eventId);
-        
+
         var statusElement = xmlDoc.CreateElement("status", "http://www.eFinanceira.gov.br/schemas/evtAberturaeFinanceira/v1_2_1");
         statusElement.InnerText = status;
         eventoElement.AppendChild(statusElement);
-        
+
         xmlDoc.AppendChild(eventoElement);
         return xmlDoc.DocumentElement!;
     }

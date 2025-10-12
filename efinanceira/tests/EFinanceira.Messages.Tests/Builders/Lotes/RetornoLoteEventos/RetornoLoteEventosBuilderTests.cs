@@ -276,7 +276,7 @@ public class RetornoLoteEventosBuilderTests
         var builder = new RetornoLoteEventosBuilder();
         var xmlDoc = new XmlDocument();
         var element = xmlDoc.CreateElement("evento");
-        
+
         builder.AdicionarEvento(element, "test");
 
         // Act
