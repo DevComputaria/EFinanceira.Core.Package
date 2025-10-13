@@ -2,6 +2,53 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.18.0] - 2025-01-28
+
+### ✨ Adicionado
+
+#### 📦 Implementação RetornoLoteEventos_v1_3_0 Builder - SUPORTE SCHEMA v1.3.0 COMPLETO!
+- **RetornoLoteEventos_v1_3_0_Builder**: Builder completo para retorno de eventos e-Financeira v1.3.0
+- **🏆 NOVA VERSÃO DE SCHEMA**: Implementação baseada no XSD retornoEvento v1.3.0 com estrutura de eventos individuais
+- **Arquitetura de eventos individuais**: Foco em processamento de eventos únicos vs. lotes da v1.2.0
+- **Factory expandido**: Registrado como "RetornoLoteEventos_v1_3_0" no EFinanceiraMessageFactory (24º tipo de mensagem)
+- **Nova estrutura de classes XSD v1.3.0**:
+  - **RetornoLoteEventos_v1_3_0_Builder**: Builder principal com interface fluente (430+ linhas)
+  - **RetornoLoteEventos_v1_3_0_Message**: Mensagem XSD nativa com eFinanceira e retornoEvento
+  - **TIdeEmpresaDeclarante**: Nova identificação específica com CNPJ da empresa declarante
+  - **TDadosRecepcaoEvento**: Dados detalhados de recepção (dhRecepcao, dhProcessamento, tipoEvento, hash)
+  - **TDadosReciboEntrega**: Dados específicos de recibo de entrega
+  - **TStatus**: Status com cdRetorno (vs cdStatus da v1.2.0)
+- **Funcionalidades específicas v1.3.0**:
+  - **ComEmpresaDeclarante()**: Define CNPJ da empresa declarante
+  - **ComDadosRecepcao()**: Define dados completos de recepção do evento
+  - **ComReciboEntrega()**: Define dados do recibo de entrega
+  - **ComStatus()**: Define status com código de retorno específico
+  - **Namespace específico**: `http://www.eFinanceira.gov.br/schemas/retornoEvento/v1_3_0`
+- **Extensões avançadas v1.3.0**:
+  - **GetCnpjEmpresaDeclarante()**: Obtém CNPJ da empresa declarante
+  - **GetDadosRecepcao()**: Obtém dados completos de recepção
+  - **GetReciboEntrega()**: Obtém dados do recibo de entrega
+  - **IsSuccessful()**: Verifica sucesso com código "0"
+  - **GetErros()/GetAvisos()**: Filtragem de ocorrências por tipo
+- **LotesBuilderExtensions expandido**:
+  - **CriarRetornoLoteEventos_v1_3_0()**: Factory method para v1.3.0
+  - **ParseRetornoLoteEventos_v1_3_0()**: Parsing de XML v1.3.0
+- **Testes unitários completos**: 30 testes cobrindo todos os cenários v1.3.0
+- **Exemplos práticos**: 8 exemplos demonstrando diferentes padrões v1.3.0
+- **Documentação detalhada**: Comparação completa entre v1.2.0 e v1.3.0
+
+### 🔄 Alterado
+- **Schema Evolution**: Suporte simultâneo a v1.2.0 (lotes) e v1.3.0 (eventos individuais)
+- **Builders independentes**: Cada versão mantém sua própria implementação
+- **Factory unificado**: Ambas as versões registradas no mesmo factory
+
+### 📋 Notas Técnicas v1.3.0
+- **Foco arquitetural**: Eventos individuais vs. lotes de eventos
+- **Elemento raiz**: `retornoEvento` (individual) vs. `retornoLoteEventos` (lote)
+- **Status diferenciado**: `cdRetorno` vs. `cdStatus` da v1.2.0
+- **Dados específicos**: `dadosRecepcaoEvento`, `dadosReciboEntrega`, `identificacaoEmpresaDeclarante`
+- **Compatibilidade**: Builders separados garantem isolamento entre versões
+
 ## [1.17.0] - 2025-01-28
 
 ### ✨ Adicionado

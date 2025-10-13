@@ -3,6 +3,7 @@ using EFinanceira.Messages.Builders.Lotes.EnvioLoteCriptografado;
 using EFinanceira.Messages.Builders.Lotes.EnvioLoteEventos;
 using EFinanceira.Messages.Builders.Lotes.EnvioLoteEventosAssincrono;
 using EFinanceira.Messages.Builders.Lotes.RetornoLoteEventos;
+using EFinanceira.Messages.Builders.Lotes.RetornoLoteEventos_v1_3_0;
 
 namespace EFinanceira.Messages.Extensions;
 
@@ -65,5 +66,28 @@ public static class LotesBuilderExtensions
     public static RetornoLoteEventosBuilder ParseRetornoLoteEventos(this EFinanceiraMessageFactory factory, string xmlContent, string version = "v1_2_0")
     {
         return RetornoLoteEventosBuilder.FromXml(xmlContent, version);
+    }
+
+    /// <summary>
+    /// Cria um builder para RetornoLoteEventos v1.3.0
+    /// </summary>
+    /// <param name="factory">Factory do e-Financeira</param>
+    /// <param name="version">Versão do schema (padrão: v1_3_0)</param>
+    /// <returns>Builder para RetornoLoteEventos v1.3.0</returns>
+    public static RetornoLoteEventos_v1_3_0_Builder CriarRetornoLoteEventos_v1_3_0(this EFinanceiraMessageFactory factory, string version = "v1_3_0")
+    {
+        return new RetornoLoteEventos_v1_3_0_Builder(version);
+    }
+
+    /// <summary>
+    /// Cria um builder para RetornoLoteEventos v1.3.0 a partir de XML
+    /// </summary>
+    /// <param name="factory">Factory do e-Financeira</param>
+    /// <param name="xmlContent">Conteúdo XML do retorno</param>
+    /// <param name="version">Versão do schema (padrão: v1_3_0)</param>
+    /// <returns>Builder preenchido com os dados do XML</returns>
+    public static RetornoLoteEventos_v1_3_0_Builder ParseRetornoLoteEventos_v1_3_0(this EFinanceiraMessageFactory factory, string xmlContent, string version = "v1_3_0")
+    {
+        return RetornoLoteEventos_v1_3_0_Builder.FromXml(xmlContent, version);
     }
 }
