@@ -2,6 +2,52 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
+## [1.19.0] - 2025-01-28
+
+### ✨ Adicionado
+
+#### 📦 Implementação RetornoLoteEventosAssincrono Builder - SUPORTE PROCESSAMENTO ASSÍNCRONO COMPLETO!
+- **RetornoLoteEventosAssincronoBuilder**: Builder completo para retorno de lotes processados assincronamente e-Financeira v1.0.0
+- **🏆 PROCESSAMENTO ASSÍNCRONO**: Implementação baseada no XSD retornoLoteEventosAssincrono v1.0.0 com fluxo de processamento não-bloqueante
+- **Arquitetura assíncrona**: Foco em processamento de lotes com rastreamento via protocolo e timestamps separados
+- **Factory expandido**: Registrado como "RetornoLoteEventosAssincrono" no EFinanceiraMessageFactory (25º tipo de mensagem)
+- **Nova estrutura de classes XSD v1.0.0 assíncronas**:
+  - **RetornoLoteEventosAssincronoBuilder**: Builder principal com interface fluente assíncrona (470+ linhas)
+  - **RetornoLoteEventosAssincronoMessage**: Mensagem XSD nativa com eFinanceira e retornoLoteEventosAssincrono
+  - **TDadosRecepcao**: Dados de recepção com protocoloEnvio para rastreamento
+  - **TDadosProcessamento**: Dados de processamento separados com dhProcessamento
+  - **TStatus**: Status com cdResposta (int) vs cdStatus (string) das versões síncronas
+  - **TArquivoeFinanceira**: Eventos genéricos via XmlElement Any para máxima flexibilidade
+  - **TOcorrenciasOcorrencia**: Ocorrências com tipo byte (1=erro, 2=aviso)
+- **Funcionalidades específicas assíncronas**:
+  - **ComDadosRecepcao()**: Define dados de recepção com protocolo de rastreamento
+  - **ComDadosProcessamento()**: Define dados de processamento separados
+  - **AdicionarEvento()**: Adiciona eventos via XmlElement ou string XML
+  - **ComStatus()**: Define status com código inteiro específico
+  - **Namespace específico**: `http://www.eFinanceira.gov.br/schemas/retornoLoteEventosAssincrono/v1_0_0`
+- **Extensões avançadas assíncronas**:
+  - **GetProtocoloEnvio()**: Obtém protocolo para correlação com envio
+  - **GetDadosRecepcao()**: Obtém dados completos de recepção
+  - **GetDadosProcessamento()**: Obtém dados completos de processamento
+  - **GetEventos()**: Obtém eventos processados como XmlElement
+  - **IsSuccessful()**: Verifica sucesso (cdResposta = 0)
+- **Exemplos abrangentes (400+ linhas)**:
+  - **Retorno de sucesso**: Lote processado com sucesso
+  - **Retorno com erros**: Múltiplas ocorrências de erro e aviso
+  - **Processamento de eventos**: Adição de eventos XML genéricos
+  - **Parse de XML**: Conversão de XML existente para builder
+  - **Workflow completo**: Fluxo de recepção → processamento → retorno
+- **Testes unitários completos (500+ linhas)**:
+  - **33 testes unitários**: Cobertura completa de todas as funcionalidades
+  - **Validação assíncrona**: Testes específicos para fluxo assíncrono
+  - **Mock de XmlElement**: Simulação de eventos XML
+  - **Cenários de erro**: Validação de parâmetros obrigatórios
+- **Documentação especializada**:
+  - **RetornoLoteEventosAssincrono.md**: Guia completo de uso assíncrono
+  - **Diferenças síncronas**: Comparação detalhada com versões síncronas
+  - **Workflow assíncrono**: Explicação do fluxo recepção → processamento
+  - **Exemplos avançados**: Casos de uso complexos com XML e rastreamento
+
 ## [1.18.0] - 2025-01-28
 
 ### ✨ Adicionado
