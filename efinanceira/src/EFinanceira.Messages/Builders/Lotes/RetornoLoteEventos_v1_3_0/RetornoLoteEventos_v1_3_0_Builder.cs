@@ -90,11 +90,11 @@ public sealed class RetornoLoteEventos_v1_3_0_Builder : IMessageBuilder<RetornoL
     /// <param name="nrRecibo">Número do recibo</param>
     /// <returns>Builder para encadeamento fluente</returns>
     public RetornoLoteEventos_v1_3_0_Builder ComDadosRecepcao(
-        DateTime dhRecepcao, 
-        DateTime dhProcessamento, 
-        string tipoEvento, 
-        string idEvento, 
-        string hash, 
+        DateTime dhRecepcao,
+        DateTime dhProcessamento,
+        string tipoEvento,
+        string idEvento,
+        string hash,
         string nrRecibo)
     {
         ArgumentNullException.ThrowIfNull(tipoEvento);
@@ -258,14 +258,14 @@ public sealed class RetornoLoteEventos_v1_3_0_Builder : IMessageBuilder<RetornoL
         ArgumentNullException.ThrowIfNull(xmlContent);
 
         var serializer = new XmlSerializer(typeof(eFinanceira), "http://www.eFinanceira.gov.br/schemas/retornoEvento/v1_3_0");
-        
+
         using var reader = new StringReader(xmlContent);
-        using var xmlReader = XmlReader.Create(reader, new XmlReaderSettings 
-        { 
+        using var xmlReader = XmlReader.Create(reader, new XmlReaderSettings
+        {
             DtdProcessing = DtdProcessing.Prohibit,
             XmlResolver = null
         });
-        
+
         var deserializedObject = serializer.Deserialize(xmlReader);
         if (deserializedObject is not eFinanceira eFinanceira)
         {

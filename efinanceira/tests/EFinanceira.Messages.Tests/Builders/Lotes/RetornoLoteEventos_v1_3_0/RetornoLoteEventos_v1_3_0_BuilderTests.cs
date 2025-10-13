@@ -102,7 +102,7 @@ public class RetornoLoteEventos_v1_3_0_BuilderTests
         var builder = new RetornoLoteEventos_v1_3_0_Builder();
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => 
+        Assert.Throws<ArgumentNullException>(() =>
             builder.ComDadosRecepcao(DateTime.Now, DateTime.Now, null!, "id", "hash", "recibo"));
     }
 
@@ -466,7 +466,7 @@ public class RetornoLoteEventos_v1_3_0_BuilderTests
         var invalidXml = "<invalid>xml</invalid>";
 
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => 
+        Assert.Throws<InvalidOperationException>(() =>
             RetornoLoteEventos_v1_3_0_Builder.FromXml(invalidXml));
     }
 
