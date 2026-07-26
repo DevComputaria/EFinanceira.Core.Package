@@ -1,0 +1,6 @@
+using Xunit;
+using EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira;
+
+namespace EFinanceira.Messages.Tests.Builders.Eventos.EvtAberturaeFinanceira;
+
+public class EvtAberturaeFinanceiraBuilderTests

@@ -1,0 +1,34 @@
+name: Component.BuildTest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [develop, feature/*]
+    paths:
+      - 'efinanceira/src/EFinanceira.Messages/**'
+      - 'efinanceira/tests/EFinanceira.Messages.Tests/**'
+  pull_request:
+    paths:
+      - 'efinanceira/src/EFinanceira.Messages/**'
+      - 'efinanceira/tests/EFinanceira.Messages.Tests/**'
+
+jobs:
+  build-test-messages:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore efinanceira/EFinanceira.sln
+
+      - name: Build Messages project
+        run: dotnet build efinanceira/src/EFinanceira.Messages/EFinanceira.Messages.csproj --no-restore --configuration Release
+
+      - name: Test Messages project
+        run: dotnet test efinanceira/tests/EFinanceira.Messages.Tests/EFinanceira.Messages.Tests.csproj --no-restore --configuration Release --verbosity normal
