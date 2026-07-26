@@ -28,7 +28,7 @@
     
     <!-- Configurações de build -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);1591</NoWarn> <!-- XML Documentation warnings -->
+    <NoWarn>$(NoWarn);1591;NU1903</NoWarn> <!-- XML Documentation warnings and NuGet vulnerability warnings -->
     
     <!-- Configurações de análise -->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>

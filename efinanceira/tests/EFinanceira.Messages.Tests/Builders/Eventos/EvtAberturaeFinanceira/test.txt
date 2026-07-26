@@ -1,2 +1,0 @@
-using Xunit;
-using EFinanceira.Messages.Builders.Eventos.EvtAbertu

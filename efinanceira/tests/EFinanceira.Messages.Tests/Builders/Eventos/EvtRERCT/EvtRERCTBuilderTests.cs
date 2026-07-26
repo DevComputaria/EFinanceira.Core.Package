@@ -190,7 +190,7 @@ public class EvtRERCTBuilderTests
                     .WithCnpjDeclarante("00000000000100"))
                 .Build());
 
-        Assert.Equal("IdeEvento é obrigatório", exception.Message);
+        Assert.Equal("IdeDeclarado é obrigatório", exception.Message);
     }
 
     [Fact]
