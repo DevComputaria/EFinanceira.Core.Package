@@ -21,7 +21,7 @@ public sealed class XmlNetSerializer : IXmlSerializer
         var serializer = GetSerializer(root.GetType());
         var writerSettings = settings ?? CreateDefaultWriterSettings();
 
-        using var stringWriter = new StringWriter();
+        using var stringWriter = new Utf8StringWriter();
         using var xmlWriter = XmlWriter.Create(stringWriter, writerSettings);
 
         // Remover namespaces desnecessários
@@ -62,7 +62,7 @@ public sealed class XmlNetSerializer : IXmlSerializer
         {
             Indent = false,
             Encoding = new UTF8Encoding(false), // UTF-8 sem BOM
-            OmitXmlDeclaration = false,
+            OmitXmlDeclaration = true,
             NewLineHandling = NewLineHandling.None
         };
 
@@ -135,5 +135,14 @@ public sealed class XmlNetSerializer : IXmlSerializer
             MaxCharactersFromEntities = 1024,
             MaxCharactersInDocument = 1024 * 1024 * 10 // 10MB
         };
+    }
+
+    /// <summary>
+    /// StringWriter que reporta UTF-8 como encoding, resolvendo o problema
+    /// do StringWriter padrão que sempre reporta UTF-16.
+    /// </summary>
+    private sealed class Utf8StringWriter : StringWriter
+    {
+        public override Encoding Encoding => Encoding.UTF8;
     }
 }
