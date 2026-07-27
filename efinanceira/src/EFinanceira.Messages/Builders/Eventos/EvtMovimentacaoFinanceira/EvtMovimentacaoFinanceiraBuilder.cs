@@ -174,7 +174,7 @@ public sealed class IdeEventoBuilder
         return this;
     }
 
-    /// <summary>
+            /// <summary>
     /// Define o tipo de ambiente
     /// </summary>
     /// <param name="tpAmb">Tipo de ambiente (1-Produção, 2-Homologação)</param>
@@ -186,6 +186,14 @@ public sealed class IdeEventoBuilder
     }
 
     /// <summary>
+    /// Define o ambiente (alias para ComTpAmb)
+    /// </summary>
+    public IdeEventoBuilder ComAmbiente(uint tpAmb)
+    {
+        return ComTpAmb(tpAmb);
+    }
+
+    /// <summary>
     /// Define o aplicativo emissor
     /// </summary>
     /// <param name="aplicEmi">Aplicativo emissor do evento</param>
@@ -193,6 +201,15 @@ public sealed class IdeEventoBuilder
     public IdeEventoBuilder ComAplicEmi(uint aplicEmi)
     {
         _ideEvento.aplicEmi = aplicEmi;
+        return this;
+    }
+
+    /// <summary>
+    /// Define o aplicativo emissor
+    /// </summary>
+    public IdeEventoBuilder ComAplicacaoEmissor(string verAplic)
+    {
+        _ideEvento.verAplic = verAplic;
         return this;
     }
 
@@ -244,6 +261,14 @@ public sealed class IdeDeclaranteBuilder
     }
 
     /// <summary>
+    /// Define o CNPJ do declarante (alias)
+    /// </summary>
+    public IdeDeclaranteBuilder ComCnpj(string cnpj)
+    {
+        return ComCnpjDeclarante(cnpj);
+    }
+
+    /// <summary>
     /// Constrói o objeto IdeDeclarante
     /// </summary>
     /// <returns>Objeto construído</returns>
@@ -287,6 +312,16 @@ public sealed class IdeDeclaradoBuilder
     public IdeDeclaradoBuilder ComNIDeclarado(string niDeclarado)
     {
         _ideDeclarado.NIDeclarado = niDeclarado;
+        return this;
+    }
+
+    /// <summary>
+    /// Define o CPF/CNPJ do declarado com detecção automática do tipo
+    /// </summary>
+    public IdeDeclaradoBuilder ComCpfCnpj(string cpfCnpj)
+    {
+        _ideDeclarado.tpNI = (byte)(cpfCnpj?.Length > 11 ? 2 : 1);
+        _ideDeclarado.NIDeclarado = cpfCnpj;
         return this;
     }
 
@@ -358,6 +393,14 @@ public sealed class MesCaixaBuilder
     {
         _mesCaixa.anoMesCaixa = anoMesCaixa;
         return this;
+    }
+
+    /// <summary>
+    /// Define o ano e mês do caixa (alias)
+    /// </summary>
+    public MesCaixaBuilder ComAnoMes(string anoMes)
+    {
+        return ComAnoMesCaixa(anoMes);
     }
 
     /// <summary>

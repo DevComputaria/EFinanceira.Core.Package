@@ -131,73 +131,52 @@ public sealed class IdeEventoBuilder
 {
     private readonly eFinanceiraEvtCadIntermediarioIdeEvento _ideEvento;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="IdeEventoBuilder"/> class.
-    /// </summary>
     public IdeEventoBuilder()
     {
         _ideEvento = new eFinanceiraEvtCadIntermediarioIdeEvento();
     }
 
-    /// <summary>
-    /// Define o indicador de retificação
-    /// </summary>
-    /// <param name="indRetificacao">Indicador de retificação (1-Arquivo original, 2-Arquivo de retificação)</param>
-    /// <returns>Builder para continuar a configuração</returns>
     public IdeEventoBuilder ComIndRetificacao(uint indRetificacao)
     {
         _ideEvento.indRetificacao = indRetificacao;
         return this;
     }
 
-    /// <summary>
-    /// Define o número do recibo (obrigatório se indRetificacao = 2)
-    /// </summary>
-    /// <param name="nrRecibo">Número do recibo do arquivo que está sendo retificado</param>
-    /// <returns>Builder para continuar a configuração</returns>
     public IdeEventoBuilder ComNrRecibo(string nrRecibo)
     {
         _ideEvento.nrRecibo = nrRecibo;
         return this;
     }
 
-    /// <summary>
-    /// Define o tipo de ambiente
-    /// </summary>
-    /// <param name="tpAmb">Tipo de ambiente (1-Produção, 2-Homologação)</param>
-    /// <returns>Builder para continuar a configuração</returns>
     public IdeEventoBuilder ComTpAmb(uint tpAmb)
     {
         _ideEvento.tpAmb = tpAmb;
         return this;
     }
 
-    /// <summary>
-    /// Define o aplicativo emissor
-    /// </summary>
-    /// <param name="aplicEmi">Aplicativo emissor do evento</param>
-    /// <returns>Builder para continuar a configuração</returns>
+    public IdeEventoBuilder ComAmbiente(uint tpAmb)
+    {
+        return ComTpAmb(tpAmb);
+    }
+
     public IdeEventoBuilder ComAplicEmi(uint aplicEmi)
     {
         _ideEvento.aplicEmi = aplicEmi;
         return this;
     }
 
-    /// <summary>
-    /// Define a versão do aplicativo emissor
-    /// </summary>
-    /// <param name="verAplic">Versão do aplicativo emissor</param>
-    /// <returns>Builder para continuar a configuração</returns>
+    public IdeEventoBuilder ComAplicacaoEmissor(string aplicacaoEmissor)
+    {
+        _ideEvento.verAplic = aplicacaoEmissor;
+        return this;
+    }
+
     public IdeEventoBuilder ComVerAplic(string verAplic)
     {
         _ideEvento.verAplic = verAplic;
         return this;
     }
 
-    /// <summary>
-    /// Constrói o objeto IdeEvento
-    /// </summary>
-    /// <returns>Objeto construído</returns>
     internal eFinanceiraEvtCadIntermediarioIdeEvento Build()
     {
         return _ideEvento;
@@ -228,6 +207,14 @@ public sealed class IdeDeclaranteBuilder
     {
         _ideDeclarante.cnpjDeclarante = cnpjDeclarante;
         return this;
+    }
+
+    /// <summary>
+    /// Define o CNPJ do declarante (alias)
+    /// </summary>
+    public IdeDeclaranteBuilder ComCnpj(string cnpj)
+    {
+        return ComCnpjDeclarante(cnpj);
     }
 
     /// <summary>
@@ -297,6 +284,23 @@ public sealed class InfoIntermediarioBuilder
     public InfoIntermediarioBuilder ComNomeIntermediario(string nomeIntermediario)
     {
         _infoIntermediario.nomeIntermediario = nomeIntermediario;
+        return this;
+    }
+
+    /// <summary>
+    /// Define o nome do intermediário (alias)
+    /// </summary>
+    public InfoIntermediarioBuilder ComNome(string nome)
+    {
+        return ComNomeIntermediario(nome);
+    }
+
+    /// <summary>
+    /// Define o CNPJ do intermediário
+    /// </summary>
+    public InfoIntermediarioBuilder ComCnpj(string cnpj)
+    {
+        _infoIntermediario.NIIntermediario = cnpj;
         return this;
     }
 

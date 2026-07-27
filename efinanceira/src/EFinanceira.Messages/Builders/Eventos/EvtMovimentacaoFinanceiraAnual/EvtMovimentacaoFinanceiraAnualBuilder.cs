@@ -178,6 +178,14 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual
         }
 
         /// <summary>
+        /// Define o ambiente (alias para ComTpAmb)
+        /// </summary>
+        public IdeEventoBuilder ComAmbiente(uint tpAmb)
+        {
+            return ComTpAmb(tpAmb);
+        }
+
+        /// <summary>
         /// Define o aplicativo emissor
         /// </summary>
         /// <param name="aplicEmi">1-Aplicativo do declarante</param>
@@ -185,6 +193,15 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual
         public IdeEventoBuilder ComAplicEmi(uint aplicEmi)
         {
             _ideEvento.aplicEmi = aplicEmi;
+            return this;
+        }
+
+        /// <summary>
+        /// Define o aplicativo emissor
+        /// </summary>
+        public IdeEventoBuilder ComAplicacaoEmissor(string verAplic)
+        {
+            _ideEvento.verAplic = verAplic;
             return this;
         }
 
@@ -236,6 +253,14 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual
         }
 
         /// <summary>
+        /// Define o CNPJ do declarante (alias)
+        /// </summary>
+        public IdeDeclaranteBuilder ComCnpj(string cnpj)
+        {
+            return ComCnpjDeclarante(cnpj);
+        }
+
+        /// <summary>
         /// Constrói o objeto IdeDeclarante
         /// </summary>
         /// <returns>Objeto construído</returns>
@@ -279,6 +304,16 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual
         public IdeDeclaradoBuilder ComNIDeclarado(string niDeclarado)
         {
             _ideDeclarado.NIDeclarado = niDeclarado;
+            return this;
+        }
+
+        /// <summary>
+        /// Define o CPF/CNPJ do declarado com detecção automática do tipo
+        /// </summary>
+        public IdeDeclaradoBuilder ComCpfCnpj(string cpfCnpj)
+        {
+            _ideDeclarado.tpNI = (byte)(cpfCnpj?.Length > 11 ? 2 : 1);
+            _ideDeclarado.NIDeclarado = cpfCnpj;
             return this;
         }
 
@@ -353,6 +388,15 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtMovimentacaoFinanceiraAnual
         public CaixaBuilder ComAnoCaixa(string anoCaixa)
         {
             _caixa.anoCaixa = anoCaixa;
+            return this;
+        }
+
+        /// <summary>
+        /// Define o ano base da caixa
+        /// </summary>
+        public CaixaBuilder ComAnoBase(int anoBase)
+        {
+            _caixa.anoCaixa = anoBase.ToString();
             return this;
         }
 

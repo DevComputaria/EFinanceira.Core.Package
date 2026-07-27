@@ -79,6 +79,14 @@ public sealed class RetInfoPatrocinadoBuilder : IMessageBuilder<RetInfoPatrocina
     /// <summary>
     /// Define a identificação da empresa declarante
     /// </summary>
+    public RetInfoPatrocinadoBuilder WithIdentificacaoEmpresaDeclarante(Action<EmpresaDeclaranteBuilder> configureEmpresa)
+    {
+        return WithEmpresaDeclarante(configureEmpresa);
+    }
+
+    /// <summary>
+    /// Define a identificação da empresa declarante
+    /// </summary>
     public RetInfoPatrocinadoBuilder WithEmpresaDeclarante(Action<EmpresaDeclaranteBuilder> configureEmpresa)
     {
         var builder = new EmpresaDeclaranteBuilder();
@@ -87,6 +95,23 @@ public sealed class RetInfoPatrocinadoBuilder : IMessageBuilder<RetInfoPatrocina
         if (_consulta.retornoConsultaInformacoesPatrocinado != null)
         {
             _consulta.retornoConsultaInformacoesPatrocinado.identificacaoEmpresaDeclarante = builder.Build();
+        }
+        return this;
+    }
+
+    /// <summary>
+    /// Define uma identificação de patrocinado
+    /// </summary>
+    public RetInfoPatrocinadoBuilder WithIdentificacaoPatrocinado(Action<IdentificacaoPatrocinadoBuilder> configurePatrocinado)
+    {
+        var builder = new IdentificacaoPatrocinadoBuilder();
+        configurePatrocinado(builder);
+        var patrocinado = builder.Build();
+        if (_consulta.retornoConsultaInformacoesPatrocinado != null)
+        {
+            var list = _consulta.retornoConsultaInformacoesPatrocinado.identificacaoPatrocinado?.ToList() ?? new List<TIdentificacaoPatrocinado>();
+            list.Add(patrocinado);
+            _consulta.retornoConsultaInformacoesPatrocinado.identificacaoPatrocinado = list.ToArray();
         }
         return this;
     }
@@ -224,6 +249,11 @@ public sealed class IdentificacaoPatrocinadoBuilder
     public IdentificacaoPatrocinadoBuilder WithId(string id)
     {
         _patrocinado.id = id;
+        return this;
+    }
+
+    public IdentificacaoPatrocinadoBuilder WithNome(string nome)
+    {
         return this;
     }
 

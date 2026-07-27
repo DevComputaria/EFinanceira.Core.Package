@@ -79,6 +79,14 @@ public sealed class RetInfoMovimentoBuilder : IMessageBuilder<RetInfoMovimentoMe
     /// <summary>
     /// Define a identificação da empresa declarante
     /// </summary>
+    public RetInfoMovimentoBuilder WithIdentificacaoEmpresaDeclarante(Action<EmpresaDeclaranteBuilder> configureEmpresa)
+    {
+        return WithEmpresaDeclarante(configureEmpresa);
+    }
+
+    /// <summary>
+    /// Define a identificação da empresa declarante
+    /// </summary>
     public RetInfoMovimentoBuilder WithEmpresaDeclarante(Action<EmpresaDeclaranteBuilder> configureEmpresa)
     {
         var builder = new EmpresaDeclaranteBuilder();
@@ -265,6 +273,15 @@ public sealed class InformacoesMovimentoCollectionBuilder
     {
         var builder = new InformacoesMovimentoBuilder();
         configureMovimento(builder);
+        _movimentos.Add(builder.Build());
+        return this;
+    }
+
+    public InformacoesMovimentoCollectionBuilder WithCnpj(string cnpj)
+    {
+        var builder = new InformacoesMovimentoBuilder();
+        builder.WithNI(cnpj);
+        builder.WithTipoNI(cnpj?.Length > 11 ? "2" : "1");
         _movimentos.Add(builder.Build());
         return this;
     }

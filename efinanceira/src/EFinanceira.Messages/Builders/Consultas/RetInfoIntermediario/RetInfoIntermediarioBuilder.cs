@@ -79,6 +79,14 @@ public sealed class RetInfoIntermediarioBuilder : IMessageBuilder<RetInfoInterme
     /// <summary>
     /// Define a identificação da empresa declarante
     /// </summary>
+    public RetInfoIntermediarioBuilder WithIdentificacaoEmpresaDeclarante(Action<EmpresaDeclaranteBuilder> configureEmpresa)
+    {
+        return WithEmpresaDeclarante(configureEmpresa);
+    }
+
+    /// <summary>
+    /// Define a identificação da empresa declarante
+    /// </summary>
     public RetInfoIntermediarioBuilder WithEmpresaDeclarante(Action<EmpresaDeclaranteBuilder> configureEmpresa)
     {
         var builder = new EmpresaDeclaranteBuilder();
@@ -87,6 +95,23 @@ public sealed class RetInfoIntermediarioBuilder : IMessageBuilder<RetInfoInterme
         if (_consulta.retornoConsultaInformacoesIntermediario != null)
         {
             _consulta.retornoConsultaInformacoesIntermediario.identificacaoEmpresaDeclarante = builder.Build();
+        }
+        return this;
+    }
+
+    /// <summary>
+    /// Define uma identificação de intermediário
+    /// </summary>
+    public RetInfoIntermediarioBuilder WithIdentificacaoIntermediario(Action<IdentificacaoIntermediarioBuilder> configureIntermediario)
+    {
+        var builder = new IdentificacaoIntermediarioBuilder();
+        configureIntermediario(builder);
+        var intermediario = builder.Build();
+        if (_consulta.retornoConsultaInformacoesIntermediario != null)
+        {
+            var list = _consulta.retornoConsultaInformacoesIntermediario.identificacaoIntermediario?.ToList() ?? new List<TIdentificacaoIntermediario>();
+            list.Add(intermediario);
+            _consulta.retornoConsultaInformacoesIntermediario.identificacaoIntermediario = list.ToArray();
         }
         return this;
     }
@@ -225,6 +250,11 @@ public sealed class IdentificacaoIntermediarioBuilder
     public IdentificacaoIntermediarioBuilder WithId(string id)
     {
         _intermediario.id = id;
+        return this;
+    }
+
+    public IdentificacaoIntermediarioBuilder WithNome(string nome)
+    {
         return this;
     }
 

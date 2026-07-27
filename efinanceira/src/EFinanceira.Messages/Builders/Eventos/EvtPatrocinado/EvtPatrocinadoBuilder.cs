@@ -155,6 +155,14 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtPatrocinado
         }
 
         /// <summary>
+        /// Define o ambiente (alias para ComTpAmb)
+        /// </summary>
+        public IdeEventoBuilder ComAmbiente(uint tpAmb)
+        {
+            return ComTpAmb(tpAmb);
+        }
+
+        /// <summary>
         /// Define o aplicativo emissor
         /// </summary>
         /// <param name="aplicEmi">1-Aplicativo do declarante</param>
@@ -162,6 +170,15 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtPatrocinado
         public IdeEventoBuilder ComAplicEmi(uint aplicEmi)
         {
             _ideEvento.aplicEmi = aplicEmi;
+            return this;
+        }
+
+        /// <summary>
+        /// Define o aplicativo emissor
+        /// </summary>
+        public IdeEventoBuilder ComAplicacaoEmissor(string verAplic)
+        {
+            _ideEvento.verAplic = verAplic;
             return this;
         }
 
@@ -210,6 +227,14 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtPatrocinado
         {
             _ideDeclarante.cnpjDeclarante = cnpjDeclarante;
             return this;
+        }
+
+        /// <summary>
+        /// Define o CNPJ do declarante (alias)
+        /// </summary>
+        public IdeDeclaranteBuilder ComCnpj(string cnpj)
+        {
+            return ComCnpjDeclarante(cnpj);
         }
 
         /// <summary>
@@ -283,11 +308,26 @@ namespace EFinanceira.Messages.Builders.Eventos.EvtPatrocinado
         /// <summary>
         /// Define o nome do patrocinado
         /// </summary>
-        /// <param name="nomePatrocinado">Nome do patrocinado</param>
-        /// <returns>Builder para continuar a configuração</returns>
         public InfoPatrocinadoBuilder ComNomePatrocinado(string nomePatrocinado)
         {
             _infoPatrocinado.nomePatrocinado = nomePatrocinado;
+            return this;
+        }
+
+        /// <summary>
+        /// Define o nome do patrocinado (alias)
+        /// </summary>
+        public InfoPatrocinadoBuilder ComNome(string nome)
+        {
+            return ComNomePatrocinado(nome);
+        }
+
+        /// <summary>
+        /// Define o CPF do patrocinado
+        /// </summary>
+        public InfoPatrocinadoBuilder ComCpf(string cpf)
+        {
+            _infoPatrocinado.CNPJ = cpf;
             return this;
         }
 

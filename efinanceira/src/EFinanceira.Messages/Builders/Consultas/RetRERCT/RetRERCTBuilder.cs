@@ -83,6 +83,14 @@ public class RetRERCTBuilder
     }
 
     /// <summary>
+    /// Configura os dados de evento da consulta.
+    /// </summary>
+    public RetRERCTBuilder ComDadosEvento(Action<DadosEventosCollectionBuilder> configAction)
+    {
+        return ComDadosEventos(configAction);
+    }
+
+    /// <summary>
     /// Configura os dados de eventos da consulta.
     /// </summary>
     /// <param name="configAction">Ação para configurar os dados de eventos.</param>
@@ -121,6 +129,25 @@ public class DadosProcessamentoBuilder
     public DadosProcessamentoBuilder()
     {
         _dadosProcessamento = new TDadosProcessamento();
+    }
+
+    /// <summary>
+    /// Define a data e hora de processamento.
+    /// </summary>
+    public DadosProcessamentoBuilder ComDataHoraProcessamento(DateTime dataHora)
+    {
+        _dadosProcessamento.dataHoraProcessamento = dataHora.ToString("yyyy-MM-ddTHH:mm:ss");
+        return this;
+    }
+
+    /// <summary>
+    /// Define o código de status e descrição da resposta.
+    /// </summary>
+    public DadosProcessamentoBuilder ComStatus(string codigoStatus, string descricao)
+    {
+        _dadosProcessamento.cdStatusResposta = codigoStatus;
+        _dadosProcessamento.descResposta = descricao;
+        return this;
     }
 
     /// <summary>
@@ -279,6 +306,28 @@ public class DadosEventosCollectionBuilder
     public DadosEventosCollectionBuilder()
     {
         _eventos = new List<TDadosEvento>();
+    }
+
+    /// <summary>
+    /// Adiciona um evento com identificação.
+    /// </summary>
+    public DadosEventosCollectionBuilder ComIdentificacaoEvento(Action<IdentificacaoEventoBuilder> configAction)
+    {
+        var builder = new DadosEventoBuilder();
+        builder.ComIdentificacaoEvento(configAction);
+        _eventos.Add(builder.Build());
+        return this;
+    }
+
+    /// <summary>
+    /// Adiciona um evento com identificação do declarado.
+    /// </summary>
+    public DadosEventosCollectionBuilder ComIdentificacaoDeclarado(Action<IdentificacaoDeclaradoBuilder> configAction)
+    {
+        var builder = new DadosEventoBuilder();
+        builder.ComIdentificacaoDeclarado(configAction);
+        _eventos.Add(builder.Build());
+        return this;
     }
 
     /// <summary>
@@ -475,6 +524,16 @@ public class IdentificacaoDeclaradoBuilder
     public IdentificacaoDeclaradoBuilder ComInscricao(string inscricao)
     {
         _identificacao.inscricaoDeclarado = inscricao;
+        return this;
+    }
+
+    /// <summary>
+    /// Define o CPF ou CNPJ do declarado com detecção automática do tipo.
+    /// </summary>
+    public IdentificacaoDeclaradoBuilder ComCpfCnpj(string cpfCnpj)
+    {
+        _identificacao.tipoInscricaoDeclarado = cpfCnpj?.Length > 11 ? "2" : "1";
+        _identificacao.inscricaoDeclarado = cpfCnpj;
         return this;
     }
 

@@ -106,6 +106,14 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
     /// <summary>
     /// Define a identificação da empresa declarante
     /// </summary>
+    public RetInfoCadastralBuilder WithIdentificacaoEmpresaDeclarante(Action<EmpresaDeclaranteBuilder> configureEmpresa)
+    {
+        return WithEmpresaDeclarante(configureEmpresa);
+    }
+
+    /// <summary>
+    /// Define a identificação da empresa declarante
+    /// </summary>
     public RetInfoCadastralBuilder WithEmpresaDeclarante(Action<EmpresaDeclaranteBuilder> configureEmpresa)
     {
         var builder = new EmpresaDeclaranteBuilder();

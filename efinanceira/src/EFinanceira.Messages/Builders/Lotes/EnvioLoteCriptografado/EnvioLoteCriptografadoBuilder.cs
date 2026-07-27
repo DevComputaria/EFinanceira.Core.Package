@@ -98,6 +98,33 @@ public sealed class EnvioLoteCriptografadoBuilder : IMessageBuilder<EnvioLoteCri
     }
 
     /// <summary>
+    /// Define o ID do certificado digital diretamente no lote criptografado
+    /// </summary>
+    public EnvioLoteCriptografadoBuilder ComIdCertificado(string idCertificado)
+    {
+        _eFinanceira.loteCriptografado.idCertificado = idCertificado;
+        return this;
+    }
+
+    /// <summary>
+    /// Define a chave criptográfica diretamente no lote criptografado
+    /// </summary>
+    public EnvioLoteCriptografadoBuilder ComChave(string chave)
+    {
+        _eFinanceira.loteCriptografado.chave = chave;
+        return this;
+    }
+
+    /// <summary>
+    /// Define o lote criptografado diretamente no lote criptografado
+    /// </summary>
+    public EnvioLoteCriptografadoBuilder ComLote(string lote)
+    {
+        _eFinanceira.loteCriptografado.lote = lote;
+        return this;
+    }
+
+    /// <summary>
     /// Constrói a instância final da mensagem de lote criptografado
     /// </summary>
     /// <returns>Instância configurada de EnvioLoteCriptografadoMessage</returns>
