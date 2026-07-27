@@ -24,6 +24,8 @@ public class RetInfoCadastralBuilderTests
     public void Build_ShouldCreateValidMessage_WithMinimalConfiguration()
     {
         var message = new RetInfoCadastralBuilder()
+            .WithId("ID_TEST")
+            .WithNumeroRecibo("REC-001")
             .WithStatus(status => status
                 .WithCodigo("0"))
             .WithIdentificacaoEmpresaDeclarante(empresa => empresa
@@ -60,6 +62,7 @@ public class RetInfoCadastralBuilderTests
     {
         var exception = Assert.Throws<InvalidOperationException>(() =>
             new RetInfoCadastralBuilder()
+                .WithId("ID_TEST")
                 .WithStatus(status => status
                     .WithCodigo("0"))
                 .WithIdentificacaoEmpresaDeclarante(empresa => empresa

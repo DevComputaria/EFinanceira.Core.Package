@@ -122,10 +122,10 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
             throw new InvalidOperationException("RetornoConsultaInformacoesCadastrais é obrigatório");
 
         if (string.IsNullOrWhiteSpace(_consulta.retornoConsultaInformacoesCadastrais.id))
-            _consulta.retornoConsultaInformacoesCadastrais.id = GenerateId();
+            throw new InvalidOperationException("Id é obrigatório");
 
         if (string.IsNullOrWhiteSpace(_consulta.retornoConsultaInformacoesCadastrais.numeroRecibo))
-            _consulta.retornoConsultaInformacoesCadastrais.numeroRecibo = $"REC_{DateTime.Now:yyyyMMddHHmmss}";
+            throw new InvalidOperationException("Número do recibo é obrigatório");
     }
 
     private eFinanceiraRetornoConsultaInformacoesCadastrais EnsureRetorno()
@@ -142,8 +142,6 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
         }
         return _consulta.retornoConsultaInformacoesCadastrais;
     }
-
-    private static string GenerateId() => $"ID_{Guid.NewGuid():N}";
 }
 
 #region Builders auxiliares
