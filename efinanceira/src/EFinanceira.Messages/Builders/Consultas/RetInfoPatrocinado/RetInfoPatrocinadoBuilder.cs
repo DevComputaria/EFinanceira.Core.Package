@@ -37,16 +37,7 @@ public sealed class RetInfoPatrocinadoBuilder : IMessageBuilder<RetInfoPatrocina
     public RetInfoPatrocinadoBuilder(string version = "v1_2_0")
     {
         _version = version;
-        _consulta = new eFinanceira
-        {
-            retornoConsultaInformacoesPatrocinado = new eFinanceiraRetornoConsultaInformacoesPatrocinado
-            {
-                dataHoraProcessamento = DateTime.UtcNow,
-                status = new TStatus(),
-                identificacaoEmpresaDeclarante = new TIdeEmpresaDeclarante(),
-                identificacaoPatrocinado = Array.Empty<TIdentificacaoPatrocinado>()
-            }
-        };
+        _consulta = new eFinanceira();
     }
 
     /// <summary>
@@ -54,10 +45,7 @@ public sealed class RetInfoPatrocinadoBuilder : IMessageBuilder<RetInfoPatrocina
     /// </summary>
     public RetInfoPatrocinadoBuilder WithDataHoraProcessamento(DateTime dataHora)
     {
-        if (_consulta.retornoConsultaInformacoesPatrocinado != null)
-        {
-            _consulta.retornoConsultaInformacoesPatrocinado.dataHoraProcessamento = dataHora;
-        }
+        EnsureRetorno().dataHoraProcessamento = dataHora;
         return this;
     }
 
@@ -68,11 +56,7 @@ public sealed class RetInfoPatrocinadoBuilder : IMessageBuilder<RetInfoPatrocina
     {
         var builder = new StatusBuilder();
         configureStatus(builder);
-
-        if (_consulta.retornoConsultaInformacoesPatrocinado != null)
-        {
-            _consulta.retornoConsultaInformacoesPatrocinado.status = builder.Build();
-        }
+        EnsureRetorno().status = builder.Build();
         return this;
     }
 
@@ -91,11 +75,7 @@ public sealed class RetInfoPatrocinadoBuilder : IMessageBuilder<RetInfoPatrocina
     {
         var builder = new EmpresaDeclaranteBuilder();
         configureEmpresa(builder);
-
-        if (_consulta.retornoConsultaInformacoesPatrocinado != null)
-        {
-            _consulta.retornoConsultaInformacoesPatrocinado.identificacaoEmpresaDeclarante = builder.Build();
-        }
+        EnsureRetorno().identificacaoEmpresaDeclarante = builder.Build();
         return this;
     }
 
@@ -107,12 +87,10 @@ public sealed class RetInfoPatrocinadoBuilder : IMessageBuilder<RetInfoPatrocina
         var builder = new IdentificacaoPatrocinadoBuilder();
         configurePatrocinado(builder);
         var patrocinado = builder.Build();
-        if (_consulta.retornoConsultaInformacoesPatrocinado != null)
-        {
-            var list = _consulta.retornoConsultaInformacoesPatrocinado.identificacaoPatrocinado?.ToList() ?? new List<TIdentificacaoPatrocinado>();
-            list.Add(patrocinado);
-            _consulta.retornoConsultaInformacoesPatrocinado.identificacaoPatrocinado = list.ToArray();
-        }
+        var retorno = EnsureRetorno();
+        var list = retorno.identificacaoPatrocinado?.ToList() ?? new List<TIdentificacaoPatrocinado>();
+        list.Add(patrocinado);
+        retorno.identificacaoPatrocinado = list.ToArray();
         return this;
     }
 
@@ -142,6 +120,21 @@ public sealed class RetInfoPatrocinadoBuilder : IMessageBuilder<RetInfoPatrocina
     {
         if (_consulta.retornoConsultaInformacoesPatrocinado == null)
             throw new InvalidOperationException("RetornoConsultaInformacoesPatrocinado é obrigatório");
+    }
+
+    private eFinanceiraRetornoConsultaInformacoesPatrocinado EnsureRetorno()
+    {
+        if (_consulta.retornoConsultaInformacoesPatrocinado == null)
+        {
+            _consulta.retornoConsultaInformacoesPatrocinado = new eFinanceiraRetornoConsultaInformacoesPatrocinado
+            {
+                dataHoraProcessamento = DateTime.UtcNow,
+                status = new TStatus(),
+                identificacaoEmpresaDeclarante = new TIdeEmpresaDeclarante(),
+                identificacaoPatrocinado = Array.Empty<TIdentificacaoPatrocinado>()
+            };
+        }
+        return _consulta.retornoConsultaInformacoesPatrocinado;
     }
 }
 

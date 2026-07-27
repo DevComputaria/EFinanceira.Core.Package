@@ -37,16 +37,7 @@ public sealed class RetInfoIntermediarioBuilder : IMessageBuilder<RetInfoInterme
     public RetInfoIntermediarioBuilder(string version = "v1_2_0")
     {
         _version = version;
-        _consulta = new eFinanceira
-        {
-            retornoConsultaInformacoesIntermediario = new eFinanceiraRetornoConsultaInformacoesIntermediario
-            {
-                dataHoraProcessamento = DateTime.UtcNow,
-                status = new TStatus(),
-                identificacaoEmpresaDeclarante = new TIdeEmpresaDeclarante(),
-                identificacaoIntermediario = Array.Empty<TIdentificacaoIntermediario>()
-            }
-        };
+        _consulta = new eFinanceira();
     }
 
     /// <summary>
@@ -54,10 +45,7 @@ public sealed class RetInfoIntermediarioBuilder : IMessageBuilder<RetInfoInterme
     /// </summary>
     public RetInfoIntermediarioBuilder WithDataHoraProcessamento(DateTime dataHora)
     {
-        if (_consulta.retornoConsultaInformacoesIntermediario != null)
-        {
-            _consulta.retornoConsultaInformacoesIntermediario.dataHoraProcessamento = dataHora;
-        }
+        EnsureRetorno().dataHoraProcessamento = dataHora;
         return this;
     }
 
@@ -68,11 +56,7 @@ public sealed class RetInfoIntermediarioBuilder : IMessageBuilder<RetInfoInterme
     {
         var builder = new StatusBuilder();
         configureStatus(builder);
-
-        if (_consulta.retornoConsultaInformacoesIntermediario != null)
-        {
-            _consulta.retornoConsultaInformacoesIntermediario.status = builder.Build();
-        }
+        EnsureRetorno().status = builder.Build();
         return this;
     }
 
@@ -91,11 +75,7 @@ public sealed class RetInfoIntermediarioBuilder : IMessageBuilder<RetInfoInterme
     {
         var builder = new EmpresaDeclaranteBuilder();
         configureEmpresa(builder);
-
-        if (_consulta.retornoConsultaInformacoesIntermediario != null)
-        {
-            _consulta.retornoConsultaInformacoesIntermediario.identificacaoEmpresaDeclarante = builder.Build();
-        }
+        EnsureRetorno().identificacaoEmpresaDeclarante = builder.Build();
         return this;
     }
 
@@ -107,12 +87,10 @@ public sealed class RetInfoIntermediarioBuilder : IMessageBuilder<RetInfoInterme
         var builder = new IdentificacaoIntermediarioBuilder();
         configureIntermediario(builder);
         var intermediario = builder.Build();
-        if (_consulta.retornoConsultaInformacoesIntermediario != null)
-        {
-            var list = _consulta.retornoConsultaInformacoesIntermediario.identificacaoIntermediario?.ToList() ?? new List<TIdentificacaoIntermediario>();
-            list.Add(intermediario);
-            _consulta.retornoConsultaInformacoesIntermediario.identificacaoIntermediario = list.ToArray();
-        }
+        var retorno = EnsureRetorno();
+        var list = retorno.identificacaoIntermediario?.ToList() ?? new List<TIdentificacaoIntermediario>();
+        list.Add(intermediario);
+        retorno.identificacaoIntermediario = list.ToArray();
         return this;
     }
 
@@ -142,6 +120,21 @@ public sealed class RetInfoIntermediarioBuilder : IMessageBuilder<RetInfoInterme
     {
         if (_consulta.retornoConsultaInformacoesIntermediario == null)
             throw new InvalidOperationException("RetornoConsultaInformacoesIntermediario é obrigatório");
+    }
+
+    private eFinanceiraRetornoConsultaInformacoesIntermediario EnsureRetorno()
+    {
+        if (_consulta.retornoConsultaInformacoesIntermediario == null)
+        {
+            _consulta.retornoConsultaInformacoesIntermediario = new eFinanceiraRetornoConsultaInformacoesIntermediario
+            {
+                dataHoraProcessamento = DateTime.UtcNow,
+                status = new TStatus(),
+                identificacaoEmpresaDeclarante = new TIdeEmpresaDeclarante(),
+                identificacaoIntermediario = Array.Empty<TIdentificacaoIntermediario>()
+            };
+        }
+        return _consulta.retornoConsultaInformacoesIntermediario;
     }
 }
 

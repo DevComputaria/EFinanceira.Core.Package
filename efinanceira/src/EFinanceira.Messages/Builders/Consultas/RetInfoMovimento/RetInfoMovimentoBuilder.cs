@@ -37,16 +37,7 @@ public sealed class RetInfoMovimentoBuilder : IMessageBuilder<RetInfoMovimentoMe
     public RetInfoMovimentoBuilder(string version = "v1_2_0")
     {
         _version = version;
-        _consulta = new eFinanceira
-        {
-            retornoConsultaInformacoesMovimento = new eFinanceiraRetornoConsultaInformacoesMovimento
-            {
-                dataHoraProcessamento = DateTime.UtcNow,
-                status = new TStatus(),
-                identificacaoEmpresaDeclarante = new TIdeEmpresaDeclarante(),
-                informacoesMovimento = Array.Empty<TInformacoesMovimento>()
-            }
-        };
+        _consulta = new eFinanceira();
     }
 
     /// <summary>
@@ -54,10 +45,7 @@ public sealed class RetInfoMovimentoBuilder : IMessageBuilder<RetInfoMovimentoMe
     /// </summary>
     public RetInfoMovimentoBuilder WithDataHoraProcessamento(DateTime dataHora)
     {
-        if (_consulta.retornoConsultaInformacoesMovimento != null)
-        {
-            _consulta.retornoConsultaInformacoesMovimento.dataHoraProcessamento = dataHora;
-        }
+        EnsureRetorno().dataHoraProcessamento = dataHora;
         return this;
     }
 
@@ -68,11 +56,7 @@ public sealed class RetInfoMovimentoBuilder : IMessageBuilder<RetInfoMovimentoMe
     {
         var builder = new StatusBuilder();
         configureStatus(builder);
-
-        if (_consulta.retornoConsultaInformacoesMovimento != null)
-        {
-            _consulta.retornoConsultaInformacoesMovimento.status = builder.Build();
-        }
+        EnsureRetorno().status = builder.Build();
         return this;
     }
 
@@ -91,11 +75,7 @@ public sealed class RetInfoMovimentoBuilder : IMessageBuilder<RetInfoMovimentoMe
     {
         var builder = new EmpresaDeclaranteBuilder();
         configureEmpresa(builder);
-
-        if (_consulta.retornoConsultaInformacoesMovimento != null)
-        {
-            _consulta.retornoConsultaInformacoesMovimento.identificacaoEmpresaDeclarante = builder.Build();
-        }
+        EnsureRetorno().identificacaoEmpresaDeclarante = builder.Build();
         return this;
     }
 
@@ -106,11 +86,7 @@ public sealed class RetInfoMovimentoBuilder : IMessageBuilder<RetInfoMovimentoMe
     {
         var builder = new InformacoesMovimentoCollectionBuilder();
         configureMovimentos(builder);
-
-        if (_consulta.retornoConsultaInformacoesMovimento != null)
-        {
-            _consulta.retornoConsultaInformacoesMovimento.informacoesMovimento = builder.Build();
-        }
+        EnsureRetorno().informacoesMovimento = builder.Build();
         return this;
     }
 
@@ -125,6 +101,21 @@ public sealed class RetInfoMovimentoBuilder : IMessageBuilder<RetInfoMovimentoMe
     {
         if (_consulta.retornoConsultaInformacoesMovimento == null)
             throw new InvalidOperationException("RetornoConsultaInformacoesMovimento é obrigatório");
+    }
+
+    private eFinanceiraRetornoConsultaInformacoesMovimento EnsureRetorno()
+    {
+        if (_consulta.retornoConsultaInformacoesMovimento == null)
+        {
+            _consulta.retornoConsultaInformacoesMovimento = new eFinanceiraRetornoConsultaInformacoesMovimento
+            {
+                dataHoraProcessamento = DateTime.UtcNow,
+                status = new TStatus(),
+                identificacaoEmpresaDeclarante = new TIdeEmpresaDeclarante(),
+                informacoesMovimento = Array.Empty<TInformacoesMovimento>()
+            };
+        }
+        return _consulta.retornoConsultaInformacoesMovimento;
     }
 }
 

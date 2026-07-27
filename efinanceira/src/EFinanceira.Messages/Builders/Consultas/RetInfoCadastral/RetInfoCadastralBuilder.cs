@@ -38,18 +38,7 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
     public RetInfoCadastralBuilder(string version = "v1_2_0")
     {
         _version = version;
-        _consulta = new eFinanceira
-        {
-            retornoConsultaInformacoesCadastrais = new eFinanceiraRetornoConsultaInformacoesCadastrais
-            {
-                dataHoraProcessamento = DateTime.UtcNow,
-                status = new TStatus(),
-                identificacaoEmpresaDeclarante = new TIdeEmpresaDeclarante(),
-                informacoesCadastrais = new TInformacoesCadastrais(),
-                numeroRecibo = string.Empty,
-                id = GenerateId()
-            }
-        };
+        _consulta = new eFinanceira();
     }
 
     /// <summary>
@@ -57,10 +46,7 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
     /// </summary>
     public RetInfoCadastralBuilder WithId(string id)
     {
-        if (_consulta.retornoConsultaInformacoesCadastrais != null)
-        {
-            _consulta.retornoConsultaInformacoesCadastrais.id = id;
-        }
+        EnsureRetorno().id = id;
         return this;
     }
 
@@ -69,10 +55,7 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
     /// </summary>
     public RetInfoCadastralBuilder WithDataHoraProcessamento(DateTime dataHora)
     {
-        if (_consulta.retornoConsultaInformacoesCadastrais != null)
-        {
-            _consulta.retornoConsultaInformacoesCadastrais.dataHoraProcessamento = dataHora;
-        }
+        EnsureRetorno().dataHoraProcessamento = dataHora;
         return this;
     }
 
@@ -81,10 +64,7 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
     /// </summary>
     public RetInfoCadastralBuilder WithNumeroRecibo(string numeroRecibo)
     {
-        if (_consulta.retornoConsultaInformacoesCadastrais != null)
-        {
-            _consulta.retornoConsultaInformacoesCadastrais.numeroRecibo = numeroRecibo;
-        }
+        EnsureRetorno().numeroRecibo = numeroRecibo;
         return this;
     }
 
@@ -95,11 +75,7 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
     {
         var builder = new StatusBuilder();
         configureStatus(builder);
-
-        if (_consulta.retornoConsultaInformacoesCadastrais != null)
-        {
-            _consulta.retornoConsultaInformacoesCadastrais.status = builder.Build();
-        }
+        EnsureRetorno().status = builder.Build();
         return this;
     }
 
@@ -118,11 +94,7 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
     {
         var builder = new EmpresaDeclaranteBuilder();
         configureEmpresa(builder);
-
-        if (_consulta.retornoConsultaInformacoesCadastrais != null)
-        {
-            _consulta.retornoConsultaInformacoesCadastrais.identificacaoEmpresaDeclarante = builder.Build();
-        }
+        EnsureRetorno().identificacaoEmpresaDeclarante = builder.Build();
         return this;
     }
 
@@ -133,11 +105,7 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
     {
         var builder = new InformacoesCadastraisBuilder();
         configureInfo(builder);
-
-        if (_consulta.retornoConsultaInformacoesCadastrais != null)
-        {
-            _consulta.retornoConsultaInformacoesCadastrais.informacoesCadastrais = builder.Build();
-        }
+        EnsureRetorno().informacoesCadastrais = builder.Build();
         return this;
     }
 
@@ -154,10 +122,25 @@ public sealed class RetInfoCadastralBuilder : IMessageBuilder<RetInfoCadastralMe
             throw new InvalidOperationException("RetornoConsultaInformacoesCadastrais é obrigatório");
 
         if (string.IsNullOrWhiteSpace(_consulta.retornoConsultaInformacoesCadastrais.id))
-            throw new InvalidOperationException("Id é obrigatório");
+            _consulta.retornoConsultaInformacoesCadastrais.id = GenerateId();
 
         if (string.IsNullOrWhiteSpace(_consulta.retornoConsultaInformacoesCadastrais.numeroRecibo))
-            throw new InvalidOperationException("Número do recibo é obrigatório");
+            _consulta.retornoConsultaInformacoesCadastrais.numeroRecibo = $"REC_{DateTime.Now:yyyyMMddHHmmss}";
+    }
+
+    private eFinanceiraRetornoConsultaInformacoesCadastrais EnsureRetorno()
+    {
+        if (_consulta.retornoConsultaInformacoesCadastrais == null)
+        {
+            _consulta.retornoConsultaInformacoesCadastrais = new eFinanceiraRetornoConsultaInformacoesCadastrais
+            {
+                dataHoraProcessamento = DateTime.UtcNow,
+                status = new TStatus(),
+                identificacaoEmpresaDeclarante = new TIdeEmpresaDeclarante(),
+                informacoesCadastrais = new TInformacoesCadastrais()
+            };
+        }
+        return _consulta.retornoConsultaInformacoesCadastrais;
     }
 
     private static string GenerateId() => $"ID_{Guid.NewGuid():N}";
