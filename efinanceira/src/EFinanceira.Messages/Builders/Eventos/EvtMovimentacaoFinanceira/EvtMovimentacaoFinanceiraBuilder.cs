@@ -174,7 +174,7 @@ public sealed class IdeEventoBuilder
         return this;
     }
 
-            /// <summary>
+    /// <summary>
     /// Define o tipo de ambiente
     /// </summary>
     /// <param name="tpAmb">Tipo de ambiente (1-Produção, 2-Homologação)</param>
@@ -450,11 +450,11 @@ public sealed class MovOpFinBuilder
     {
         var builder = new ContaBuilder();
         builderAction(builder);
-        
+
         var contas = _movOpFin.Conta?.ToList() ?? new List<eFinanceiraEvtMovOpFinMesCaixaMovOpFinConta>();
         contas.Add(builder.Build());
         _movOpFin.Conta = contas.ToArray();
-        
+
         return this;
     }
 
@@ -507,7 +507,7 @@ public sealed class ContaBuilder
     public ContaBuilder ComInfoConta(string tpConta, string subTpConta, string tpNumConta, string numConta)
     {
         _conta.infoConta = new eFinanceiraEvtMovOpFinMesCaixaMovOpFinContaInfoConta();
-        
+
         // Configuração básica da conta - estrutura complexa, implementação simplificada
         return this;
     }

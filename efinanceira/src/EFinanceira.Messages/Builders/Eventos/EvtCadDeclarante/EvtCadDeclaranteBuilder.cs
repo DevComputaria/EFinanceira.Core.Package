@@ -140,10 +140,10 @@ public sealed class EvtCadDeclaranteBuilder : IMessageBuilder<EvtCadDeclaranteMe
     {
         if (_evento.ideEvento == null)
             throw new InvalidOperationException("IdeEvento é obrigatório");
-        
+
         if (_evento.ideDeclarante == null)
             throw new InvalidOperationException("IdeDeclarante é obrigatório");
-        
+
         if (_evento.infoCadastro == null)
             throw new InvalidOperationException("InfoCadastro é obrigatório");
     }

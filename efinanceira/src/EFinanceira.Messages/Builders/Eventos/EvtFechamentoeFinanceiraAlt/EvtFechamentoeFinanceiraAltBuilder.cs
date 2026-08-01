@@ -180,10 +180,10 @@ public sealed class EvtFechamentoeFinanceiraAltBuilder : IMessageBuilder<EvtFech
     {
         if (_evento.ideEvento == null)
             throw new InvalidOperationException("IdeEvento é obrigatório");
-        
+
         if (_evento.ideDeclarante == null)
             throw new InvalidOperationException("IdeDeclarante é obrigatório");
-        
+
         if (_evento.infoFechamento == null)
             throw new InvalidOperationException("InfoFechamento é obrigatório");
     }
@@ -430,7 +430,7 @@ public sealed class FechamentoMovOpFinBuilder
     {
         var builder = new FechamentoMovOpFinMensalBuilder();
         configAction(builder);
-        
+
         var fechamentos = new List<eFinanceiraEvtFechamentoeFinanceiraFechamentoMovOpFinFechamentoMes>();
         if (_fechamento.FechamentoMes != null)
         {
@@ -438,7 +438,7 @@ public sealed class FechamentoMovOpFinBuilder
         }
         fechamentos.Add(builder.Build());
         _fechamento.FechamentoMes = fechamentos.ToArray();
-        
+
         return this;
     }
 

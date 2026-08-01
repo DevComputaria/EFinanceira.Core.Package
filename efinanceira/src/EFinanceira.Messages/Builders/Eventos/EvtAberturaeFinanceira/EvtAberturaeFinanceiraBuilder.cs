@@ -166,10 +166,10 @@ public sealed class EvtAberturaeFinanceiraBuilder : IMessageBuilder<EvtAberturae
     {
         if (_evento.ideEvento == null)
             throw new InvalidOperationException("IdeEvento é obrigatório");
-        
+
         if (_evento.ideDeclarante == null)
             throw new InvalidOperationException("IdeDeclarante é obrigatório");
-        
+
         if (_evento.infoAbertura == null)
             throw new InvalidOperationException("InfoAbertura é obrigatório");
     }

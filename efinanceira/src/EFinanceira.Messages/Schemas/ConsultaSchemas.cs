@@ -75,7 +75,7 @@ public static class ConsultaSchemas
         return new[]
         {
             "retInfoCadastral-v1_2_0.xsd",
-            "retInfoIntermediario-v1_2_0.xsd", 
+            "retInfoIntermediario-v1_2_0.xsd",
             "retInfoPatrocinado-v1_2_0.xsd",
             "retInfoMovimento-v1_2_0.xsd",
             "retListaeFinanceira-v1_2_0.xsd",
@@ -89,9 +89,9 @@ public static class ConsultaSchemas
     public static Stream GetSchemaStream(string schemaFileName)
     {
         var resourceName = $"EFinanceira.Messages.Schemas.{schemaFileName}";
-        
+
         var stream = _assembly.GetManifestResourceStream(resourceName);
-        
+
         if (stream == null)
         {
             throw new FileNotFoundException(

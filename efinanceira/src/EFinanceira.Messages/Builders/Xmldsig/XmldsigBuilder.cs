@@ -50,7 +50,7 @@ namespace EFinanceira.Messages.Builders.Xmldsig
             }
 
             _certificate = new X509Certificate2(certificatePath, password, X509KeyStorageFlags.Exportable);
-            
+
             ValidateCertificate();
             return this;
         }
@@ -66,9 +66,9 @@ namespace EFinanceira.Messages.Builders.Xmldsig
         {
             using var store = new X509Store(storeName, storeLocation);
             store.Open(OpenFlags.ReadOnly);
-            
+
             var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false);
-            
+
             if (certificates.Count == 0)
             {
                 throw new InvalidOperationException($"Certificado com thumbprint '{thumbprint}' não encontrado no repositório");
@@ -87,10 +87,10 @@ namespace EFinanceira.Messages.Builders.Xmldsig
         {
             var store = new X509Store("MY", StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-            
+
             var certs = store.Certificates;
             var certsParaAssinatura = certs.Find(X509FindType.FindByKeyUsage, X509KeyUsageFlags.DigitalSignature, false);
-            
+
             if (certsParaAssinatura.Count == 0)
             {
                 throw new InvalidOperationException("Nenhum certificado digital encontrado para assinatura");
@@ -99,7 +99,7 @@ namespace EFinanceira.Messages.Builders.Xmldsig
             // Para aplicações console/server, usar o primeiro certificado encontrado
             _certificate = certsParaAssinatura[0];
             ValidateCertificate();
-            
+
             store.Close();
             return this;
         }
@@ -131,7 +131,7 @@ namespace EFinanceira.Messages.Builders.Xmldsig
             {
                 var xmlDocEvento = new XmlDocument();
                 xmlDocEvento.LoadXml(node.InnerXml);
-                  
+
                 var tagEventoParaAssinar = ObtemTagEventoAssinar(xmlDocEvento);
 
                 if (string.IsNullOrWhiteSpace(tagEventoParaAssinar))
@@ -140,7 +140,7 @@ namespace EFinanceira.Messages.Builders.Xmldsig
                 }
 
                 var xmlDocEventoAssinado = AssinarXmlEvento(xmlDocEvento, tagEventoParaAssinar);
-                
+
                 if (xmlDocEventoAssinado == null)
                 {
                     throw new InvalidOperationException("Falha ao assinar evento XML");
@@ -309,7 +309,7 @@ namespace EFinanceira.Messages.Builders.Xmldsig
         private static string ObtemTagEventoAssinar(XmlDocument arquivo)
         {
             var xml = arquivo.OuterXml;
-            
+
             if (xml.Contains("evtCadDeclarante")) return "evtCadDeclarante";
             if (xml.Contains("evtAberturaeFinanceira")) return "evtAberturaeFinanceira";
             if (xml.Contains("evtCadIntermediario")) return "evtCadIntermediario";
@@ -319,7 +319,7 @@ namespace EFinanceira.Messages.Builders.Xmldsig
             if (xml.Contains("evtFechamentoeFinanceira")) return "evtFechamentoeFinanceira";
             if (xml.Contains("evtMovOpFin")) return "evtMovOpFin";
             if (xml.Contains("evtMovPP")) return "evtMovPP";
-            
+
             return string.Empty;
         }
 
@@ -327,7 +327,7 @@ namespace EFinanceira.Messages.Builders.Xmldsig
         {
             // Primeiro tentar SHA256, depois SHA1 como fallback
             Exception? lastException = null;
-            
+
             // Tentar SHA256 primeiro (recomendado pela RF)
             try
             {
@@ -336,7 +336,7 @@ namespace EFinanceira.Messages.Builders.Xmldsig
             catch (CryptographicException ex) when (ex.Message.Contains("SignatureDescription"))
             {
                 lastException = ex;
-                
+
                 // SHA256 falhou, tentar SHA1 como fallback
             }
             catch (Exception ex)
@@ -366,10 +366,10 @@ namespace EFinanceira.Messages.Builders.Xmldsig
                 }
 
                 var elementoParaAssinar = (XmlElement)nodeParaAssinatura[0]!;
-                
+
                 // Criar SignedXml com documento ao invés do elemento
                 var signedXml = new SignedXml(xmlDocEvento);
-                
+
                 // Configurar algoritmos explicitamente
                 signedXml.SignedInfo!.SignatureMethod = signatureMethod;
                 signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigCanonicalizationUrl;

@@ -22,7 +22,7 @@ public static class ExemploAssinatura
     /// <param name="logger">Logger para registrar operações</param>
     /// <returns>XML assinado digitalmente</returns>
     public static async Task<XmlDocument> CriarMensagemComAssinatura(
-        IServiceProvider serviceProvider, 
+        IServiceProvider serviceProvider,
         ILogger logger)
     {
         logger.LogInformation("=== Criando Mensagem e-Financeira com Assinatura Digital ===");
@@ -37,7 +37,7 @@ public static class ExemploAssinatura
 
         // 2. Criar evento de abertura e-Financeira
         logger.LogInformation("\n🏗️ Passo 1: Criando evento EvtAberturaeFinanceira...");
-        
+
         var eventoId = $"EVT_ASSINADO_{DateTime.Now:yyyyMMddHHmmss}";
         var evento = new EFinanceira.Messages.Builders.Eventos.EvtAberturaeFinanceira.EvtAberturaeFinanceiraBuilder()
             .WithId(eventoId)
@@ -68,13 +68,13 @@ public static class ExemploAssinatura
 
         // 3. Serializar para XML
         logger.LogInformation("\n📄 Passo 2: Serializando evento para XML...");
-        
+
         // Criar o elemento raiz eFinanceira que contém o evento
         var eFinanceiraRaiz = new eFinanceira
         {
             evtAberturaeFinanceira = evento.Evento
         };
-        
+
         var xmlString = xmlSerializer.Serialize(eFinanceiraRaiz);
         var xmlDocument = new XmlDocument { PreserveWhitespace = true };
         xmlDocument.LoadXml(xmlString);
@@ -85,9 +85,9 @@ public static class ExemploAssinatura
 
         // 4. Configurar assinatura digital
         logger.LogInformation("\n🔐 Passo 3: Configurando assinatura digital...");
-        
+
         using var xmldsigBuilder = new XmldsigBuilder();
-        
+
         try
         {
             // Tentar carregar certificado do arquivo configurado
@@ -97,7 +97,7 @@ public static class ExemploAssinatura
         catch (FileNotFoundException)
         {
             logger.LogWarning("⚠️ Arquivo de certificado não encontrado, tentando seleção interativa...");
-            
+
             try
             {
                 xmldsigBuilder.WithInteractiveCertificateSelection();
@@ -112,18 +112,18 @@ public static class ExemploAssinatura
 
         // 5. Assinar digitalmente
         logger.LogInformation("\n✍️ Passo 4: Assinando XML digitalmente...");
-        
+
         var xmlAssinado = xmldsigBuilder.SignXmlEvent(xmlDocument);
-        
+
         logger.LogInformation("✅ XML assinado com sucesso:");
         logger.LogInformation("  - Algoritmo: RSA-SHA256 (com fallback SHA1)");
         logger.LogInformation("  - Tamanho final: {Size:N0} caracteres", xmlAssinado.OuterXml.Length);
 
         // 6. Validar assinatura
         logger.LogInformation("\n🔍 Passo 5: Validando assinatura...");
-        
+
         var assinaturaValida = XmldsigBuilder.ValidateSignature(xmlAssinado);
-        
+
         if (assinaturaValida)
         {
             logger.LogInformation("✅ Assinatura digital válida!");
@@ -135,22 +135,22 @@ public static class ExemploAssinatura
 
         // 7. Salvar arquivo final
         logger.LogInformation("\n💾 Passo 6: Salvando arquivo assinado...");
-        
+
         var nomeArquivo = $"evento_assinado_{DateTime.Now:yyyyMMdd_HHmmss}.xml";
         var caminhoArquivo = Path.Combine(Directory.GetCurrentDirectory(), nomeArquivo);
-        
+
         xmlAssinado.Save(caminhoArquivo);
-        
+
         logger.LogInformation("✅ Arquivo salvo: {Path}", caminhoArquivo);
         logger.LogInformation("📊 Estatísticas finais:");
         logger.LogInformation("  - Tamanho original: {Original:N0} chars", xmlString.Length);
         logger.LogInformation("  - Tamanho assinado: {Signed:N0} chars", xmlAssinado.OuterXml.Length);
-        logger.LogInformation("  - Aumento: {Increase:N0} chars ({Percent:F1}%)", 
+        logger.LogInformation("  - Aumento: {Increase:N0} chars ({Percent:F1}%)",
             xmlAssinado.OuterXml.Length - xmlString.Length,
             ((double)(xmlAssinado.OuterXml.Length - xmlString.Length) / xmlString.Length) * 100);
 
         logger.LogInformation("\n🎉 Mensagem e-Financeira com assinatura digital criada com sucesso!");
-        
+
         return xmlAssinado;
     }
 
@@ -171,7 +171,7 @@ public static class ExemploAssinatura
         {
             var assinatura = (XmlElement)assinaturas[0]!;
             logger.LogInformation("📋 Detalhes da assinatura:");
-            
+
             // Método de assinatura
             var signatureMethod = assinatura.SelectSingleNode(".//ds:SignatureMethod/@Algorithm", CreateNamespaceManager(xmlAssinado));
             if (signatureMethod?.Value != null)
@@ -209,7 +209,7 @@ public static class ExemploAssinatura
 
         // 2. Validar assinatura
         logger.LogInformation("\n🔐 Validando integridade...");
-        
+
         try
         {
             var isValid = XmldsigBuilder.ValidateSignature(xmlAssinado);

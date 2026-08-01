@@ -72,12 +72,12 @@ public class RetRERCTBuilder
     {
         var builder = new DadosProcessamentoBuilder();
         configAction(builder);
-        
+
         if (_message.retornoConsultaInformacoesRerct == null)
         {
             _message.retornoConsultaInformacoesRerct = new eFinanceiraRetornoConsultaInformacoesRerct();
         }
-        
+
         _message.retornoConsultaInformacoesRerct.dadosProcessamento = builder.Build();
         return this;
     }
@@ -99,12 +99,12 @@ public class RetRERCTBuilder
     {
         var builder = new DadosEventosCollectionBuilder();
         configAction(builder);
-        
+
         if (_message.retornoConsultaInformacoesRerct == null)
         {
             _message.retornoConsultaInformacoesRerct = new eFinanceiraRetornoConsultaInformacoesRerct();
         }
-        
+
         _message.retornoConsultaInformacoesRerct.dadosEvento = builder.Build();
         return this;
     }

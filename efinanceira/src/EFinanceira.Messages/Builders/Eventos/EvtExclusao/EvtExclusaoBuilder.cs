@@ -140,10 +140,10 @@ public sealed class EvtExclusaoBuilder : IMessageBuilder<EvtExclusaoMessage>
     {
         if (_evento.ideEvento == null)
             throw new InvalidOperationException("IdeEvento é obrigatório");
-        
+
         if (_evento.ideDeclarante == null)
             throw new InvalidOperationException("IdeDeclarante é obrigatório");
-        
+
         if (_evento.infoExclusao == null)
             throw new InvalidOperationException("InfoExclusao é obrigatório");
     }
