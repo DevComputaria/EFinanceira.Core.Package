@@ -11,8 +11,8 @@
     <WarningsNotAsErrors />
     
     <!-- Configurações de pacote NuGet -->
-    <Authors>EFinanceira Contributors</Authors>
-    <Company>EFinanceira</Company>
+    <Authors>DevComputaria</Authors>
+    <Company>DevComputaria</Company>
     <Product>EFinanceira .NET Library</Product>
     <Copyright>Copyright © 2026 EFinanceira Contributors</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
