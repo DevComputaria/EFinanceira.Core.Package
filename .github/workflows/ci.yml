@@ -56,6 +56,14 @@ jobs:
     with:
       deploy: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
 
+  validate-packages:
+    needs: detect-changes
+    if: |
+      contains(needs.detect-changes.outputs.changes, 'packaged-code')
+      || contains(needs.detect-changes.outputs.changes, 'build')
+      || contains(needs.detect-changes.outputs.changes, 'shared')
+    uses: ./.github/workflows/package-validation.yml
+
   build-and-test:
     runs-on: ubuntu-latest
 

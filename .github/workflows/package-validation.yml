@@ -1,0 +1,44 @@
+name: Package Validation
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  run-package-validation:
+    name: Validate packages
+    runs-on: windows-2025
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        # Note: By default GitHub only fetches 1 commit. Version tags are
+        # typically NOT on the first commit so we retrieve them all.
+        fetch-depth: 0
+        persist-credentials: false
+        show-progress: false
+
+    - name: Get Git commit timestamp
+      id: get-commit-timestamp
+      shell: pwsh
+      run: |
+        "epoch=$(git log -1 --pretty=%ct)" >> ${env:GITHUB_OUTPUT}
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+
+    - name: dotnet pack
+      shell: pwsh
+      run: dotnet pack ./efinanceira/EFinanceira.sln --configuration Release --output ./artifacts/package/release /p:EnablePackageValidation=true
+      env:
+        SOURCE_DATE_EPOCH: ${{ steps.get-commit-timestamp.outputs.epoch }}
+
+    - name: Publish NuGet packages to Artifacts
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: packages
+        path: ./artifacts/package/release/*.nupkg
+        if-no-files-found: error

@@ -14,10 +14,10 @@
     <Authors>EFinanceira Contributors</Authors>
     <Company>EFinanceira</Company>
     <Product>EFinanceira .NET Library</Product>
-    <Copyright>Copyright © 2024 EFinanceira Contributors</Copyright>
+    <Copyright>Copyright © 2026 EFinanceira Contributors</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/seuusuario/EFinanceira.Core.Package</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/seuusuario/EFinanceira.Core.Package</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/DevComputaria/EFinanceira.Core.Package</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DevComputaria/EFinanceira.Core.Package</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>efinanceira;receita-federal;xml;digital-signature;brazil</PackageTags>
     <Description>Biblioteca .NET para integração com a e-Financeira da Receita Federal do Brasil</Description>

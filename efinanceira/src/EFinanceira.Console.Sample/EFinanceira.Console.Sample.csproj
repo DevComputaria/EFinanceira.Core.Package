@@ -13,6 +13,7 @@
     <PropertyGroup>
         <AssemblyTitle>EFinanceira Console Sample</AssemblyTitle>
         <AssemblyDescription>Aplicação de exemplo demonstrando o uso da biblioteca EFinanceira</AssemblyDescription>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
