@@ -1,0 +1,97 @@
+name: OSSF Scorecard
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "24 5 * * 0" # Once a week
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  analysis:
+    name: Scorecard analysis
+    if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.event.repository.fork == false)
+    runs-on: ubuntu-24.04
+    permissions:
+      checks: read # Read CI results
+      contents: read # Checkout the repository
+      id-token: write # Publish Scorecard results with GitHub OIDC
+      issues: read # Read issues
+      pull-requests: read # Read pull requests
+      security-events: write # Upload the SARIF results to code scanning
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          filter: 'tree:0'
+          persist-credentials: false
+          show-progress: false
+
+      - name: Run Scorecard analysis
+        uses: ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc # v2.4.4
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+
+      - name: Generate detailed Scorecard summary
+        run: |
+          python3 - <<'EOF'
+          import json
+
+          with open("results.sarif", "r") as f:
+              sarif = json.load(f)
+
+          run = sarif["runs"][0]
+          rules = {r["id"]: r for r in run["tool"]["driver"]["rules"]}
+          results = run.get("results", [])
+
+          rows = []
+          for res in sorted(results, key=lambda r: r["ruleId"]):
+              rule = rules.get(res["ruleId"], {})
+              name = rule.get("shortDescription", {}).get("text", res["ruleId"])
+              desc = rule.get("fullDescription", {}).get("text", "")
+              help_uri = rule.get("helpUri", "")
+              msg = res.get("message", {}).get("text", "")
+              level = res.get("level", "")
+              score = ""
+              if "Score:" in msg:
+                  score = msg.split("Score:")[1].split()[0]
+              link = f"[docs]({help_uri})" if help_uri else ""
+              rows.append((name, level, score, desc, link))
+
+          out = ["## OSSF Scorecard Report", ""]
+          if rows:
+              out.append("| Check | Level | Score | Description | Docs |")
+              out.append("|-------|-------|-------|-------------|------|")
+              for name, level, score, desc, link in rows:
+                  desc = desc.replace("|", "\\|").replace("\n", " ")
+                  out.append(f"| {name} | {level} | {score} | {desc} | {link} |")
+          else:
+              out.append("Nenhuma verificação reportada no SARIF.")
+          out.append("")
+          out.append("_Fonte: [OSSF Scorecard](https://github.com/ossf/scorecard) · resultados publicados via OIDC._")
+
+          with open("scorecard-summary.md", "w") as f:
+              f.write("\n".join(out))
+          cat scorecard-summary.md >> "$GITHUB_STEP_SUMMARY"
+          EOF
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: SARIF file
+          path: results.sarif
+          retention-days: 5
+
+      - name: Upload code scanning results
+        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        with:
+          sarif_file: results.sarif
