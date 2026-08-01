@@ -58,7 +58,6 @@
 
   <!-- Configurações específicas para ferramentas -->
   <PropertyGroup Condition="$(MSBuildProjectName.Contains('Tools'))">
-    <PackAsTool>true</PackAsTool>
     <ToolCommandName>efinanceira-codegen</ToolCommandName>
     <PackageDescription>Ferramenta CLI para geração de código a partir de schemas XSD da e-Financeira</PackageDescription>
   </PropertyGroup>
