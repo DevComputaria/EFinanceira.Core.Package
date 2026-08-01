@@ -73,8 +73,24 @@ jobs:
       - name: Build
         run: dotnet build efinanceira/EFinanceira.sln --no-restore --configuration Release
 
-      - name: Test
-        run: dotnet test efinanceira/EFinanceira.sln --no-restore --configuration Release --verbosity normal
+      - name: Test with coverage
+        run: dotnet test efinanceira/EFinanceira.sln --no-restore --configuration Release --collect:"XPlat Code Coverage" --results-directory TestResults
+
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Generate coverage summary
+        run: |
+          reportgenerator -reports:"TestResults/*/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:"MarkdownSummaryGithub"
+          cat coveragereport/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage
+          path: coveragereport
+          if-no-files-found: error
 
       - name: Generate SBOM
         id: sbom
