@@ -8,10 +8,52 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changes: ${{ steps.filter.outputs.changes }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            packaged-code:
+              - 'efinanceira/src/**'
+              - 'exemplos/**'
+            md:
+              - 'docs/**'
+              - '**/*.md'
+              - 'README.md'
+              - 'CHANGELOG.md'
+            build:
+              - 'build/**'
+              - '.github/workflows/**'
+            shared:
+              - 'Directory.Build.props'
+              - 'Directory.Build.targets'
+              - 'Directory.Packages.props'
+              - 'global.json'
+
   lint-dotnet-format:
     uses: ./.github/workflows/dotnet-format.yml
+
+  generate-docs:
+    needs: detect-changes
+    if: |
+      contains(needs.detect-changes.outputs.changes, 'packaged-code')
+      || contains(needs.detect-changes.outputs.changes, 'md')
+      || contains(needs.detect-changes.outputs.changes, 'build')
+      || contains(needs.detect-changes.outputs.changes, 'shared')
+    uses: ./.github/workflows/docfx.yml
+    with:
+      deploy: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
 
   build-and-test:
     runs-on: ubuntu-latest

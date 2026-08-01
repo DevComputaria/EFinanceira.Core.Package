@@ -1,0 +1,22 @@
+- name: Home
+  href: README.md
+- name: Guias
+  items:
+    - name: Integração Completa
+      href: docs/GUIA-INTEGRACAO-COMPLETA.md
+    - name: Exemplos
+      href: docs/GUIA-EXEMPLOS.md
+    - name: Tabelas e Códigos
+      href: docs/GUIA-TABELAS-CODIGOS.md
+    - name: Uso de XSD
+      href: docs/GUIA-USO-XSD.md
+- name: Builders
+  items:
+    - name: RetornoLoteEventos v1.3.0
+      href: docs/builders/RetornoLoteEventos_v1_3_0_Builder.md
+    - name: RetornoLoteEventos Assíncrono
+      href: docs/builders/RetornoLoteEventosAssincrono.md
+- name: API
+  items:
+    - name: Referência da API
+      href: api/

@@ -20,6 +20,13 @@
 # Mono auto generated files
 mono_crash.*
 
+# DocFX build artifacts
+/api/
+/site/
+/docfx.json
+/toc.yml
+/docfx.log
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

@@ -10,7 +10,7 @@ public interface IXmlValidator
     /// </summary>
     /// <param name="xml">XML a ser validado</param>
     /// <param name="xsdPathsOrEmbedded">Caminhos para arquivos XSD ou recursos embarcados</param>
-    /// <exception cref="XmlValidationException">Lançada quando o XML é inválido</exception>
+    /// <exception cref="EFinanceira.Core.Validation.XmlValidationException">Lançada quando o XML é inválido</exception>
     void Validate(string xml, IEnumerable<string> xsdPathsOrEmbedded);
 
     /// <summary>

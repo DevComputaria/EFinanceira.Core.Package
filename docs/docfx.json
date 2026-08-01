@@ -1,0 +1,53 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "efinanceira/src/EFinanceira.Core/EFinanceira.Core.csproj",
+            "efinanceira/src/EFinanceira.Messages/EFinanceira.Messages.csproj"
+          ],
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "README.md",
+          "docs/**/*.md",
+          "api/**/*.yml"
+        ]
+      },
+      {
+        "files": [
+          "toc.yml"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "LICENSE",
+          "docs/**/*.png",
+          "docs/**/*.jpg",
+          "docs/**/*.jpeg",
+          "docs/**/*.gif",
+          "docs/**/*.svg"
+        ]
+      }
+    ],
+    "dest": "site",
+    "globalMetadata": {
+      "_appTitle": "EFinanceira Core Package",
+      "_enableSearch": true,
+      "_appFooter": "EFinanceira.Core.Package"
+    }
+  }
+}
