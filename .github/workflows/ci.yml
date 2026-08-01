@@ -10,6 +10,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  attestations: write
 
 jobs:
   detect-changes:
@@ -74,3 +75,22 @@ jobs:
 
       - name: Test
         run: dotnet test efinanceira/EFinanceira.sln --no-restore --configuration Release --verbosity normal
+
+      - name: Generate SBOM
+        id: sbom
+        uses: anchore/sbom-action@v0
+        with:
+          path: efinanceira/src
+          format: spdx-json
+          output-file: sbom.spdx.json
+          upload-artifact: false
+          upload-release-assets: false
+
+      - name: Generate SBOM attestation
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/attest@v4
+        with:
+          subject-path: |
+            efinanceira/src/EFinanceira.Core/bin/Release/net8.0/EFinanceira.Core.dll
+            efinanceira/src/EFinanceira.Messages/bin/Release/net8.0/EFinanceira.Messages.dll
+          sbom-path: sbom.spdx.json
