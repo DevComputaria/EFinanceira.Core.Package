@@ -1,0 +1,15 @@
+name: NuGet Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  publish-packages:
+    uses: ./.github/workflows/package-validation.yml
+    with:
+      publish: true

@@ -21,6 +21,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>efinanceira;receita-federal;xml;digital-signature;brazil</PackageTags>
     <Description>Biblioteca .NET para integração com a e-Financeira da Receita Federal do Brasil</Description>
+    <PackageReadmeFile>CHANGELOG.md</PackageReadmeFile>
     
     <!-- Versionamento -->
     <VersionPrefix>1.0.0</VersionPrefix>
@@ -69,6 +70,11 @@
     <Using Include="System.IO" />
     <Using Include="System.Linq" />
     <Using Include="System.Threading.Tasks" />
+  </ItemGroup>
+
+  <!-- Incluir o changelog no pacote NuGet como readme -->
+  <ItemGroup Condition="'$(IsPackable)' == 'true' or '$(PackAsTool)' == 'true'">
+    <None Include="$(MSBuildThisFileDirectory)..\CHANGELOG.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <!-- Analyzers para todos os projetos exceto testes -->
