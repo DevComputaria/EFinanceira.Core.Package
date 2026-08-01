@@ -2,7 +2,7 @@
 # Baseado na estrutura do site http://sped.rfb.gov.br/pasta/show/1932
 
 # Criar diretório para tabelas de códigos se não existir
-$tabelasDir = ".\tabelas-codigos"
+$tabelasDir = ".\docs\tabelas-codigos"
 if (!(Test-Path $tabelasDir)) {
     New-Item -ItemType Directory -Path $tabelasDir -Force
 }

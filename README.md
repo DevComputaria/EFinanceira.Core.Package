@@ -25,7 +25,17 @@ EFinanceira.Core.Package/
 │   ├── GUIA-TABELAS-CODIGOS.md    # Documentação das tabelas de códigos
 │   ├── GUIA-EXEMPLOS.md           # Guia prático para usar exemplos
 │   ├── GUIA-INTEGRACAO-COMPLETA.md # Arquitetura completa de integração
-│   └── STATUS.md                   # Status da implementação
+│   ├── STATUS.md                   # Status da implementação
+│   ├── schemas/                    # 📋 Schemas XSD oficiais (25 arquivos)
+│   │   ├── eFinanceira-v1_2_0.xsd    # Schema principal
+│   │   ├── evtAberturaeFinanceira-v1_2_0.xsd
+│   │   ├── evtMovOpFin-v1_2_0.xsd
+│   │   └── ...                       # Outros 22 schemas
+│   └── tabelas-codigos/            # 🗂️ Tabelas de códigos (23 arquivos)
+│       ├── Pais.txt                  # Códigos de países
+│       ├── Municipios.txt            # Códigos de municípios
+│       ├── Moedas.txt                # Códigos de moedas
+│       └── ...                       # Outras 20 tabelas
 ├── efinanceira/                    # 🏗️ Projeto .NET Core
 │   ├── src/
 │   │   ├── EFinanceira.Core/           # Biblioteca central
@@ -37,16 +47,6 @@ EFinanceira.Core.Package/
 │   └── scripts/
 │       ├── build.ps1                   # Script de build completo
 │       └── build-simple.ps1            # Script de build simplificado
-├── schemas/                        # 📋 Schemas XSD oficiais (25 arquivos)
-│   ├── eFinanceira-v1_2_0.xsd         # Schema principal
-│   ├── evtAberturaeFinanceira-v1_2_0.xsd
-│   ├── evtMovOpFin-v1_2_0.xsd
-│   └── ...                            # Outros 22 schemas
-├── tabelas-codigos/                # 🗂️ Tabelas de códigos (23 arquivos)
-│   ├── Pais.txt                       # Códigos de países
-│   ├── Municipios.txt                 # Códigos de municípios
-│   ├── Moedas.txt                     # Códigos de moedas
-│   └── ...                           # Outras 20 tabelas
 ├── exemplos/                       # 📝 Exemplos XML (20 arquivos oficiais)
 │   ├── xml-sem-assinatura/            # 13 exemplos básicos
 │   ├── xml-com-assinatura/            # 5 exemplos com assinatura
@@ -54,7 +54,8 @@ EFinanceira.Core.Package/
 │   │   ├── consultas/                 # 6 consultas
 │   │   ├── eventos/                   # 20 eventos
 │   │   └── assinados/                 # 10 eventos assinados
-│   └── codigo-fonte/                  # Exemplos de implementação (C#)
+│   ├── codigo-fonte/                  # Exemplos de implementação (C#)
+│   └── certificado/                   # Certificado de teste (assinatura digital)
 ├── .github/
 │   └── copilot-instructions.md        # Configurações do Copilot
 ├── user-story.md                   # História do usuário original
@@ -64,7 +65,7 @@ EFinanceira.Core.Package/
 
 ### 🗂️ Recursos Oficiais
 
-#### schemas/ (25 arquivos)
+#### docs/schemas/ (25 arquivos)
 Schemas XSD oficiais do e-Financeira para validação de XML:
 - `eFinanceira-v1_2_0.xsd` - Schema principal
 - `evtAberturaeFinanceira-v1_2_0.xsd` - Evento de abertura
@@ -72,7 +73,7 @@ Schemas XSD oficiais do e-Financeira para validação de XML:
 - `evtFechamentoeFinanceira-v1_2_0.xsd` - Evento de fechamento
 - E mais 21 schemas auxiliares e de tipos comuns
 
-#### tabelas-codigos/ (23 arquivos)
+#### docs/tabelas-codigos/ (23 arquivos)
 Tabelas de códigos oficiais organizadas por categorias:
 - **Geográficos**: países, UFs, municípios
 - **Financeiros**: moedas, tipos de conta, instituições
@@ -138,7 +139,7 @@ else
 
 ### 4. Uso das Tabelas de Códigos
 ```csharp
-var tabelaValidator = new TabelaCodigosValidator("tabelas-codigos/");
+var tabelaValidator = new TabelaCodigosValidator("docs/tabelas-codigos/");
 
 // Validar país
 if (tabelaValidator.ValidarCodigo("Pais", "076")) // Brasil
@@ -152,7 +153,7 @@ var paises = tabelaValidator.ObterCodigos("Pais");
 
 ### 5. Trabalhar com Exemplos
 ```csharp
-var exemploLoader = new ExemplosEFinanceiraLoader("exemplos/", "schemas/");
+var exemploLoader = new ExemplosEFinanceiraLoader("exemplos/", "docs/schemas/");
 
 // Carregar e validar exemplo
 var documento = exemploLoader.CarregarExemplo("evtAberturaeFinanceira.xml");
@@ -195,7 +196,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var validator = new XmlValidationService("schemas/", tabelaValidator);
+        var validator = new XmlValidationService("docs/schemas/", tabelaValidator);
         var resultado = validator.ValidarXml(xmlContent);
         // Processar resultado...
     }
@@ -275,8 +276,8 @@ public async Task API_ValidarXml_DeveRetornarResultadoCorreto()
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY schemas/ /app/schemas/
-COPY tabelas-codigos/ /app/tabelas-codigos/
+COPY docs/schemas/ /app/docs/schemas/
+COPY docs/tabelas-codigos/ /app/docs/tabelas-codigos/
 COPY exemplos/ /app/exemplos/
 COPY . .
 ENTRYPOINT ["dotnet", "EFinanceira.WebApi.dll"]
@@ -288,9 +289,9 @@ ENTRYPOINT ["dotnet", "EFinanceira.WebApi.dll"]
 ```json
 {
   "EFinanceira": {
-    "CaminhoSchemas": "schemas/",
+    "CaminhoSchemas": "docs/schemas/",
     "CaminhoExemplos": "exemplos/", 
-    "CaminhoTabelasCodigos": "tabelas-codigos/",
+    "CaminhoTabelasCodigos": "docs/tabelas-codigos/",
     "Ambiente": 2,
     "CnpjDeclarante": "11111111111111",
     "ValidarContraSchema": true,

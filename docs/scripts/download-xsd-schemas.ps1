@@ -2,7 +2,7 @@
 # Baseado na estrutura do site http://sped.rfb.gov.br/pasta/show/1854
 
 # Criar diretório para schemas se não existir
-$schemasDir = ".\schemas"
+$schemasDir = ".\docs\schemas"
 if (!(Test-Path $schemasDir)) {
     New-Item -ItemType Directory -Path $schemasDir -Force
 }

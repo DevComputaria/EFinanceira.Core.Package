@@ -131,7 +131,7 @@ public class XmlValidator
 
 ```
 EFinanceira.Core.Package/
-├── schemas/                    # Arquivos XSD originais
+├── docs/schemas/               # Arquivos XSD originais
 ├── src/
 │   ├── EFinanceira.Schemas/    # Classes geradas dos XSD
 │   ├── EFinanceira.Core/       # Lógica de negócio

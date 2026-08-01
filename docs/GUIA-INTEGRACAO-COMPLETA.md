@@ -784,7 +784,7 @@ app.Run();
   "EFinanceira": {
     "CaminhoSchemas": "C:\\Workspace\\EFinanceira.Core.Package\\schemas",
     "CaminhoExemplos": "C:\\Workspace\\EFinanceira.Core.Package\\exemplos",
-    "CaminhoTabelasCodigos": "C:\\Workspace\\EFinanceira.Core.Package\\tabelas-codigos",
+    "CaminhoTabelasCodigos": "C:\\Workspace\\EFinanceira.Core.Package\\docs\\tabelas-codigos",
     "Ambiente": 2,
     "CnpjDeclarante": "11111111111111",
     "UrlWebService": "https://www1.efinanceira.gov.br/WS/efinanceira.asmx",
@@ -916,7 +916,7 @@ class Program
         {
             CaminhoSchemas = @"C:\Workspace\EFinanceira.Core.Package\schemas",
             CaminhoExemplos = @"C:\Workspace\EFinanceira.Core.Package\exemplos",
-            CaminhoTabelasCodigos = @"C:\Workspace\EFinanceira.Core.Package\tabelas-codigos",
+            CaminhoTabelasCodigos = @"C:\Workspace\EFinanceira.Core.Package\docs\tabelas-codigos",
             Ambiente = AmbienteEnum.Homologacao
         };
         
@@ -1061,9 +1061,9 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Copiar recursos necessários
-COPY schemas/ /app/schemas/
+COPY docs/schemas/ /app/docs/schemas/
 COPY exemplos/ /app/exemplos/
-COPY tabelas-codigos/ /app/tabelas-codigos/
+COPY docs/tabelas-codigos/ /app/docs/tabelas-codigos/
 
 ENTRYPOINT ["dotnet", "EFinanceira.WebApi.dll"]
 ```
@@ -1085,7 +1085,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - EFinanceira__CaminhoSchemas=/app/schemas
       - EFinanceira__CaminhoExemplos=/app/exemplos
-      - EFinanceira__CaminhoTabelasCodigos=/app/tabelas-codigos
+      - EFinanceira__CaminhoTabelasCodigos=/app/docs/tabelas-codigos
     volumes:
       - ./certificados:/app/certificados:ro
       - ./logs:/app/logs

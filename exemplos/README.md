@@ -146,7 +146,7 @@ var documento = XDocument.Parse(xmlContent);
 
 // Validar contra schema
 var schemas = new XmlSchemaSet();
-schemas.Add(null, "schemas/evtAberturaeFinanceira-v1_2_1.xsd");
+schemas.Add(null, "docs/schemas/evtAberturaeFinanceira-v1_2_1.xsd");
 // ... código de validação
 ```
 
@@ -217,7 +217,7 @@ Use os arquivos ZIP em `codigo-fonte/` que contêm:
 
 Todos os exemplos podem ser validados usando:
 
-1. **XSD Schemas** (pasta `schemas/`)
+1. **XSD Schemas** (pasta `docs/schemas/`)
 2. **Validadores online** do Portal SPED
 3. **Código de validação** dos exemplos em `codigo-fonte/`
 
@@ -242,6 +242,7 @@ Todos os exemplos podem ser validados usando:
 
 ## Links Úteis
 - [Exemplos de arquivos e-Financeira](http://sped.rfb.gov.br/pasta/show/1846)
-- [Schemas XSD](../schemas/)
-- [Tabelas de códigos](../tabelas-codigos/)
+- [Schemas XSD](../docs/schemas/)
+- [Tabelas de códigos](../docs/tabelas-codigos/)
+- [Certificado de teste para assinatura digital](../exemplos/certificado/)
 - [Site oficial e-Financeira](http://sped.rfb.gov.br/projeto/show/1179)

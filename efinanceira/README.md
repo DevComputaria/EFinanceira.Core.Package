@@ -127,13 +127,13 @@ services.AddSingleton<IMessageFactory, EFinanceiraMessageFactory>();
 ```bash
 # Usando XmlSchemaClassGenerator (recomendado)
 efinanceira-codegen xsc generate 
-  --input "./schemas/evtMovimentacaoFinanceira-v1_2_1.xsd" 
+  --input "../docs/schemas/evtMovimentacaoFinanceira-v1_2_1.xsd" 
   --output "./Generated/Eventos" 
   --namespace "EFinanceira.Messages.Generated.Eventos.V121"
 
 # Usando xsd.exe (Windows)
 efinanceira-codegen xsd generate 
-  --input "./schemas/evtMovimentacaoFinanceira-v1_2_1.xsd" 
+  --input "../docs/schemas/evtMovimentacaoFinanceira-v1_2_1.xsd" 
   --output "./Generated/Eventos" 
   --namespace "EFinanceira.Messages.Generated.Eventos.V121"
 ```
@@ -186,7 +186,7 @@ efinanceira/
       "PfxPassword": "senha123"
     },
     "Validation": {
-      "SchemasPath": "./schemas",
+      "SchemasPath": "../docs/schemas",
       "ValidateOnSerialization": true
     },
     "Environment": {
