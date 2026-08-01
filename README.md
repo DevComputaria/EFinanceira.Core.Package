@@ -47,10 +47,14 @@ EFinanceira.Core.Package/
 │   ├── Municipios.txt                 # Códigos de municípios
 │   ├── Moedas.txt                     # Códigos de moedas
 │   └── ...                           # Outras 20 tabelas
-├── exemplos/                       # 📝 Exemplos XML (20 arquivos)
-│   ├── xml-sem-assinatura/            # 8 exemplos básicos
-│   ├── xml-com-assinatura/            # 8 exemplos com assinatura
-│   └── codigo-fonte-csharp/           # 4 exemplos de implementação
+├── exemplos/                       # 📝 Exemplos XML (20 arquivos oficiais)
+│   ├── xml-sem-assinatura/            # 13 exemplos básicos
+│   ├── xml-com-assinatura/            # 5 exemplos com assinatura
+│   ├── xml-gerados/                   # 36 XMLs gerados pela biblioteca
+│   │   ├── consultas/                 # 6 consultas
+│   │   ├── eventos/                   # 20 eventos
+│   │   └── assinados/                 # 10 eventos assinados
+│   └── codigo-fonte/                  # Exemplos de implementação (C#)
 ├── .github/
 │   └── copilot-instructions.md        # Configurações do Copilot
 ├── user-story.md                   # História do usuário original
@@ -74,11 +78,12 @@ Tabelas de códigos oficiais organizadas por categorias:
 - **Financeiros**: moedas, tipos de conta, instituições
 - **Regulatórios**: tipos de reportável, intermediários
 
-#### exemplos/ (20 arquivos)
-Arquivos de exemplo organizados em 3 categorias:
-- **xml-sem-assinatura/**: 8 exemplos básicos
-- **xml-com-assinatura/**: 8 exemplos com assinatura digital  
-- **codigo-fonte-csharp/**: 4 exemplos de implementação
+#### exemplos/ (20 arquivos oficiais)
+Arquivos de exemplo oficiais, organizados por categoria:
+- **xml-sem-assinatura/**: 13 exemplos básicos
+- **xml-com-assinatura/**: 5 exemplos com assinatura digital
+- **xml-gerados/**: 36 XMLs gerados pela biblioteca em tempo de execução (consultas, eventos e assinados)
+- **codigo-fonte/**: Exemplos de implementação em C# (assinatura, criptografia, lotes e eventos)
 
 ### 🛠️ Scripts de Automação
 

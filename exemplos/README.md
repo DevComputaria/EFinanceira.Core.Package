@@ -49,6 +49,37 @@ Exemplos de arquivos XML com assinatura digital e estrutura de lote, ideais para
 - `evtMovOpFin_assinado_lote.xml` - Movimentação financeira (assinado/lote)
 - `evtFechamentoeFinanceira_assinado_lote.xml` - Fechamento e-Financeira (assinado/lote)
 
+### 📁 xml-gerados/ (36 arquivos)
+XMLs gerados em tempo de execução pelo `EFinanceira.Console.Sample`, organizados por contexto, ideais para:
+- Visualizar o formato real produzido pela biblioteca
+- Validação de schema
+- Testes de integração
+
+#### Consultas (6 arquivos)
+- `consulta_exemplo.xml` - Consulta genérica
+- `consulta_intermediario_exemplo.xml` - Consulta de intermediário
+- `consulta_lista_exemplo.xml` - Consulta de lista
+- `consulta_movimento_exemplo.xml` - Consulta de movimento
+- `consulta_patrocinado_exemplo.xml` - Consulta de patrocinado
+- `consulta_rerct_exemplo.xml` - Consulta RERCT
+
+#### Eventos (20 arquivos)
+Eventos gerados pelas factories (`evento_*_factory.xml`) e pelos exemplos de uso (`evento_*_exemplo.xml`):
+- `evento_abertura_exemplo.xml` / `evento_abertura_factory.xml` - Abertura e-Financeira
+- `evento_cad_declarante_exemplo.xml` / `evento_cad_declarante_factory.xml` - Cadastro da empresa declarante
+- `evento_exclusao_exemplo.xml` / `evento_exclusao_factory.xml` - Exclusão de evento
+- `evento_exclusao_efinanceira_exemplo.xml` / `evento_exclusao_efinanceira_factory.xml` - Exclusão de declaração
+- `evento_fechamento_alt_exemplo.xml` / `evento_fechamento_alt_factory.xml` - Fechamento alternativo
+- `evento_fechamento_efinanceira_exemplo.xml` / `evento_fechamento_efinanceira_factory.xml` - Fechamento e-Financeira
+- `evento_intermediario_exemplo.xml` / `evento_intermediario_factory.xml` - Cadastro de intermediário
+- `evento_movimentacao_financeira_exemplo.xml` / `evento_movimentacao_financeira_factory.xml` - Movimentação financeira (mensal)
+- `evento_movimentacao_financeira_anual_exemplo.xml` / `evento_movimentacao_financeira_anual_factory.xml` - Movimentação financeira (anual)
+- `evento_patrocinado_exemplo.xml` - Cadastro de patrocinado
+- `evento_previdencia_privada_exemplo.xml` - Previdência privada
+
+#### Assinados (10 arquivos)
+- `evento_assinado_*.xml` - Eventos com assinatura digital, gerados com certificado de teste
+
 ### 📁 codigo-fonte/ (2 arquivos)
 Exemplos de código fonte e implementações, ideais para:
 - Implementar assinatura digital
@@ -58,6 +89,11 @@ Exemplos de código fonte e implementações, ideais para:
 #### Código Fonte
 - `ExemploAssinadorXML_256bytes.zip` - Código fonte para assinatura de eventos
 - `ExemploCriptografiaLoteEFinanceira.zip` - Exemplo de criptografia de lotes
+- `EvtRERCTExample.cs` - Exemplo de evento RERCT
+- `xmldsig-exemplo-producao.cs` - Exemplo de assinatura em produção
+- `Eventos/EvtPatrocinadoSample.cs` - Exemplo de evento de patrocinado
+- `Eventos/EvtPrevidenciaPrivadaSample.cs` - Exemplo de evento de previdência privada
+- `Lotes/` - Exemplos de envio e retorno de lotes de eventos (síncrono, assíncrono e v1.3.0)
 
 ## Características dos Arquivos
 
