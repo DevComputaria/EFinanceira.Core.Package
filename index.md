@@ -24,7 +24,7 @@ que integram com o e-Financeira, incluindo:
 
 ## Referência da API
 
-Consulte a [referência da API](api/) para detalhes sobre as classes, interfaces e
+Consulte a [referência da API](api/index.md) para detalhes sobre as classes, interfaces e
 builders disponíveis nas bibliotecas `EFinanceira.Core` e `EFinanceira.Messages`.
 
 ## Licença
