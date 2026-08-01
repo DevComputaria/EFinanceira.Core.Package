@@ -21,7 +21,8 @@
 mono_crash.*
 
 # DocFX build artifacts
-/api/
+/api/*
+!/api/index.md
 /site/
 /docfx.json
 /toc.yml

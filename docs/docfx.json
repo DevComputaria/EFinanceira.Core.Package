@@ -20,7 +20,9 @@
     "content": [
       {
         "files": [
+          "index.md",
           "README.md",
+          "api/index.md",
           "docs/**/*.md",
           "api/**/*.yml"
         ]

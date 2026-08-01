@@ -1,5 +1,5 @@
 - name: Home
-  href: README.md
+  href: index.md
 - name: Guias
   items:
     - name: Integração Completa
